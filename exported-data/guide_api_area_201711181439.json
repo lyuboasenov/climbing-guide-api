@@ -1,0 +1,22 @@
+﻿{
+"guide_api_area": [
+	{
+		"id" : 1,
+		"parent" : 0,
+		"revision" : 1,
+		"created_on" : "2017-11-11 17:31:01.618266",
+		"approved_on" : "2017-11-11 17:30:43",
+		"active" : 1,
+		"latitude" : 41.403831,
+		"size" : 5,
+		"name" : "Treskavets",
+		"info" : "Treskavets Area info.",
+		"restrictions" : "",
+		"access" : "",
+		"descent" : "",
+		"approved_by_id" : 1,
+		"created_by_id" : 1,
+		"region_id" : 1,
+		"longitude" : 21.538183
+	}
+]}

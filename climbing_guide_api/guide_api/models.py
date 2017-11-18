@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from parler.models import TranslatableModel, TranslatedFields
 
 #Abstract classes
 class RevisionableModel(models.Model):
@@ -26,49 +27,84 @@ class GeoSizableModel(GeoModel):
     
     class Meta:
         abstract = True
-        
-class NameInfoModel(models.Model):
-    name = models.CharField(max_length=100)
-    info = models.TextField()
-    
-    class Meta:
-        abstract = True
 
 #Model classes
-class Region(GeoSizableModel, RevisionableModel, NameInfoModel):
-    restrictions = models.TextField(blank=True)
+class Region(GeoSizableModel, RevisionableModel, TranslatableModel):
+    translations = TranslatedFields(
+        name = models.CharField(max_length=100),
+        info = models.TextField(),
+        restrictions = models.TextField(blank=True),
+    )
     #overloads in order to change related_name
     created_by = models.ForeignKey(User, related_name='region_create_by')
     approved_by = models.ForeignKey(User, related_name='region_approved_by')
 
-    def __str__(self):
+    class Meta:
+        verbose_name = "Region"
+        verbose_name_plural = "Regions"
+        
+    def __unicode__(self):
         return super().name
+    
+    def __str__(self):
+        # Fetching the title just works, as all
+        # attributes are proxied to the translated model.
+        # Fallbacks are handled as well.
+        return "{0}".format(self.name)
 
 
-class Area(GeoSizableModel, RevisionableModel, NameInfoModel):
-    region = models.ForeignKey(Region)
-    restrictions = models.TextField(blank=True, default='')
-    access = models.TextField(blank=True, default='')
-    descent = models.TextField(blank=True, default='')
+class Area(GeoSizableModel, RevisionableModel, TranslatableModel):
+    region = models.ForeignKey(Region, on_delete=models.CASCADE)
+    translations = TranslatedFields(
+        name = models.CharField(max_length=100),
+        info = models.TextField(),
+        restrictions = models.TextField(blank=True, default=''),
+        access = models.TextField(blank=True, default=''),
+        descent = models.TextField(blank=True, default=''),
+    )
     #overloads in order to change related_name
     created_by = models.ForeignKey(User, related_name='area_create_by')
     approved_by = models.ForeignKey(User, related_name='area_approved_by')
 
-    def __str__(self):
+    class Meta:
+        verbose_name = "Area"
+        verbose_name_plural = "Areas"
+        
+    def __unicode__(self):
         return super().name
+    
+    def __str__(self):
+        # Fetching the title just works, as all
+        # attributes are proxied to the translated model.
+        # Fallbacks are handled as well.
+        return "{0}".format(self.name)
 
 
-class Sector(GeoSizableModel, RevisionableModel, NameInfoModel):
-    area = models.ForeignKey(Area)
-    access = models.TextField(blank=True, default='')
-    descent = models.TextField(blank=True, default='')
+class Sector(GeoSizableModel, RevisionableModel, TranslatableModel):
+    area = models.ForeignKey(Area, on_delete=models.CASCADE)
+    translations = TranslatedFields(
+        name = models.CharField(max_length=100),
+        info = models.TextField(),
+        access = models.TextField(blank=True, default=''),
+        descent = models.TextField(blank=True, default=''),
+    )
     #overloads in order to change related_name
     created_by = models.ForeignKey(User, related_name='sector_create_by')
     approved_by = models.ForeignKey(User, related_name='sector_approved_by')
-
-    def __str__(self):
+    
+    class Meta:
+        verbose_name = "Sector"
+        verbose_name_plural = "Sectors"
+        
+    def __unicode__(self):
         return super().name
-
+    
+    def __str__(self):
+        # Fetching the title just works, as all
+        # attributes are proxied to the translated model.
+        # Fallbacks are handled as well.
+        return "{0}".format(self.name)
+    
 
 class RouteType():
     BOULDER = 1
@@ -81,12 +117,16 @@ class RouteType():
     )
 
 
-class Route(GeoModel, RevisionableModel, NameInfoModel):
-    sector = models.ForeignKey(Sector)
+class Route(GeoModel, RevisionableModel, TranslatableModel):
+    sector = models.ForeignKey(Sector, on_delete=models.CASCADE)
     difficulty = models.PositiveSmallIntegerField()
     rating = models.PositiveSmallIntegerField(default = 0)
     length = models.PositiveSmallIntegerField(blank=True, default='0')
-    fa = models.CharField(max_length=200, blank=True, default='')
+    translations = TranslatedFields(
+        name = models.CharField(max_length=100),
+        info = models.TextField(),
+        fa = models.CharField(max_length=200, blank=True, default=''),
+    )
     type = models.SmallIntegerField(
         choices=RouteType.ROUTE_TYPE_CHOICES,
         default=RouteType.BOULDER
@@ -95,6 +135,17 @@ class Route(GeoModel, RevisionableModel, NameInfoModel):
     #overloads in order to change related_name
     created_by = models.ForeignKey(User, related_name='route_create_by')
     approved_by = models.ForeignKey(User, related_name='route_approved_by')
-
-    def __str__(self):
+    
+    class Meta:
+        verbose_name = "Route"
+        verbose_name_plural = "Routes"
+        
+    def __unicode__(self):
         return super().name
+    
+    def __str__(self):
+        # Fetching the title just works, as all
+        # attributes are proxied to the translated model.
+        # Fallbacks are handled as well.
+        return "{0}".format(self.name)
+        
