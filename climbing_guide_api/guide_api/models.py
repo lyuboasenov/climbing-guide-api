@@ -131,7 +131,8 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
         choices=RouteType.ROUTE_TYPE_CHOICES,
         default=RouteType.BOULDER
         )
-    schema =  models.FileField(upload_to='routes/schema/%Y/%m/%d/')
+    schema =  models.ImageField(upload_to='uploads/images/routes/schema/%Y/%m/%d/')
+    schemaThumb = models.ImageField(upload_to='uploads/images/thumbs/routes/schema/%Y/%m/%d/')
     #overloads in order to change related_name
     created_by = models.ForeignKey(User, related_name='route_create_by')
     approved_by = models.ForeignKey(User, related_name='route_approved_by')
@@ -148,4 +149,70 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
         # attributes are proxied to the translated model.
         # Fallbacks are handled as well.
         return "{0}".format(self.name)
+    
+    def create_thumbnail(self):
+        # original code for this method came from
+        # http://snipt.net/danfreak/generate-thumbnails-in-django-with-pil/
+
+        # If there is no image associated with this.
+        # do not create thumbnail
+        if not self.schema:
+            return
+
+        from PIL import Image, ExifTags
+        from io import BytesIO
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        import os
+
+        # Set our max thumbnail size in a tuple (max width, max height)
+        THUMBNAIL_SIZE = (200,200)
+
+        DJANGO_TYPE = self.schema.file.content_type
+
+        if DJANGO_TYPE == 'image/jpeg':
+            PIL_TYPE = 'jpeg'
+            FILE_EXTENSION = 'jpg'
+        elif DJANGO_TYPE == 'image/png':
+            PIL_TYPE = 'png'
+            FILE_EXTENSION = 'png'
+
+        # Open original photo which we want to thumbnail using PIL's Image
+        schema = Image.open(BytesIO(self.schema.read()))
+
+        if hasattr(schema, '_getexif'): # only present in JPEGs
+            for orientation in ExifTags.TAGS.keys(): 
+                if ExifTags.TAGS[orientation]=='Orientation':
+                    break 
+            e = schema._getexif()       # returns None if no EXIF data
+        
+            if e is not None:
+                exif=dict(e.items())
+                orientation = exif[orientation] 
+
+                if orientation == 3:   schema = schema.transpose(Image.ROTATE_180)
+                elif orientation == 6: schema = schema.transpose(Image.ROTATE_270)
+                elif orientation == 8: schema = schema.transpose(Image.ROTATE_90)
+
+        # We use our PIL Image object to create the thumbnail, which already
+        # has a thumbnail() convenience method that contrains proportions.
+        # Additionally, we use Image.ANTIALIAS to make the image look better.
+        # Without antialiasing the image pattern artifacts may result.
+        schema.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+
+        # Save the thumbnail
+        temp_handle = BytesIO()
+        schema.save(temp_handle, PIL_TYPE)
+        temp_handle.seek(0)
+
+        # Save image to a SimpleUploadedFile which can be saved into
+        # ImageField
+        suf = SimpleUploadedFile(os.path.split(self.schema.name)[-1],
+                temp_handle.read(), content_type=DJANGO_TYPE)
+        # Save SimpleUploadedFile into image field
+        self.schemaThumb.save('%s.%s'%(os.path.splitext(suf.name)[0],FILE_EXTENSION), suf, save=False)
+    
+    def save(self):
+        # create a thumbnail
+        self.create_thumbnail()
+        super(Route, self).save()
         

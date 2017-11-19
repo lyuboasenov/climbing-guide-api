@@ -9,15 +9,25 @@ class RegionApi(ListAPIView):
 
 
 class AreaApi(ListAPIView):
-    queryset = Area.objects.all()
     serializer_class = AreaSerializer
+    
+    def get_queryset(self):
+        region = self.kwargs['region']
+        return Area.objects.filter(region__id=region)
 
 
 class SectorApi(ListAPIView):
-    queryset = Sector.objects.all()
     serializer_class = SectorSerializer
+    
+    def get_queryset(self):
+        area = self.kwargs['area']
+        return Sector.objects.filter(area__id=area)
 
 
 class RouteApi(ListAPIView):
     queryset = Route.objects.all()
     serializer_class = RouteSerializer
+    
+    def get_queryset(self):
+        sector = self.kwargs['sector']
+        return Route.objects.filter(sector__id=sector)
