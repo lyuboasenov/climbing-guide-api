@@ -131,8 +131,8 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
         choices=RouteType.ROUTE_TYPE_CHOICES,
         default=RouteType.BOULDER
         )
-    schema =  models.ImageField(upload_to='uploads/images/routes/schema/%Y/%m/%d/')
-    schemaThumb = models.ImageField(upload_to='uploads/images/thumbs/routes/schema/%Y/%m/%d/')
+    schema =  models.ImageField(upload_to='images/routes/schema/%Y/%m/%d/')
+    schemaThumb = models.ImageField(upload_to='images/thumbs/routes/schema/%Y/%m/%d/', blank=True)
     #overloads in order to change related_name
     created_by = models.ForeignKey(User, related_name='route_create_by')
     approved_by = models.ForeignKey(User, related_name='route_approved_by')
