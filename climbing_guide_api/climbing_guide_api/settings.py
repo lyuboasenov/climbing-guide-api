@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     # Dependencies
     'rest_framework',
+    'oauth2_provider',
     'corsheaders',
     'parler',
     # Apps
@@ -153,3 +154,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+    )
+}

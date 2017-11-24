@@ -19,7 +19,12 @@ from django.conf.urls.i18n import i18n_patterns
 from django.conf import settings
 from django.conf.urls.static import static
 
-urlpatterns = i18n_patterns(
+urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider'))
+]
+
+urlpatterns += i18n_patterns(
     url(r'^admin/', admin.site.urls),
     url(r'^guide_api/', include('guide_api.urls')),
 )
