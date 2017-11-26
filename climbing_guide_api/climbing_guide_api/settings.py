@@ -155,6 +155,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
+OAUTH2_PROVIDER = {
+    # this is the list of available scopes
+    'SCOPES': {'regular': 'Regular user access scope', 'administrator': 'Administrator access scope'}
+}
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
