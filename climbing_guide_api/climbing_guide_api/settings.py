@@ -37,12 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Disabled as it depends on gdal which is not installed on windows
     # 'django.contrib.gis',
     # Dependencies
     'rest_framework',
     'oauth2_provider',
     'corsheaders',
     'parler',
+    # Swagger documentation generator
+    'drf_yasg',
     # Apps
     'account_api',
     'guide_api',    
@@ -163,5 +166,6 @@ OAUTH2_PROVIDER = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-    )
+    ),
+    'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
 }

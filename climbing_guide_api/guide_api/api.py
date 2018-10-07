@@ -4,11 +4,17 @@ from .serializers import RegionSerializer, AreaSerializer, SectorSerializer, Rou
 from .models import Region, Area, Sector, Route
 
 class RegionApi(ListAPIView):
+    """
+    Return a list of all the existing regions.
+    """
     queryset = Region.objects.all()
     serializer_class = RegionSerializer
 
 
 class AreaApi(ListAPIView):
+    """
+    Return a list of all the areas filtered by a given region.
+    """
     serializer_class = AreaSerializer
     
     def get_queryset(self):
@@ -17,6 +23,9 @@ class AreaApi(ListAPIView):
 
 
 class SectorApi(ListAPIView):
+    """
+    Return a list of all the sectors filtered by a given area.
+    """
     serializer_class = SectorSerializer
     
     def get_queryset(self):
@@ -25,6 +34,9 @@ class SectorApi(ListAPIView):
 
 
 class RouteApi(ListAPIView):
+    """
+    Return a list of all the routes filtered by a given area.
+    """
     queryset = Route.objects.all()
     serializer_class = RouteSerializer
     

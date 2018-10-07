@@ -5,9 +5,13 @@ from account_api.serializers import UserSerializer
 from django.contrib.auth.models import User
 
 class UserCreateApi(APIView):
-    """ 
-    Creates the user. 
     """
+    post:
+    Creates an user account. 
+    """
+
+    def get_serializer(self):
+        return UserSerializer()
 
     def post(self, request, format='json'):
         serializer = UserSerializer(data=request.data)

@@ -1,5 +1,5 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
+__pycache__
 *.py[cod]
 *$py.class
 *.pyc
@@ -101,6 +101,6 @@ ENV/
 # mypy
 .mypy_cache/
 
-__pycache__/
-
+# project specific ignores
 python/win/
+.vscode/
