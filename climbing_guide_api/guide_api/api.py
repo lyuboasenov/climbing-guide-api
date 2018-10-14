@@ -48,9 +48,9 @@ class RouteApi(ListAPIView):
     lookup_url_kwarg = 'sector'
 
     # tried to set parameter type -- unsuccessfully
-    @swagger_auto_schema(manual_parameters=[
-        openapi.Parameter('sector', in_=openapi.IN_QUERY, description='Container sector id', type=openapi.TYPE_INTEGER)
-        ])
+    # @swagger_auto_schema(manual_parameters=[
+    #     openapi.Parameter('sector', in_=openapi.IN_QUERY, description='Container sector id', type=openapi.TYPE_INTEGER)
+    #     ])
     def get_queryset(self):
         sector = self.kwargs[self.lookup_url_kwarg]
         return Route.objects.filter(sector__id=sector)
