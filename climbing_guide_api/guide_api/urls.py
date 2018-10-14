@@ -1,10 +1,11 @@
 from django.conf.urls import url
+from django.urls import path
 
 from .api import RegionApi, AreaApi, SectorApi, RouteApi
 
 urlpatterns = [
-    url(r'^regions$', RegionApi.as_view()),
-    url(r'^areas/(?P<region>.+)/$', AreaApi.as_view()),
-    url(r'^sectors/(?P<area>.+)/$', SectorApi.as_view()),
-    url(r'^routes/(?P<sector>.+)/$', RouteApi.as_view()),
+    path('regions', RegionApi.as_view()),
+    path('regions/<int:region>/areas', AreaApi.as_view()),
+    path('areas/<int:area>/sectors', SectorApi.as_view()),
+    path('sectors/<int:sector>)/routes', RouteApi.as_view()),
 ]

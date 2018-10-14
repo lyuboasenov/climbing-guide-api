@@ -7,8 +7,8 @@ class RevisionableModel(models.Model):
     parent = models.PositiveIntegerField(blank=True, default='0')
     revision = models.PositiveIntegerField(default=1)
     created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, related_name='create_by')
-    approved_by = models.ForeignKey(User, related_name='approved_by')
+    created_by = models.ForeignKey(User, related_name='create_by', on_delete=models.PROTECT)
+    approved_by = models.ForeignKey(User, related_name='approved_by', on_delete=models.PROTECT)
     approved_on = models.DateTimeField(null=True)
     active = models.BooleanField(default=True)
     
@@ -36,8 +36,8 @@ class Region(GeoSizableModel, RevisionableModel, TranslatableModel):
         restrictions = models.TextField(blank=True),
     )
     #overloads in order to change related_name
-    created_by = models.ForeignKey(User, related_name='region_create_by')
-    approved_by = models.ForeignKey(User, related_name='region_approved_by')
+    created_by = models.ForeignKey(User, related_name='region_create_by', on_delete=models.PROTECT)
+    approved_by = models.ForeignKey(User, related_name='region_approved_by', on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = "Region"
@@ -63,8 +63,8 @@ class Area(GeoSizableModel, RevisionableModel, TranslatableModel):
         descent = models.TextField(blank=True, default=''),
     )
     #overloads in order to change related_name
-    created_by = models.ForeignKey(User, related_name='area_create_by')
-    approved_by = models.ForeignKey(User, related_name='area_approved_by')
+    created_by = models.ForeignKey(User, related_name='area_create_by', on_delete=models.PROTECT)
+    approved_by = models.ForeignKey(User, related_name='area_approved_by', on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = "Area"
@@ -89,8 +89,8 @@ class Sector(GeoSizableModel, RevisionableModel, TranslatableModel):
         descent = models.TextField(blank=True, default=''),
     )
     #overloads in order to change related_name
-    created_by = models.ForeignKey(User, related_name='sector_create_by')
-    approved_by = models.ForeignKey(User, related_name='sector_approved_by')
+    created_by = models.ForeignKey(User, related_name='sector_create_by', on_delete=models.PROTECT)
+    approved_by = models.ForeignKey(User, related_name='sector_approved_by', on_delete=models.PROTECT)
     
     class Meta:
         verbose_name = "Sector"
@@ -134,8 +134,8 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
     schema =  models.ImageField(upload_to='images/routes/schema/%Y/%m/%d/')
     schemaThumb = models.ImageField(upload_to='images/thumbs/routes/schema/%Y/%m/%d/', blank=True)
     #overloads in order to change related_name
-    created_by = models.ForeignKey(User, related_name='route_create_by')
-    approved_by = models.ForeignKey(User, related_name='route_approved_by')
+    created_by = models.ForeignKey(User, related_name='route_create_by', on_delete=models.PROTECT)
+    approved_by = models.ForeignKey(User, related_name='route_approved_by', on_delete=models.PROTECT)
     
     class Meta:
         verbose_name = "Route"

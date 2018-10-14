@@ -171,4 +171,5 @@ REST_FRAMEWORK = {
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
     ),
     'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
+    'COERCE_DECIMAL_TO_STRING': False,
 }
