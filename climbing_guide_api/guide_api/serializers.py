@@ -32,4 +32,4 @@ class RouteSerializer(TranslatableModelSerializer):
 
     class Meta:
         model = Route
-        fields = ('id', 'name', 'info', 'difficulty', 'rating', 'schema', 'schemaThumb', 'latitude', 'longitude')
+        fields = ('id', 'name', 'info', 'difficulty', 'rating', 'schema', 'schemaThumb', 'latitude', 'longitude', 'type')
