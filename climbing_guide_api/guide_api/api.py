@@ -12,6 +12,9 @@ class RegionApi(ListAPIView):
     queryset = Region.objects.all()
     serializer_class = RegionSerializer
 
+    def get_queryset(self):
+        return Region.objects.filter(active=True)
+
 
 class AreaApi(ListAPIView):
     """
@@ -23,7 +26,7 @@ class AreaApi(ListAPIView):
     
     def get_queryset(self):
         region = self.kwargs[self.lookup_url_kwarg]
-        return Area.objects.filter(region__id=region)
+        return Area.objects.filter(region__id=region).filter(active=True)
 
 
 class SectorApi(ListAPIView):
