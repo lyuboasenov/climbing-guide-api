@@ -1,20 +1,35 @@
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, GenericAPIView
+from rest_framework.mixins import ListModelMixin
 
 from .serializers import RegionSerializer, AreaSerializer, SectorSerializer, RouteSerializer
 from .models import Region, Area, Sector, Route
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-class RegionApi(ListAPIView):
+class RegionApi(GenericAPIView, ListModelMixin):
     """
     Return a list of all the existing regions.
     """
-    queryset = Region.objects.all()
-    serializer_class = RegionSerializer
+    queryset=Region.objects.all()
 
-    def get_queryset(self):
-        return Region.objects.filter(active=True)
+    def filter_queryset(self, queryset):
+        queryset.filter(active=True)
 
+    def get_serializer_class(self):
+        serializer = RegionSerializer()
+        if (self.request.method == 'GET' and self.request.query_params is None):
+            serializer = RegionSerializer()
+        elif (self.request.method == 'POST'):
+            pass
+        elif (self.request.method == 'PUT'):
+            pass
+        elif (self.request.method == 'DELETE'):
+            pass
+        
+        return serializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 class AreaApi(ListAPIView):
     """
