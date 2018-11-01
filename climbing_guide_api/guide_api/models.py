@@ -132,7 +132,8 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
         default=RouteType.BOULDER
         )
     schema =  models.ImageField(upload_to='images/routes/schema/%Y/%m/%d/')
-    schemaThumb = models.ImageField(upload_to='images/thumbs/routes/schema/%Y/%m/%d/', blank=True)
+    schemaThumb256 = models.ImageField(upload_to='images/routes/schema/%Y/%m/%d/', blank=True)
+    schemaThumb2048 = models.ImageField(upload_to='images/routes/schema/%Y/%m/%d/', blank=True)
     #overloads in order to change related_name
     created_by = models.ForeignKey(User, related_name='route_create_by', on_delete=models.PROTECT)
     approved_by = models.ForeignKey(User, related_name='route_approved_by', on_delete=models.PROTECT)
@@ -150,7 +151,8 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
         # Fallbacks are handled as well.
         return "{0}".format(self.name)
     
-    def create_thumbnail(self):
+    def create_thumbnail(self, thumbSize):
+        # Set our max thumbnail size in a tuple (max width, max height)
         # original code for this method came from
         # http://snipt.net/danfreak/generate-thumbnails-in-django-with-pil/
 
@@ -163,9 +165,6 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
         from io import BytesIO
         from django.core.files.uploadedfile import SimpleUploadedFile
         import os
-
-        # Set our max thumbnail size in a tuple (max width, max height)
-        THUMBNAIL_SIZE = (200,200)
 
         DJANGO_TYPE = self.schema.file.content_type
 
@@ -197,7 +196,7 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
         # has a thumbnail() convenience method that contrains proportions.
         # Additionally, we use Image.ANTIALIAS to make the image look better.
         # Without antialiasing the image pattern artifacts may result.
-        schema.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+        schema.thumbnail(thumbSize, Image.ANTIALIAS)
 
         # Save the thumbnail
         temp_handle = BytesIO()
@@ -209,10 +208,15 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
         suf = SimpleUploadedFile(os.path.split(self.schema.name)[-1],
                 temp_handle.read(), content_type=DJANGO_TYPE)
         # Save SimpleUploadedFile into image field
-        self.schemaThumb.save('%s.%s'%(os.path.splitext(suf.name)[0],FILE_EXTENSION), suf, save=False)
+        return ('%s_%s.%s'%(os.path.splitext(suf.name)[0],thumbSize[0],FILE_EXTENSION), suf)
     
     def save(self):
         # create a thumbnail
-        self.create_thumbnail()
+        thumb256 = self.create_thumbnail((256,256))
+        self.schemaThumb256.save(thumb256[0], thumb256[1], save=False)
+
+        thumb2048 = self.create_thumbnail((2048,2048))
+        self.schemaThumb2048.save(thumb2048[0], thumb2048[1], save=False)
+        
         super(Route, self).save()
         
