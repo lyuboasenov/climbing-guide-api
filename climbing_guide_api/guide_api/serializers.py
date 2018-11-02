@@ -34,6 +34,7 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
         elif light:
             allowed = set(self.light_fields)
+            existing = set(self.fields.keys())
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
 
@@ -44,12 +45,14 @@ class RegionSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer
     name = serializers.CharField(max_length=100, required=True)
     info = serializers.CharField(required=True)
 
+    light_fields = ('id', 'name', 'info', 'latitude', 'longitude', 'size')
+
     class Meta:
         model = Region
         fields = ('id', 'name', 'info', 'restrictions', 'latitude',
             'longitude', 'size', 'created_on', 'approved_on', 'created_by',
             'approved_by')
-        light_fields = ('id', 'name', 'info', 'latitude', 'longitude', 'size')
+        
 
 
 class AreaSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer):
@@ -59,12 +62,13 @@ class AreaSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer):
     info = serializers.CharField(required=True)
     region_id = serializers.IntegerField(required=True)
 
+    light_fields = ('id', 'region_id', 'name', 'info', 'latitude', 'longitude', 'size')
+
     class Meta:
         model = Area
         fields = ('id', 'region_id', 'name', 'info', 'restrictions', 'access', 'descent',
             'latitude', 'longitude', 'size', 'created_on', 'approved_on', 'created_by',
             'approved_by')
-        light_fields = ('id', 'region_id', 'name', 'info', 'latitude', 'longitude', 'size')
 
 
 class SectorSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer):
@@ -74,12 +78,13 @@ class SectorSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer
     info = serializers.CharField(required=True)
     area_id = serializers.IntegerField(required=True)
 
+    light_fields = ('id', 'area_id', 'name', 'info', 'latitude', 'longitude', 'size')
+
     class Meta:
         model = Sector
         fields = ('id', 'area_id', 'name', 'info', 'access', 'descent',
             'latitude', 'longitude', 'size', 'created_on', 'approved_on', 'created_by',
             'approved_by')
-        light_fields = ('id', 'area_id', 'name', 'info', 'latitude', 'longitude', 'size')
 
 
 class RouteSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer):
@@ -89,10 +94,11 @@ class RouteSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer)
     info = serializers.CharField(required=True)
     sector_id = serializers.IntegerField(required=True)
 
+    light_fields = ('id', 'sector_id', 'name', 'info', 'difficulty', 'rating', 'type',
+            'schemaThumb256', 'schemaThumb2048', 'latitude', 'longitude')
+
     class Meta:
         model = Route
         fields = ('id', 'sector_id', 'name', 'info', 'fa', 'difficulty', 'rating', 'length', 'type',
             'schema', 'schemaThumb256', 'schemaThumb2048', 'latitude', 'longitude', 'created_on',
             'approved_on', 'created_by', 'approved_by')
-        light_fields = ('id', 'sector_id', 'name', 'info', 'difficulty', 'rating', 'type',
-            'schemaThumb256', 'schemaThumb2048', 'latitude', 'longitude')
