@@ -172,4 +172,5 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
     'COERCE_DECIMAL_TO_STRING': False,
+    'DEFAULT_PERMISION_CLASSES': ('rest_framework.permissions.IsAuthenticatedOrReadOnly',)
 }

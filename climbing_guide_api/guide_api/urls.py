@@ -1,12 +1,18 @@
 from django.conf.urls import url
 from django.urls import path
 
-from .api import RegionApi, AreaApi, SectorApi, RouteApi
-from .views import RegionViewSet
+from .views import RegionView, AreaView, SectorView, RouteView
 
 urlpatterns = [
-    path('regions', RegionViewSet.as_view({'get': 'list', 'post': 'create'})),
-    path('regions/<int:region>/areas', AreaApi.as_view()),
-    path('areas/<int:area>/sectors', SectorApi.as_view()),
-    path('sectors/<int:sector>/routes', RouteApi.as_view()),
+    path('regions', RegionView.as_view({'get': 'list', 'post': 'create'})),
+    path('regions/<int:pk>', RegionView.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'update', 'delete': 'destroy'})),
+    
+    path('regions/<int:region>/areas', AreaView.as_view({'get': 'list', 'post': 'create'})),
+    path('areas/<int:pk>', AreaView.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'update', 'delete': 'destroy'})),
+
+    path('areas/<int:area>/sectors', AreaView.as_view({'get': 'list', 'post': 'create'})),
+    path('sectors/<int:pk>', AreaView.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'update', 'delete': 'destroy'})),
+
+    path('sectors/<int:sector>/routes', AreaView.as_view({'get': 'list', 'post': 'create'})),
+    path('routes/<int:pk>', AreaView.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'update', 'delete': 'destroy'})),
 ]
