@@ -42,7 +42,7 @@ urlpatterns = [
     url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    url('', include('account_api.urls')),
+    url('', include('common_api.urls')),
 ]
 
 urlpatterns += i18n_patterns(

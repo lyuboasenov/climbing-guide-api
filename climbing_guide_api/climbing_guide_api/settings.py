@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     # Swagger documentation generator
     'drf_yasg',
     # Apps
-    'account_api',
+    'common_api',
     'guide_api',    
 ]
 

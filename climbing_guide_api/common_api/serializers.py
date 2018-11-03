@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
 
+
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
             required=True,
@@ -20,3 +21,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'password')
+
+
+class LanguageSerializer(serializers.Serializer):
+    code = serializers.CharField(min_length=2, max_length=2, read_only=True)
+    name = serializers.CharField(max_length=30, read_only=True)
+    default = serializers.BooleanField(default=False, read_only=True)
