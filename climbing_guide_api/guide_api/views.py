@@ -1,9 +1,9 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import ListAPIView
+from rest_framework.views import APIView
 
 from .models import Region, Area, Sector, Route
 
-from .serializers import RegionSerializer, AreaSerializer, SectorSerializer, RouteSerializer
+from .serializers import RegionSerializer, AreaSerializer, SectorSerializer, RouteSerializer, GradeSerializer, GradeSystemListSerializer
 
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import list_route
@@ -12,6 +12,8 @@ from rest_framework.response import Response
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+
+from .grades import Grade, GradeSystem
 
 # import pdb; pdb.set_trace()
 
@@ -149,3 +151,30 @@ class RouteView(ModelViewSet):
         routes = self.queryset.filter(sector__id=sector)
         serializer = self.get_serializer(routes, many=True)
         return Response(serializer.data)
+
+
+
+class GradeView(APIView):
+    """
+    Returns list of all grades by the given system.
+    """
+    def get(self, request, system):
+        data = Grade.GRADE_LIST[system]
+        serializer = GradeSerializer(data, many=True)
+        return Response(serializer.data)
+
+    def get_serializer(self):
+        return GradeSerializer()
+
+
+class GradeSystemView(APIView):
+    """
+    Returns a list of grade systems by route type.
+    """
+    def get(self, request):
+        data = GradeSystem.GRADE_SYSTEM_LIST
+        serializer = GradeSystemListSerializer(data, many=True)
+        return Response(serializer.data)
+
+    def get_serializer(self):
+        return GradeSystemListSerializer()

@@ -52,7 +52,6 @@ class RegionSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer
         fields = ('id', 'name', 'info', 'restrictions', 'latitude',
             'longitude', 'size', 'created_on', 'approved_on', 'created_by',
             'approved_by')
-        
 
 
 class AreaSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer):
@@ -102,3 +101,19 @@ class RouteSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer)
         fields = ('id', 'sector_id', 'name', 'info', 'fa', 'difficulty', 'rating', 'length', 'type',
             'schema', 'schemaThumb256', 'schemaThumb2048', 'latitude', 'longitude', 'created_on',
             'approved_on', 'created_by', 'approved_by')
+
+
+class GradeSerializer(serializers.Serializer):
+    type = serializers.IntegerField(read_only=True)
+    value = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(read_only=True)
+
+
+class GradeSystemSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(read_only=True)
+
+
+class GradeSystemListSerializer(serializers.Serializer):
+    routeType = serializers.IntegerField(read_only=True)
+    gradeSystems = GradeSystemSerializer(read_only=True, many=True)
