@@ -37,7 +37,6 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    url(r'^docs/', include_docs_urls(title='Climbing Guide API')),
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
@@ -49,6 +48,7 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     url(r'^admin/', admin.site.urls),
     url('', include('guide_api.urls')),
+     prefix_default_language=False
 )
 
 if settings.DEBUG:
