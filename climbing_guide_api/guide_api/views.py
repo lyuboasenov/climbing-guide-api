@@ -164,7 +164,7 @@ class GradeView(APIView):
         return Response(serializer.data)
 
     def get_serializer(self):
-        return GradeSerializer()
+        return GradeSerializer(many=True)
 
 
 class GradeSystemView(APIView):
