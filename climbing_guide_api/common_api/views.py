@@ -1,8 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from common_api.serializers import UserSerializer, LanguageSerializer
+from common_api.serializers import UserSerializer, LanguageSerializer, NewsFeedSourceSerializer
 from django.contrib.auth.models import User
+from .models import Language, NewsFeed
 
 class UserCreateApi(APIView):
     """
@@ -25,16 +26,20 @@ class UserCreateApi(APIView):
 
 class LanguagesView(APIView):
     def get(self, request):
-        data = [
-            {'code': 'en', 'name': 'English', 'default': True},
-            {'code': 'bg', 'name': 'Български', 'default': False},
-            {'code': 'fr', 'name': 'Français', 'default': False},
-            {'code': 'es', 'name': 'Español', 'default': False},
-            {'code': 'it', 'name': 'Italiano', 'default': False},
-            {'code': 'nl', 'name': 'Nederlands', 'default': False}
-        ]
+        data = Language.AvailableLanguages
         serializer = LanguageSerializer(data, many=True)
         return Response(serializer.data)
 
     def get_serializer(self):
         return LanguageSerializer()
+
+
+
+class NewFeedsView(APIView):
+    def get(self, request):
+        data = NewsFeed.NewsSources
+        serializer = NewsFeedSourceSerializer(data, many=True)
+        return Response(serializer.data)
+
+    def get_serializer(self):
+        return NewsFeedSourceSerializer()

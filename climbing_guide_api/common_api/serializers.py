@@ -27,3 +27,8 @@ class LanguageSerializer(serializers.Serializer):
     code = serializers.CharField(min_length=2, max_length=2, read_only=True)
     name = serializers.CharField(max_length=30, read_only=True)
     default = serializers.BooleanField(default=False, read_only=True)
+
+
+class NewsFeedSourceSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=30, read_only=True)
+    url = serializers.CharField(read_only=True)
