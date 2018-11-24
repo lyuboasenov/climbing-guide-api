@@ -2,29 +2,31 @@ from django.db import models
 from django.contrib.auth.models import User
 from parler.models import TranslatableModel, TranslatedFields
 
+
 #Abstract classes
 class RevisionableModel(models.Model):
     parent = models.PositiveIntegerField(blank=True, default='0')
     revision = models.PositiveIntegerField(default=1)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, related_name='create_by', on_delete=models.PROTECT)
-    approved_by = models.ForeignKey(User, related_name='approved_by', on_delete=models.PROTECT)
+    approved_by = models.ForeignKey(User, related_name='approved_by', on_delete=models.PROTECT, blank=True, null=True)
     approved_on = models.DateTimeField(null=True)
-    active = models.BooleanField(default=True)
-    
+    active = models.BooleanField(default=False)
+    pending = models.BooleanField(default=True)
+
     class Meta:
         abstract = True
 
 class GeoModel(models.Model):
-    longitude = models.DecimalField(max_digits=9, decimal_places=7)
-    latitude = models.DecimalField(max_digits=9, decimal_places=7)
-    
+    longitude = models.DecimalField(max_digits=25, decimal_places=20)
+    latitude = models.DecimalField(max_digits=25, decimal_places=20)
+
     class Meta:
         abstract = True
-    
+
 class GeoSizableModel(GeoModel):
     size = models.DecimalField(max_digits=10, decimal_places=6)
-    
+
     class Meta:
         abstract = True
 
@@ -35,17 +37,20 @@ class Region(GeoSizableModel, RevisionableModel, TranslatableModel):
         info = models.TextField(),
         restrictions = models.TextField(blank=True),
     )
+    country_code = models.CharField(max_length=10, default='un')
     #overloads in order to change related_name
     created_by = models.ForeignKey(User, related_name='region_create_by', on_delete=models.PROTECT)
-    approved_by = models.ForeignKey(User, related_name='region_approved_by', on_delete=models.PROTECT)
+    approved_by = models.ForeignKey(User, related_name='region_approved_by', on_delete=models.PROTECT, blank=True, null=True)
+    admins =  models.ManyToManyField(User)
+    tags = models.TextField(default='')
 
     class Meta:
         verbose_name = "Region"
         verbose_name_plural = "Regions"
-        
+
     def __unicode__(self):
         return super().name
-    
+
     def __str__(self):
         # Fetching the title just works, as all
         # attributes are proxied to the translated model.
@@ -64,15 +69,16 @@ class Area(GeoSizableModel, RevisionableModel, TranslatableModel):
     )
     #overloads in order to change related_name
     created_by = models.ForeignKey(User, related_name='area_create_by', on_delete=models.PROTECT)
-    approved_by = models.ForeignKey(User, related_name='area_approved_by', on_delete=models.PROTECT)
+    approved_by = models.ForeignKey(User, related_name='area_approved_by', on_delete=models.PROTECT, blank=True, null=True)
+    tags = models.TextField(default='')
 
     class Meta:
         verbose_name = "Area"
         verbose_name_plural = "Areas"
-        
+
     def __unicode__(self):
         return super().name
-    
+
     def __str__(self):
         # Fetching the title just works, as all
         # attributes are proxied to the translated model.
@@ -90,21 +96,22 @@ class Sector(GeoSizableModel, RevisionableModel, TranslatableModel):
     )
     #overloads in order to change related_name
     created_by = models.ForeignKey(User, related_name='sector_create_by', on_delete=models.PROTECT)
-    approved_by = models.ForeignKey(User, related_name='sector_approved_by', on_delete=models.PROTECT)
-    
+    approved_by = models.ForeignKey(User, related_name='sector_approved_by', on_delete=models.PROTECT, blank=True, null=True)
+    tags = models.TextField(default='')
+
     class Meta:
         verbose_name = "Sector"
         verbose_name_plural = "Sectors"
-        
+
     def __unicode__(self):
         return super().name
-    
+
     def __str__(self):
         # Fetching the title just works, as all
         # attributes are proxied to the translated model.
         # Fallbacks are handled as well.
         return "{0}".format(self.name)
-    
+
 
 class RouteType():
     BOULDER = 1
@@ -136,21 +143,22 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
     schemaThumb2048 = models.ImageField(upload_to='images/routes/schema/%Y/%m/%d/', blank=True)
     #overloads in order to change related_name
     created_by = models.ForeignKey(User, related_name='route_create_by', on_delete=models.PROTECT)
-    approved_by = models.ForeignKey(User, related_name='route_approved_by', on_delete=models.PROTECT)
-    
+    approved_by = models.ForeignKey(User, related_name='route_approved_by', on_delete=models.PROTECT, blank=True, null=True)
+    tags = models.TextField(default='')
+
     class Meta:
         verbose_name = "Route"
         verbose_name_plural = "Routes"
-        
+
     def __unicode__(self):
         return super().name
-    
+
     def __str__(self):
         # Fetching the title just works, as all
         # attributes are proxied to the translated model.
         # Fallbacks are handled as well.
         return "{0}".format(self.name)
-    
+
     def create_thumbnail(self, thumbSize):
         # Set our max thumbnail size in a tuple (max width, max height)
         # original code for this method came from
@@ -179,14 +187,14 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
         schema = Image.open(BytesIO(self.schema.read()))
 
         if hasattr(schema, '_getexif'): # only present in JPEGs
-            for orientation in ExifTags.TAGS.keys(): 
+            for orientation in ExifTags.TAGS.keys():
                 if ExifTags.TAGS[orientation]=='Orientation':
-                    break 
+                    break
             e = schema._getexif()       # returns None if no EXIF data
-        
+
             if e is not None:
                 exif=dict(e.items())
-                orientation = exif[orientation] 
+                orientation = exif[orientation]
 
                 if orientation == 3:   schema = schema.transpose(Image.ROTATE_180)
                 elif orientation == 6: schema = schema.transpose(Image.ROTATE_270)
@@ -209,7 +217,7 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
                 temp_handle.read(), content_type=DJANGO_TYPE)
         # Save SimpleUploadedFile into image field
         return ('%s_%s.%s'%(os.path.splitext(suf.name)[0],thumbSize[0],FILE_EXTENSION), suf)
-    
+
     def save(self):
         # create a thumbnail
         thumb256 = self.create_thumbnail((256,256))
@@ -217,6 +225,5 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
 
         thumb2048 = self.create_thumbnail((2048,2048))
         self.schemaThumb2048.save(thumb2048[0], thumb2048[1], save=False)
-        
+
         super(Route, self).save()
-        

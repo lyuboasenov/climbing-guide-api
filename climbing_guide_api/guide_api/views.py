@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import list_route
 from django.utils.decorators import method_decorator
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -30,6 +31,10 @@ light_param = openapi.Parameter('light',
     description="Specified that short list of resource's fields to be served.",
     type=openapi.TYPE_BOOLEAN)
 
+class LargeResultsSetPagination(PageNumberPagination):
+    page_size = 100
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
 
 @method_decorator(name = 'list', decorator = swagger_auto_schema(
     operation_description = "Returns list of all regions",
@@ -52,9 +57,10 @@ class RegionView(ModelViewSet):
     """
     View set for viewing and editing regions.
     """
-    queryset = Region.objects.filter(active=True)
+    queryset = Region.objects.filter(active=True).order_by('translations__name')
     serializer_class = RegionSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = LargeResultsSetPagination
 
 
 @method_decorator(name = 'list', decorator = swagger_auto_schema(
@@ -78,14 +84,21 @@ class AreaView(ModelViewSet):
     """
     View set for viewing and editing area.
     """
-    queryset = Area.objects.filter(active=True)
+    queryset = Area.objects.filter(active=True).order_by('translations__name')
     serializer_class = AreaSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = LargeResultsSetPagination
 
     @list_route()
     def list(self, request, region=None):
-        areas = self.queryset.filter(region__id=region)
-        serializer = self.get_serializer(areas, many=True)
+        queryset = self.queryset.filter(region__id=region)
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
 
@@ -110,14 +123,21 @@ class SectorView(ModelViewSet):
     """
     View set for viewing and editing sector.
     """
-    queryset = Sector.objects.filter(active=True)
+    queryset = Sector.objects.filter(active=True).order_by('translations__name')
     serializer_class = SectorSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = LargeResultsSetPagination
 
     @list_route()
     def list(self, request, area=None):
-        sectors = self.queryset.filter(area__id=area)
-        serializer = self.get_serializer(sectors, many=True)
+        queryset = self.queryset.filter(area__id=area)
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
 
@@ -142,14 +162,21 @@ class RouteView(ModelViewSet):
     """
     View set for viewing and editing route.
     """
-    queryset = Route.objects.filter(active=True)
+    queryset = Route.objects.filter(active=True).order_by('translations__name')
     serializer_class = RouteSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = LargeResultsSetPagination
 
     @list_route()
     def list(self, request, sector=None):
-        routes = self.queryset.filter(sector__id=sector)
-        serializer = self.get_serializer(routes, many=True)
+        queryset = self.queryset.filter(sector__id=sector)
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
 

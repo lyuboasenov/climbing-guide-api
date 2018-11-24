@@ -45,13 +45,19 @@ class RegionSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer
     name = serializers.CharField(max_length=100, required=True)
     info = serializers.CharField(required=True)
 
-    light_fields = ('id', 'name', 'info', 'latitude', 'longitude', 'size')
+    light_fields = ('id', 'name', 'info', 'latitude', 'longitude', 'size', 'country_code')
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        region = Region.objects.create(created_by = user, **validated_data)
+
+        return region
 
     class Meta:
         model = Region
         fields = ('id', 'name', 'info', 'restrictions', 'latitude',
             'longitude', 'size', 'created_on', 'approved_on', 'created_by',
-            'approved_by')
+            'approved_by', 'country_code', 'tags')
 
 
 class AreaSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer):
@@ -67,7 +73,7 @@ class AreaSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer):
         model = Area
         fields = ('id', 'region_id', 'name', 'info', 'restrictions', 'access', 'descent',
             'latitude', 'longitude', 'size', 'created_on', 'approved_on', 'created_by',
-            'approved_by')
+            'approved_by', 'tags')
 
 
 class SectorSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer):
@@ -83,7 +89,7 @@ class SectorSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer
         model = Sector
         fields = ('id', 'area_id', 'name', 'info', 'access', 'descent',
             'latitude', 'longitude', 'size', 'created_on', 'approved_on', 'created_by',
-            'approved_by')
+            'approved_by', 'tags')
 
 
 class RouteSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer):
@@ -100,7 +106,7 @@ class RouteSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer)
         model = Route
         fields = ('id', 'sector_id', 'name', 'info', 'fa', 'difficulty', 'rating', 'length', 'type',
             'schema', 'schemaThumb256', 'schemaThumb2048', 'latitude', 'longitude', 'created_on',
-            'approved_on', 'created_by', 'approved_by')
+            'approved_on', 'created_by', 'approved_by', 'tags')
 
 
 class GradeSerializer(serializers.Serializer):
