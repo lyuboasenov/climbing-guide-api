@@ -18,7 +18,7 @@ class GradeSystem():
     }
 
     GRADE_SYSTEM_LIST = [
-        { 'routeType': RouteType.BOULDER, 'gradeSystems': [ 
+        { 'routeType': RouteType.BOULDER, 'gradeSystems': [
                 { 'id': FONT, 'name': GRADE_SYSTEM_NAMES[FONT] },
                 { 'id': B, 'name': GRADE_SYSTEM_NAMES[B] },
                 { 'id': V, 'name': GRADE_SYSTEM_NAMES[V] },
@@ -26,7 +26,7 @@ class GradeSystem():
         { 'routeType': RouteType.SPORT, 'gradeSystems': [
                 { 'id': FRENCH, 'name': GRADE_SYSTEM_NAMES[FRENCH] },
                 { 'id': UIAA, 'name': GRADE_SYSTEM_NAMES[UIAA] },
-                { 'id': YOSEMITE, 'name': GRADE_SYSTEM_NAMES[YOSEMITE] } 
+                { 'id': YOSEMITE, 'name': GRADE_SYSTEM_NAMES[YOSEMITE] }
             ] },
         { 'routeType': RouteType.TRAD, 'gradeSystems': [
                 { 'id': FRENCH, 'name': GRADE_SYSTEM_NAMES[FRENCH] },
@@ -75,7 +75,9 @@ class Grade:
             { 'value': 180, 'name': '8b', 'type': GradeSystem.FRENCH },
             { 'value': 185, 'name': '8b+', 'type': GradeSystem.FRENCH },
             { 'value': 190, 'name': '8c', 'type': GradeSystem.FRENCH },
+            { 'value': 192, 'name': '8c/+', 'type': GradeSystem.FRENCH },
             { 'value': 195, 'name': '8c+', 'type': GradeSystem.FRENCH },
+            { 'value': 197, 'name': '8c+/9a', 'type': GradeSystem.FRENCH },
             { 'value': 200, 'name': '9a', 'type': GradeSystem.FRENCH },
             { 'value': 205, 'name': '9a+', 'type': GradeSystem.FRENCH },
             { 'value': 210, 'name': '9b', 'type': GradeSystem.FRENCH },

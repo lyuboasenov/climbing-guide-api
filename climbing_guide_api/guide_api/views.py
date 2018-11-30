@@ -3,7 +3,8 @@ from rest_framework.views import APIView
 
 from .models import Region, Area, Sector, Route
 
-from .serializers import RegionSerializer, AreaSerializer, SectorSerializer, RouteSerializer, GradeSerializer, GradeSystemListSerializer
+from .serializers import RegionSerializer, AreaSerializer, SectorSerializer, RouteSerializer
+from .serializers import GradeSystemListSerializer, GradeSystemSerializer, GradeSerializer
 
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import list_route
@@ -58,9 +59,9 @@ class RegionView(ModelViewSet):
     View set for viewing and editing regions.
     """
     queryset = Region.objects.filter(active=True).order_by('translations__name')
-    serializer_class = RegionSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = LargeResultsSetPagination
+    serializer_class = RegionSerializer
 
 
 @method_decorator(name = 'list', decorator = swagger_auto_schema(
@@ -85,13 +86,13 @@ class AreaView(ModelViewSet):
     View set for viewing and editing area.
     """
     queryset = Area.objects.filter(active=True).order_by('translations__name')
-    serializer_class = AreaSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = LargeResultsSetPagination
+    serializer_class = AreaSerializer
 
     @list_route()
-    def list(self, request, region=None):
-        queryset = self.queryset.filter(region__id=region)
+    def list(self, request, id=None):
+        queryset = self.queryset.filter(region__id=id)
         page = self.paginate_queryset(queryset)
 
         if page is not None:
@@ -124,13 +125,13 @@ class SectorView(ModelViewSet):
     View set for viewing and editing sector.
     """
     queryset = Sector.objects.filter(active=True).order_by('translations__name')
-    serializer_class = SectorSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = LargeResultsSetPagination
+    serializer_class = SectorSerializer
 
     @list_route()
-    def list(self, request, area=None):
-        queryset = self.queryset.filter(area__id=area)
+    def list(self, request, id=None):
+        queryset = self.queryset.filter(area__id=id)
         page = self.paginate_queryset(queryset)
 
         if page is not None:
@@ -163,13 +164,13 @@ class RouteView(ModelViewSet):
     View set for viewing and editing route.
     """
     queryset = Route.objects.filter(active=True).order_by('translations__name')
-    serializer_class = RouteSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = LargeResultsSetPagination
+    serializer_class = RouteSerializer
 
     @list_route()
-    def list(self, request, sector=None):
-        queryset = self.queryset.filter(sector__id=sector)
+    def list(self, request, id=None):
+        queryset = self.queryset.filter(sector__id=id)
         page = self.paginate_queryset(queryset)
 
         if page is not None:

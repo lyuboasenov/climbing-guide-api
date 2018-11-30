@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'corsheaders',
     'parler',
+    'imagekit',
     # Swagger documentation generator
     'drf_yasg',
     # Apps

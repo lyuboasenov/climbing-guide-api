@@ -33,6 +33,8 @@ pip install django-parler==1.9.2
 pip install django-parler-rest==2.0.0
 pip install Pillow==5.3.0
 pip install drf-yasg==1.10.2
+pip install django-imagekit==4.0.2
+pip install django-enumchoicefield==1.0.2
 ```
 
 ## Run climbing-guide-api
