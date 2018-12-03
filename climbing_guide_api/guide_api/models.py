@@ -32,7 +32,7 @@ class GeoModel(models.Model):
         abstract = True
 
 class GeoSizableModel(GeoModel):
-    size = models.DecimalField(max_digits=10, decimal_places=6)
+    size = models.FloatField()
 
     class Meta:
         abstract = True
@@ -48,7 +48,7 @@ class Region(GeoSizableModel, RevisionableModel, TranslatableModel):
     #overloads in order to change related_name
     created_by = models.ForeignKey(User, related_name='region_create_by', on_delete=models.PROTECT)
     approved_by = models.ForeignKey(User, related_name='region_approved_by', on_delete=models.PROTECT, blank=True, null=True)
-    admins =  models.ManyToManyField(User)
+    admins = models.ManyToManyField(User)
     tags = models.TextField(default='')
 
     class Meta:
@@ -236,3 +236,7 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
     class Meta:
         verbose_name = "Route"
         verbose_name_plural = "Routes"
+
+# class RegionAdmin:
+#     person = models.ForeignKey(Person)
+#     group = models.ForeignKey(Group)

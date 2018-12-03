@@ -165,7 +165,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 OAUTH2_PROVIDER = {
     # this is the list of available scopes
-    'SCOPES': {'regular': 'Regular user access scope', 'administrator': 'Administrator access scope'}
+    'SCOPES': {'regular': 'Regular user access scope', 'administrator': 'Administrator access scope'},
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 60*60,  # 2 hours
+    # 'REFRESH_TOKEN_EXPIRE_SECONDS': 7*24*60*60,  # A week
+    # 'ROTATE_REFRESH_TOKEN': True,  # Sends a new refresh token when a access token is refreshed.
 }
 
 REST_FRAMEWORK = {
@@ -175,4 +178,20 @@ REST_FRAMEWORK = {
     'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
     'COERCE_DECIMAL_TO_STRING': False,
     'DEFAULT_PERMISION_CLASSES': ('rest_framework.permissions.IsAuthenticatedOrReadOnly',)
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },
+    },
 }

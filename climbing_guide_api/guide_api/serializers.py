@@ -54,7 +54,7 @@ class RegionSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer
     info = serializers.CharField(required=True)
     latitude = serializers.DecimalField(required=True, max_digits=25, decimal_places=20)
     longitude = serializers.DecimalField(required=True, max_digits=25, decimal_places=20)
-    size = serializers.DecimalField(required=True, max_digits=10, decimal_places=6)
+    size = serializers.FloatField(required=True)
 
     light_fields = ('id', 'name', 'info', 'latitude', 'longitude', 'size', 'country_code')
 
@@ -62,6 +62,10 @@ class RegionSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer
         # TODO: Region admin check
         user = self.context['request'].user
         region = Region.objects.create(created_by = user, **validated_data)
+
+        # Set the user that creates and region as it's admin
+        region.admins.add(user)
+        region.save()
 
         return region
 
@@ -83,7 +87,7 @@ class AreaSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer):
     info = serializers.CharField(required=True)
     latitude = serializers.DecimalField(required=True, max_digits=25, decimal_places=20)
     longitude = serializers.DecimalField(required=True, max_digits=25, decimal_places=20)
-    size = serializers.DecimalField(required=True, max_digits=10, decimal_places=6)
+    size = serializers.FloatField(required=True)
     region_id = serializers.IntegerField(required=True)
 
     light_fields = ('id', 'region_id', 'name', 'info', 'latitude', 'longitude', 'size')
@@ -107,6 +111,10 @@ class AreaSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer):
         user = request.user
         area = Area.objects.create(created_by=user, **validated_data)
 
+        # Set the user that creates and area as it's admin
+        area.admins.add(user)
+        area.save()
+
         return area
 
     class Meta:
@@ -127,7 +135,7 @@ class SectorSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer
     info = serializers.CharField(required=True)
     latitude = serializers.DecimalField(required=True, max_digits=25, decimal_places=20)
     longitude = serializers.DecimalField(required=True, max_digits=25, decimal_places=20)
-    size = serializers.DecimalField(required=True, max_digits=10, decimal_places=6)
+    size = serializers.FloatField(required=True)
     area_id = serializers.IntegerField(required=True)
 
     light_fields = ('id', 'area_id', 'name', 'info', 'latitude', 'longitude', 'size')
