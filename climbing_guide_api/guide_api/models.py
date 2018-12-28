@@ -12,7 +12,7 @@ from imagekit.processors import ResizeToFit
 
 #Abstract classes
 class RevisionableModel(models.Model):
-    parent = models.PositiveIntegerField(blank=True, default='0')
+    previous = models.ForeignKey('self', related_name='revision_previous', null=True, blank=True, on_delete=models.DO_NOTHING)
     revision = models.PositiveIntegerField(default=1)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, related_name='create_by', on_delete=models.PROTECT)
@@ -37,23 +37,21 @@ class GeoSizableModel(GeoModel):
     class Meta:
         abstract = True
 
+
 #Model classes
-class Region(GeoSizableModel, RevisionableModel, TranslatableModel):
+class Country(GeoModel, TranslatableModel):
     translations = TranslatedFields(
         name = models.CharField(max_length=100),
-        info = models.TextField(),
-        restrictions = models.TextField(blank=True),
+        region = models.CharField(max_length=100, blank=True),
+        sub_region = models.CharField(max_length=100, blank=True),
+        intermediate_region = models.CharField(max_length=100, blank=True),
     )
-    country_code = models.CharField(max_length=10, default='un')
-    #overloads in order to change related_name
-    created_by = models.ForeignKey(User, related_name='region_create_by', on_delete=models.PROTECT)
-    approved_by = models.ForeignKey(User, related_name='region_approved_by', on_delete=models.PROTECT, blank=True, null=True)
-    admins = models.ManyToManyField(User)
-    tags = models.TextField(default='')
+    code_2 = models.CharField(max_length=2, default='BG')
+    code_3 = models.CharField(max_length=3, default='BGR')
 
     class Meta:
-        verbose_name = "Region"
-        verbose_name_plural = "Regions"
+        verbose_name = "Country"
+        verbose_name_plural = "Countries"
 
     def __unicode__(self):
         return super().name
@@ -66,50 +64,27 @@ class Region(GeoSizableModel, RevisionableModel, TranslatableModel):
 
 
 class Area(GeoSizableModel, RevisionableModel, TranslatableModel):
-    region = models.ForeignKey(Region, on_delete=models.CASCADE)
+    parent = models.ForeignKey('self', related_name='area_children', null=True, blank=True, on_delete=models.DO_NOTHING)
+    country = models.ForeignKey(Country, null=True, blank=True, on_delete=models.DO_NOTHING)
     translations = TranslatedFields(
         name = models.CharField(max_length=100),
         info = models.TextField(),
+        approach = models.TextField(blank=True, default=''),
+        history = models.TextField(blank=True, default=''),
+        ethics = models.TextField(blank=True, default=''),
+        accomodations = models.TextField(blank=True, default=''),
         restrictions = models.TextField(blank=True, default=''),
-        access = models.TextField(blank=True, default=''),
         descent = models.TextField(blank=True, default=''),
     )
     #overloads in order to change related_name
     created_by = models.ForeignKey(User, related_name='area_create_by', on_delete=models.PROTECT)
     approved_by = models.ForeignKey(User, related_name='area_approved_by', on_delete=models.PROTECT, blank=True, null=True)
     admins =  models.ManyToManyField(User)
-    tags = models.TextField(default='')
+    tags = models.TextField(default='', null=True, blank=True)
 
     class Meta:
         verbose_name = "Area"
         verbose_name_plural = "Areas"
-
-    def __unicode__(self):
-        return super().name
-
-    def __str__(self):
-        # Fetching the title just works, as all
-        # attributes are proxied to the translated model.
-        # Fallbacks are handled as well.
-        return "{0}".format(self.name)
-
-
-class Sector(GeoSizableModel, RevisionableModel, TranslatableModel):
-    area = models.ForeignKey(Area, on_delete=models.CASCADE)
-    translations = TranslatedFields(
-        name = models.CharField(max_length=100),
-        info = models.TextField(),
-        access = models.TextField(blank=True, default=''),
-        descent = models.TextField(blank=True, default=''),
-    )
-    #overloads in order to change related_name
-    created_by = models.ForeignKey(User, related_name='sector_create_by', on_delete=models.PROTECT)
-    approved_by = models.ForeignKey(User, related_name='sector_approved_by', on_delete=models.PROTECT, blank=True, null=True)
-    tags = models.TextField(default='')
-
-    class Meta:
-        verbose_name = "Sector"
-        verbose_name_plural = "Sectors"
 
     def __unicode__(self):
         return super().name
@@ -133,19 +108,24 @@ class RouteType():
 
 
 class Route(GeoModel, RevisionableModel, TranslatableModel):
-    sector = models.ForeignKey(Sector, on_delete=models.CASCADE)
+    area = models.ForeignKey(Area, related_name='route_area', null=True, blank=True, on_delete=models.CASCADE)
     difficulty = models.PositiveSmallIntegerField()
     rating = models.PositiveSmallIntegerField(default = 0)
     length = models.PositiveSmallIntegerField(blank=True, default='0')
     translations = TranslatedFields(
         name = models.CharField(max_length=100),
         info = models.TextField(),
-        fa = models.CharField(max_length=200, blank=True, default=''),
+        approach = models.TextField(blank=True, default=''),
+        history = models.TextField(blank=True, default=''),
     )
+    #overloads in order to change related_name
+    created_by = models.ForeignKey(User, related_name='route_create_by', on_delete=models.PROTECT)
+    approved_by = models.ForeignKey(User, related_name='route_approved_by', on_delete=models.PROTECT, blank=True, null=True)
     type = models.SmallIntegerField(
         choices=RouteType.ROUTE_TYPE_CHOICES,
         default=RouteType.BOULDER
         )
+    topo = models.TextField(default='', null=True, blank=True)
     schema =  models.ImageField(upload_to='images/routes/schema/%Y/%m/%d/', blank=True)
     schema_256 = ImageSpecField(source='schema',
                                       processors=[ResizeToFit(256, 256)],
@@ -155,10 +135,7 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
                                       processors=[ResizeToFit(2048, 2048)],
                                       format='JPEG',
                                       options={'quality': 60})
-    #overloads in order to change related_name
-    created_by = models.ForeignKey(User, related_name='route_create_by', on_delete=models.PROTECT)
-    approved_by = models.ForeignKey(User, related_name='route_approved_by', on_delete=models.PROTECT, blank=True, null=True)
-    tags = models.TextField(default='')
+    tags = models.TextField(default='', null=True, blank=True)
 
     def __unicode__(self):
         return super().name
