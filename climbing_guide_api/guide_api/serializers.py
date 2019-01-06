@@ -6,6 +6,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 import base64
 # import pdb # pdb.set_trace()
+import pdb
 
 
 class DisplayUserSerializer(serializers.ModelSerializer):
@@ -49,7 +50,7 @@ class CountrySerializer(DynamicFieldsModelSerializer, TranslatableModelSerialize
 
 class AreaSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    parent = serializers.PrimaryKeyRelatedField(read_only=True)
+    parent = serializers.PrimaryKeyRelatedField(queryset=Area.objects.all())
     created_by = DisplayUserSerializer(read_only=True)
     approved_by = DisplayUserSerializer(read_only=True)
     created_on = serializers.DateTimeField(read_only=True)
@@ -64,21 +65,29 @@ class AreaSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer):
     longitude = serializers.DecimalField(required=True, max_digits=25, decimal_places=20)
     size = serializers.FloatField(required=True)
 
-    def validate_area_id(self, value):
-        area_id = self.context['view'].kwargs['id']
+    def validate_parent(self, value):
+        parent_id = self.context['view'].kwargs['id']
 
         # elif not region.active:
         #     raise serializers.ValidationError("Selected region is not available anymore.")
-        if value != area_id:
+        if value is None or value.id != parent_id:
             raise serializers.ValidationError("Inconsistent data parent id in payload does not match the one from the query")
 
         return value
 
     def create(self, validated_data):
         # TODO: Area admin check
+        pdb.set_trace()
         request = self.context['request']
         user = request.user
-        area = Area.objects.create(created_by=user, **validated_data)
+
+        parent = None
+        country = None
+        if 'parent' in validated_data:
+            parent = validated_data.get('parent')
+            country = parent.country
+
+        area = Area.objects.create(created_by=user, country=country, **validated_data)
 
         # Set the user that creates and area as it's admin
         area.admins.add(user)
