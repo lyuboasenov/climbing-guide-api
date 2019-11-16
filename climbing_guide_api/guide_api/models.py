@@ -8,7 +8,7 @@ from io import BytesIO
 from django.core.files.uploadedfile import SimpleUploadedFile
 import os
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFit
+from imagekit.processors import ResizeToFit, Transpose
 
 #Abstract classes
 class RevisionableModel(models.Model):
@@ -128,11 +128,19 @@ class Route(GeoModel, RevisionableModel, TranslatableModel):
     topo = models.TextField(default='', null=True, blank=True)
     schema =  models.ImageField(upload_to='images/routes/schema/%Y/%m/%d/', blank=True)
     schema_256 = ImageSpecField(source='schema',
-                                      processors=[ResizeToFit(256, 256)],
+                                      processors=[Transpose(Transpose.AUTO), ResizeToFit(256, 256)],
+                                      format='JPEG',
+                                      options={'quality': 60})
+    schema_1024 = ImageSpecField(source='schema',
+                                      processors=[Transpose(Transpose.AUTO), ResizeToFit(2048, 2048)],
                                       format='JPEG',
                                       options={'quality': 60})
     schema_2048 = ImageSpecField(source='schema',
-                                      processors=[ResizeToFit(2048, 2048)],
+                                      processors=[Transpose(Transpose.AUTO), ResizeToFit(2048, 2048)],
+                                      format='JPEG',
+                                      options={'quality': 60})
+    schema_full = ImageSpecField(source='schema',
+                                      processors=[Transpose(Transpose.AUTO)],
                                       format='JPEG',
                                       options={'quality': 60})
     tags = models.TextField(default='', null=True, blank=True)

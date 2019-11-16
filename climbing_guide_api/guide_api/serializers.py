@@ -50,7 +50,7 @@ class CountrySerializer(DynamicFieldsModelSerializer, TranslatableModelSerialize
 
 class AreaSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    parent = serializers.PrimaryKeyRelatedField(queryset=Area.objects.all())
+    parent = serializers.PrimaryKeyRelatedField(queryset=Area.objects.all(), allow_null=True, required=False)
     created_by = DisplayUserSerializer(read_only=True)
     approved_by = DisplayUserSerializer(read_only=True)
     created_on = serializers.DateTimeField(read_only=True)
@@ -111,6 +111,8 @@ class RouteSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer)
     approved_on = serializers.DateTimeField(read_only=True)
     schema_256 = serializers.ImageField(read_only=True)
     schema_2048 = serializers.ImageField(read_only=True)
+    schema_1024 = serializers.ImageField(read_only=True)
+    schema_full = serializers.ImageField(read_only=True)
 
     name = serializers.CharField(max_length=100, required=True)
     info = serializers.CharField(required=True)
@@ -162,7 +164,7 @@ class RouteSerializer(DynamicFieldsModelSerializer, TranslatableModelSerializer)
     class Meta:
         model = Route
         fields = ('id', 'area_id', 'name', 'info', 'rating', 'type', 'difficulty', 'rating',
-            'length', 'type', 'schema', 'schema_256', 'schema_2048', 'latitude', 'longitude',
+            'length', 'type', 'schema', 'schema_full', 'schema_256', 'schema_1024', 'schema_2048', 'latitude', 'longitude',
             'created_on', 'approved_on', 'created_by', 'approved_by', 'tags', 'schema_base_64',
             'schema_filename', 'schema_content_type')
 

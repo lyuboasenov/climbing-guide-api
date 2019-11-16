@@ -1,5 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView
 
 from .models import Area, Route, Country
 
@@ -22,6 +23,8 @@ from drf_yasg import openapi
 from .grades import Grade, GradeSystem
 
 # import pdb; pdb.set_trace()
+
+import pdb;
 
 # translatable_param = openapi.Parameter('lang',
 #     openapi.IN_PATH,
@@ -99,6 +102,46 @@ class AreaView(ModelViewSet):
     @list_route()
     def list(self, request, id=None):
         queryset = self.queryset.filter(parent__id=id)
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+@method_decorator(name = 'list', decorator = swagger_auto_schema(
+    operation_description = "Returns list of areas from the current to the root",
+    manual_parameters = [fields_param]
+))
+class ParentAreaView(ListCreateAPIView):
+    """
+    View for retrieving the tree structure of an area.
+    """
+    queryset = Area.objects.filter(
+            active=True
+        ).annotate(
+            has_subareas=Count('area_children')
+        ).annotate(
+            has_routes=Count('route_area')
+        ).order_by('translations__name')
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = LargeResultsSetPagination
+    serializer_class = AreaSerializer
+
+    def list(self, request, id=None):
+        queryset = []
+        while True:
+            current = self.queryset.get(id=id)
+            if current is None:
+                break
+            queryset.append(current)
+            if current.parent is None:
+                break
+            id = current.parent.id
+
         page = self.paginate_queryset(queryset)
 
         if page is not None:

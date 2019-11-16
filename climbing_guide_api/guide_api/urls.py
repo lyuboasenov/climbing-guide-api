@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.urls import path
 
-from .views import AreaView, RouteView, GradeView, GradeSystemView, CountryView
+from .views import ParentAreaView, AreaView, RouteView, GradeView, GradeSystemView, CountryView
 
 urlpatterns = [
     path('countries', CountryView.as_view({'get': 'list'})),
@@ -9,6 +9,7 @@ urlpatterns = [
 
     path('areas', AreaView.as_view({'get': 'list', 'post': 'create'})),
     path('areas/<int:id>/areas', AreaView.as_view({'get': 'list', 'post': 'create'})),
+    # path('areas/<int:id>/parents', ParentAreaView.as_view()),
     path('areas/<int:pk>', AreaView.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'update', 'delete': 'destroy'})),
 
     path('areas/<int:id>/routes', RouteView.as_view({'get': 'list', 'post': 'create'})),
