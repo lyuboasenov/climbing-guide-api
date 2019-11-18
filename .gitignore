@@ -104,3 +104,8 @@ ENV/
 # project specific ignores
 python/win/
 .vscode/
+
+# c#
+.vs/
+bin/
+obj/
