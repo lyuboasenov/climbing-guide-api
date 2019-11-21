@@ -1,0 +1,30 @@
+version: '3'
+services:
+
+  sqlserver:
+    image: microsoft/mssql-server-linux:latest
+    container_name: sqlserver
+    volumes:
+      - ///d/.docker/sqlserver:/var/opt/mssql
+    ports:
+      - "1434:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Developer
+      - SA_PASSWORD=a62a231c-4620-40ed-a799-45c007d27cea
+
+  api:
+    image: climbingguide/api:1.0
+    build: Climbing.Guide.Api.Services
+    volumes:
+     - ///d/.docker/climbingguide/api:/var/www/climbingguide/api
+     - ///d/.aspnet/https/:/var/https/
+    depends_on:
+      - sqlserver
+    ports:
+      - "5100:80"
+      - "5101:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=p@ss
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/var/https/climbingguide.pfx

@@ -1,20 +1,27 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.0-buster-slim AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
 
+# Copy necessary files and restore & build as distinct layer
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS build
 WORKDIR /src
-COPY ["Climbing.Guide.Api.Grades.Services/Climbing.Guide.Api.Grades.Services.csproj", "Climbing.Guide.Api.Grades.Services/"]
-RUN dotnet restore "Climbing.Guide.Api.Grades.Services/Climbing.Guide.Api.Grades.Services.csproj"
-COPY . .
-WORKDIR "/src/Climbing.Guide.Api.Grades.Services"
-RUN dotnet build "Climbing.Guide.Api.Grades.Services.csproj" -c Release -o /app/build
 
-FROM build AS publish
-RUN dotnet publish "Climbing.Guide.Api.Grades.Services.csproj" -c Release -o /app/publish
+# Copy necessary files and restore as distinct layer
+COPY *.csproj ./
+RUN dotnet restore
 
+# Copy everything else and build
+COPY . ./
+RUN dotnet publish -c Release -o /app/publish
+
+# Build runtime image
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Climbing.Guide.Api.Grades.Services.dll"]
+COPY --from=build /app/publish .
+
+# Expose ports
+EXPOSE 80/tcp
+EXPOSE 443/tcp
+ENV ASPNETCORE_URLS http://*;https://*
+
+# Start
+ENTRYPOINT ["dotnet", "Climbing.Guide.Api.Services.dll"]

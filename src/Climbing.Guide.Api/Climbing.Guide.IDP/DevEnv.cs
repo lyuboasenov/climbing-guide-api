@@ -38,19 +38,40 @@ namespace Climbing.Guide.IDP {
       public static IEnumerable<IdentityResource> GetIdentityResources() {
          return new IdentityResource[] {
             new IdentityResources.OpenId(),
-            new IdentityResources.Profile()
+            new IdentityResources.Profile(),
+            new IdentityResource("Roles", new [] { "role" }),
          };
       }
 
       public static IEnumerable<ApiResource> GetApiResources() {
          return new ApiResource[] {
-
+            new ApiResource("climbingguideapi", "Climbing guide API")
          };
       }
 
       public static IEnumerable<Client> GetClients() {
          return new Client[] {
+            new Client {
+               ClientId = "xamarin-apps",
+               ClientName = "Xamarin apps",
+               ClientUri = "http://climbingguide.org",
 
+               AllowedGrantTypes = GrantTypes.Code,
+               RequirePkce = true,
+               RequireClientSecret = false,
+
+               RedirectUris =
+               {
+                  "http://localhost:5002/index.html",
+                  "http://localhost:5002/callback.html",
+                  "http://localhost:5002/silent.html",
+                  "http://localhost:5002/popup.html",
+               },
+
+               PostLogoutRedirectUris = { "http://localhost:5002/index.html" },
+
+               AllowedScopes = { "openid", "profile", "climbingguideapi" }
+            }
          };
       }
    }
