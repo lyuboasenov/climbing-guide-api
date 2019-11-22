@@ -8,18 +8,19 @@ using IdentityModel.Client;
 
 namespace Climbing.Guide.Api.Client {
    public class Client {
-      private readonly string _baseAddress;
+      private readonly string _serviceAddress;
       private readonly string _idpAddress;
       private TokenResponse _tokenResponse;
 
       private readonly ConcurrentDictionary<Type, IService> _services = new ConcurrentDictionary<Type, IService>();
       private readonly IDictionary<Type, Type> _serviceTypeMap = new Dictionary<Type, Type>() {
-         { typeof(IGradeService), typeof(GradeService) },
+         { typeof(IGradesService), typeof(GradesService) },
+         { typeof(ICountriesService), typeof(CountriesService) },
       };
 
 
-      public Client(string idpAddress, string baseAddress) {
-         _baseAddress = baseAddress ?? throw new ArgumentNullException(nameof(baseAddress));
+      public Client(string idpAddress, string serviceAddress) {
+         _serviceAddress = serviceAddress ?? throw new ArgumentNullException(nameof(serviceAddress));
          _idpAddress = idpAddress ?? throw new ArgumentNullException(nameof(idpAddress));
       }
 
@@ -59,7 +60,7 @@ namespace Climbing.Guide.Api.Client {
 
             Type serviceType = _serviceTypeMap[type];
 
-            return (TService) Activator.CreateInstance(serviceType, _baseAddress);
+            return (TService) Activator.CreateInstance(serviceType, _serviceAddress);
          });
       }
    }

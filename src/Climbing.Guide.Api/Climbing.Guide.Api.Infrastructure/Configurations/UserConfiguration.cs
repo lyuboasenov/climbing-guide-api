@@ -5,9 +5,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Climbing.Guide.Api.Infrastructure.Configurations {
    public class UserConfiguration : IEntityTypeConfiguration<User> {
       public void Configure(EntityTypeBuilder<User> builder) {
-         builder.Property(e => e.Id)
+         builder
+            .HasKey(e => e.Id);
+
+         builder
+            .Property(e => e.Id)
             .HasMaxLength(36);
-         builder.Property(e => e.Name)
+
+         builder
+            .Property(e => e.Name)
             .IsRequired()
             .HasMaxLength(128);
       }

@@ -8,6 +8,7 @@ namespace Climbing.Guide.Api.Application.Interfaces {
       DbSet<Route> Routes { get; set; }
       DbSet<Area> Areas { get; set; }
       DbSet<User> Users { get; set; }
+      DbSet<Country> Countries { get; set; }
 
       Task<int> SaveChangesAsync(CancellationToken cancellationToken);
    }

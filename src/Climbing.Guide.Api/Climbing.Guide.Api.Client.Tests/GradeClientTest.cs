@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 namespace Climbing.Guide.Api.Client.Tests {
    public class GradeClientTest {
       private Client _client;
-      private IGradeService _gradeService;
+      private IGradesService _gradeService;
 
       [SetUp]
       public void Setup() {
-         _client = new Client("https://localhost:5001");
-         _gradeService = _client.GetService<IGradeService>();
+         // TODO: FIX
+         _client = new Client("https://localhost:5001", "https://localhost:5101");
+         _gradeService = _client.GetService<IGradesService>();
       }
 
       [Test]

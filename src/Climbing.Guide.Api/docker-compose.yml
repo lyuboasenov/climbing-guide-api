@@ -15,7 +15,9 @@ services:
 
   api:
     image: climbingguide/api:1.0
-    build: Climbing.Guide.Api.Services
+    build:
+      context: .
+      dockerfile: Dockerfile.api
     volumes:
      - ///d/.docker/climbingguide/api:/var/www/climbingguide/api
      - ///d/.aspnet/https/:/var/https/
@@ -24,6 +26,22 @@ services:
     ports:
       - "5100:80"
       - "5101:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=p@ss
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/var/https/climbingguide.pfx
+  identityserver:
+    image: climbingguide/identityserver:1.0
+    build:
+      context: .
+      dockerfile: Dockerfile.identityserver
+    volumes:
+     - ///d/.aspnet/https/:/var/https/
+    depends_on:
+      - sqlserver
+    ports:
+      - "5000:80"
+      - "5001:443"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_Kestrel__Certificates__Default__Password=p@ss

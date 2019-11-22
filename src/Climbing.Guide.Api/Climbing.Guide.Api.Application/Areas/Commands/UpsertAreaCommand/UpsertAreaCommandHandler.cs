@@ -23,7 +23,7 @@ namespace Climbing.Guide.Api.Application.Areas.Commands.UpsertAreaCommand {
             area = await _context.Areas.FindAsync(id);
          }
 
-         area ??= new Area() {
+         area ??= new AreasContainer() {
             Id = _valueFactory.CreateId(),
             Name = request.Name
          };

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Climbing.Guide.Api.Infrastructure": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "": "Value"
+      }
+    }
+  }
+}

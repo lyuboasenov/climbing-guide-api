@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Climbing.Guide.Api.Application.Interfaces;
 using Climbing.Guide.Api.Application.Routes.Common;
+using Climbing.Guide.Api.Domain.Entities;
 using MediatR;
 using System;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace Climbing.Guide.Api.Application.Routes.Queries.GetRouteListQuery {
-   public class GetRouteListQueryHandler : IRequestHandler<GetRouteListQuery, RouteListResponse> {
+   public class GetRouteListQueryHandler : IRequestHandler<IGetRouteListQuery, RouteListResponse> {
       private readonly IDbContext _context;
       private readonly IMapper _mapper;
 
@@ -18,10 +19,10 @@ namespace Climbing.Guide.Api.Application.Routes.Queries.GetRouteListQuery {
          _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
       }
 
-      public Task<RouteListResponse> Handle(GetRouteListQuery request, CancellationToken cancellationToken) {
+      public Task<RouteListResponse> Handle(IGetRouteListQuery request, CancellationToken cancellationToken) {
          var routes = _context
             .Routes
-            .Where(r => r.Status == Domain.Common.EntityStatus.Active &&
+            .Where(r => r.Status == EntityStatus.Active &&
                (r.Name.Contains(request.Filter) || r.Info.Contains(request.Filter) || r.History.Contains(request.Filter)))
             .OrderBy(r => r.Difficulty)
             .ThenBy(r => r.CreatedOn)
@@ -38,7 +39,7 @@ namespace Climbing.Guide.Api.Application.Routes.Queries.GetRouteListQuery {
             Count = request.Count,
             Filter = request.Filter,
             HasMore = request.Count == routes.Count(),
-            RouteList = routes
+            Result = routes
          });
       }
    }

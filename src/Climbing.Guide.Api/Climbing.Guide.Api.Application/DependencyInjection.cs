@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Climbing.Guide.Api.Application.Behaviours;
+using Climbing.Guide.Api.Application.Routes;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Climbing.Guide.Api.Application.Routes {
+namespace Climbing.Guide.Api.Application {
    public static class DependencyInjection {
       public static IServiceCollection AddApplication(this IServiceCollection services) {
          services.AddAutoMapper(Assembly.GetExecutingAssembly());

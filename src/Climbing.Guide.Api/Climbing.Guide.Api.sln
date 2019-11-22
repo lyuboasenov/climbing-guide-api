@@ -5,6 +5,7 @@ VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{00292A38-86AD-49B4-B4CF-67EC2DCCFC6B}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
 		docker-compose.yml = docker-compose.yml
 		rebuild.ps1 = rebuild.ps1
 		start.ps1 = start.ps1
@@ -38,6 +39,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastructure", "{CB42F60C-5B2C-4D22-A9E3-0814A4404E0A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Climbing.Guide.Api.Infrastructure", "Climbing.Guide.Api.Infrastructure\Climbing.Guide.Api.Infrastructure.csproj", "{B55CC894-A6DD-41FE-90FD-79EDD6A840DB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C957D5A0-181B-41AE-9B1D-678AD7FD0FAB}"
+	ProjectSection(SolutionItems) = preProject
+		start.local.ps1 = start.local.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

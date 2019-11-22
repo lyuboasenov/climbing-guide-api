@@ -1,7 +1,6 @@
 ﻿using Climbing.Guide.Api.Application.Exceptions;
 using Climbing.Guide.Api.Application.Interfaces;
 using Climbing.Guide.Api.Application.Routes.Common;
-using Climbing.Guide.Api.Domain.Common;
 using Climbing.Guide.Api.Domain.Entities;
 using Climbing.Guide.Api.Domain.Interfaces;
 using MediatR;
@@ -15,13 +14,13 @@ namespace Climbing.Guide.Api.Application.Routes.Commands.CreateRouteCommand {
       private readonly IValueFactory _valueFactory;
       private readonly IFsContext _fsContext;
       private readonly IImageUtil _imageUtil;
-      private readonly ICurrentUser _currentUser;
+      private readonly ICurrentUserService _currentUser;
 
       public CreateRouteCommandHandler(IDbContext dbContext,
          IFsContext fsContext,
          IImageUtil imageUtil,
          IValueFactory valueFactory,
-         ICurrentUser currentUser) {
+         ICurrentUserService currentUser) {
          _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
          _valueFactory = valueFactory ?? throw new ArgumentNullException(nameof(valueFactory));
          _fsContext = fsContext ?? throw new ArgumentNullException(nameof(fsContext));
@@ -43,8 +42,7 @@ namespace Climbing.Guide.Api.Application.Routes.Commands.CreateRouteCommand {
             History = request.History,
             Difficulty = request.Difficulty,
             Rating = request.Rating,
-            Latitude = request.Latitude,
-            Longitude = request.Longitude,
+            Location = new Location(request.Latitude, request.Longitude),
             Length = request.Length,
             CreatedBy = user,
             CreatedOn = _valueFactory.GetCurrentDateTime(),
@@ -52,7 +50,7 @@ namespace Climbing.Guide.Api.Application.Routes.Commands.CreateRouteCommand {
          };
 
          foreach (var point in request.Topo) {
-            route.Topo.Add(new TopoPoint(point.X, point.Y));
+            route.Topo.Add(new SchemaPoint(point.X, point.Y));
          }
 
          _dbContext.Routes.Add(route);

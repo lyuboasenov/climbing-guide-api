@@ -1,9 +1,8 @@
-﻿using Climbing.Guide.Api.Domain.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Climbing.Guide.Api.Domain.Entities {
-   public class Area : IIdentifiable {
+   public abstract class Area : IIdentifiable, ILocatable, ITagable, IRevisionable {
       public string Id { get; set; }
       public Area Parent { get; set; }
       public Country Country { get; set; }
@@ -24,8 +23,9 @@ namespace Climbing.Guide.Api.Domain.Entities {
       public DateTime ApprovedOn { get; set; }
       public User ApprovedBy { get; set; }
       #region ILocatable
-      public double Latitude { get; set; }
-      public double Longitude { get; set; }
+      public Location Location { get; set; }
       #endregion ILocatable
+      public int Revision { get; set; }
+      public byte[] ConcurrencyToken { get; set; }
    }
 }

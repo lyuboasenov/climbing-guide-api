@@ -1,8 +1,8 @@
 ﻿using Climbing.Guide.Api.Application.Exceptions;
 using Climbing.Guide.Api.Application.Interfaces;
-using Climbing.Guide.Api.Domain.Common;
 using Climbing.Guide.Api.Domain.Entities;
 using Climbing.Guide.Api.Domain.Interfaces;
+using Climbing.Guide.Api.Infrastructure.DataSeed;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
@@ -13,8 +13,9 @@ namespace Climbing.Guide.Api.Infrastructure {
       public DbSet<Route> Routes { get; set; }
       public DbSet<Area> Areas { get; set; }
       public DbSet<User> Users { get; set; }
+      public DbSet<Country> Countries { get; set; }
 
-      private readonly ICurrentUser _currentUser;
+      private readonly ICurrentUserService _currentUser;
       private readonly IValueFactory _valueFactory;
 
       public DbContext(DbContextOptions<DbContext> options)
@@ -22,7 +23,7 @@ namespace Climbing.Guide.Api.Infrastructure {
       }
 
       public DbContext(DbContextOptions<DbContext> options,
-         ICurrentUser currentUser,
+         ICurrentUserService currentUser,
          IValueFactory valueFactory)
             : base(options) {
          _currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
@@ -61,6 +62,7 @@ namespace Climbing.Guide.Api.Infrastructure {
 
       protected override void OnModelCreating(ModelBuilder modelBuilder) {
          modelBuilder.ApplyConfigurationsFromAssembly(typeof(DbContext).Assembly);
+         modelBuilder.EnsureSeedData();
       }
    }
 }

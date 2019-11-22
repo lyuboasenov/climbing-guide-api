@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option csharp_namespace = "Climbing.Guide.Api.Services";
+
+package Countries;
+
+// The countries service definition.
+service Countries {
+  // Get grades by grade type
+  rpc GetCountries (CountriesRequest) returns (CountriesReply);
+}
+
+// The response message containing the grading systems.
+message CountriesReply {
+    message Country {
+       string id = 1;
+       string name = 2;
+       string code2 = 3;
+       string code3 = 4;
+       double latitude = 5;
+       double longitude = 6;
+    }
+    int32 offset = 1;
+    int32 count = 2;
+    bool has_more = 3;
+    repeated Country Countries = 4;
+}
+
+// The request message containing grade type.
+message CountriesRequest {
+    int32 offset = 1;
+    int32 count = 2;
+}

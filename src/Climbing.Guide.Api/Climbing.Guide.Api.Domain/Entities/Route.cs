@@ -1,9 +1,8 @@
-﻿using Climbing.Guide.Api.Domain.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Climbing.Guide.Api.Domain.Entities {
-   public class Route : IRevisionable, ILocatable, IAuditable, IIdentifiable {
+   public class Route : IRevisionable, ILocatable, IAuditable, IIdentifiable, ITagable {
       public string Id { get; set; }
       public EntityStatus Status { get; set; }
       public DateTime CreatedOn { get; set; }
@@ -13,8 +12,7 @@ namespace Climbing.Guide.Api.Domain.Entities {
       public DateTime ApprovedOn { get; set; }
       public User ApprovedBy { get; set; }
       #region ILocatable
-      public double Latitude { get; set; }
-      public double Longitude { get; set; }
+      public Location Location { get; set; }
       #endregion ILocatable
       public Area Area { get; set; }
       public float Difficulty { get; set; }
@@ -25,8 +23,9 @@ namespace Climbing.Guide.Api.Domain.Entities {
       public string Approach { get; set; }
       public string History { get; set; }
       public RouteType Type { get; set; }
-      public ICollection<TopoPoint> Topo { get; } = new HashSet<TopoPoint>();
+      public ICollection<SchemaPoint> Topo { get; } = new HashSet<SchemaPoint>();
       public byte[] ConcurrencyToken { get; set; }
       public int Revision { get; set; }
+      public ICollection<string> Tags { get; } = new HashSet<string>();
    }
 }

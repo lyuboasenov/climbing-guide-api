@@ -5,7 +5,7 @@ using System;
 namespace Climbing.Guide.Api.Client.Services {
    internal class Service<TClient> where TClient : ClientBase<TClient> {
       private readonly object _creationLock = new object();
-      private readonly string _baseAddress;
+      private readonly string _serviceAddress;
       private readonly GrpcChannelOptions _channelOptions;
       private TClient _client;
 
@@ -13,7 +13,7 @@ namespace Climbing.Guide.Api.Client.Services {
          get {
             lock (_creationLock) {
                if (_client is null) {
-                  var channel = _channelOptions is null ? GrpcChannel.ForAddress(_baseAddress) : GrpcChannel.ForAddress(_baseAddress, _channelOptions);
+                  var channel = _channelOptions is null ? GrpcChannel.ForAddress(_serviceAddress) : GrpcChannel.ForAddress(_serviceAddress, _channelOptions);
                   _client = (TClient) Activator.CreateInstance(typeof(TClient), channel);
                }
             }
@@ -28,8 +28,8 @@ namespace Climbing.Guide.Api.Client.Services {
          }
       }
 
-      protected Service(string baseAddress) {
-         _baseAddress = baseAddress ?? throw new ArgumentNullException(nameof(baseAddress));
+      protected Service(string serviceAddress) {
+         _serviceAddress = serviceAddress ?? throw new ArgumentNullException(nameof(serviceAddress));
       }
 
       protected Service(string baseAddress, GrpcChannelOptions channelOptions) : this(baseAddress) {
