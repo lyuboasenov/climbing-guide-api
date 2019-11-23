@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Climbing.Guide.Api.Application.Routes.Commands.CreateRouteCommand {
-   public class CreateRouteCommandValidator : AbstractValidator<CreateRouteCommand> {
+   public class CreateRouteCommandValidator : AbstractValidator<ICreateRouteCommand> {
       public CreateRouteCommandValidator() {
          RuleFor(x => x.Name).MaximumLength(128).NotEmpty();
          RuleFor(x => x.AreaId).NotEmpty();

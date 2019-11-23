@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace Climbing.Guide.Api.Application.Routes.Commands.CreateRouteCommand {
-   public class CreateRouteCommandHandler : IRequestHandler<CreateRouteCommand, string> {
+   public class CreateRouteCommandHandler : IRequestHandler<ICreateRouteCommand, string> {
       private readonly IDbContext _dbContext;
       private readonly IValueFactory _valueFactory;
       private readonly IFsContext _fsContext;
@@ -28,7 +28,7 @@ namespace Climbing.Guide.Api.Application.Routes.Commands.CreateRouteCommand {
          _currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
       }
 
-      public async Task<string> Handle(CreateRouteCommand request, CancellationToken cancellationToken) {
+      public async Task<string> Handle(ICreateRouteCommand request, CancellationToken cancellationToken) {
          var area = await _dbContext.Areas.FindAsync(request.AreaId) ?? throw new NotFoundException(typeof(Area), request.AreaId);
          var user = await _dbContext.Users.FindAsync(_currentUser.Id) ?? throw new NotFoundException(typeof(User), _currentUser.Id);
 
