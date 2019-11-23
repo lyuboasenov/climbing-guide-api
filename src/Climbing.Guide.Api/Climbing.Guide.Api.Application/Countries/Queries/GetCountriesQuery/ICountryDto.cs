@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
-namespace Climbing.Guide.Api.Application.Countries.Queries.GetCountryListQuery {
-   public interface ICountryListDto {
+namespace Climbing.Guide.Api.Application.Countries.Queries.GetCountriesQuery {
+   public interface ICountryDto {
       string Code2 { get; }
       string Code3 { get; }
       string Id { get; }

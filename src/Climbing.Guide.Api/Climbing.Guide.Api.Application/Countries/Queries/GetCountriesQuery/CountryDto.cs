@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Climbing.Guide.Api.Application.Mappings;
 
-namespace Climbing.Guide.Api.Application.Countries.Queries.GetCountryListQuery {
-   internal class CountryListDto : IMapFrom<Domain.Entities.Country>, ICountryListDto {
+namespace Climbing.Guide.Api.Application.Countries.Queries.GetCountriesQuery {
+   internal class CountryDto : IMapFrom<Domain.Entities.Country>, ICountryDto {
       public string Id { get; set; }
       public string Name { get; set; }
       public string Code2 { get; set; }
@@ -11,7 +11,7 @@ namespace Climbing.Guide.Api.Application.Countries.Queries.GetCountryListQuery {
       public double Longitude { get; set; }
 
       public void Mapping(Profile profile) {
-         profile.CreateMap<Domain.Entities.Country, CountryListDto>()
+         profile.CreateMap<Domain.Entities.Country, CountryDto>()
              .ForMember(d => d.Latitude, opt => opt.MapFrom(s => s.Location.Latitude))
              .ForMember(d => d.Longitude, opt => opt.MapFrom(s => s.Location.Longitude));
       }
