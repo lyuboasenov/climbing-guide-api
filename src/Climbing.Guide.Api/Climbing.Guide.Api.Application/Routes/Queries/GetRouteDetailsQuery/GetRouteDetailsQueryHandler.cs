@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace Climbing.Guide.Api.Application.Routes.Queries.GetRouteDetailsQuery {
-   public class GetRouteDetailsQueryHandler : IRequestHandler<GetRouteDetailsQuery, RouteDetailsResponse> {
+   public class GetRouteDetailsQueryHandler : IRequestHandler<IGetRouteDetailsQuery, IRouteDetailsReply> {
       private readonly IDbContext _context;
       private readonly IMapper _mapper;
 
@@ -18,12 +18,12 @@ namespace Climbing.Guide.Api.Application.Routes.Queries.GetRouteDetailsQuery {
          _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
       }
 
-      public Task<RouteDetailsResponse> Handle(GetRouteDetailsQuery request, CancellationToken cancellationToken) {
+      public Task<IRouteDetailsReply> Handle(IGetRouteDetailsQuery request, CancellationToken cancellationToken) {
          var querableRoute = _context
             .Routes
             .Where(r => r.Id == request.Id);
 
-         var response = querableRoute.ProjectTo<RouteDetailsResponse>(_mapper.ConfigurationProvider).FirstOrDefault();
+         var response = querableRoute.ProjectTo<RouteDetailsReply>(_mapper.ConfigurationProvider).FirstOrDefault();
 
          if (response != null
             && querableRoute.FirstOrDefault() is Domain.Entities.Route route) {
@@ -38,10 +38,10 @@ namespace Climbing.Guide.Api.Application.Routes.Queries.GetRouteDetailsQuery {
 
             response.Schema = string.Format(Const.SCHEMA_LOCATION_PATH_FORMAT, (int) request.SchemaSize, route.Area.Id, route.Id);
 
-            response.Topo = route.Topo.Select(p => new RouteDetailsResponse.Point() { X = p.X, Y = p.Y });
+            response.Topo = route.Topo.Select(p => new Entities.SchemaPoint() { X = p.X, Y = p.Y });
          }
 
-         return Task.FromResult(response);
+         return Task.FromResult<IRouteDetailsReply>(response);
       }
    }
 }

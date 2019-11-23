@@ -1,4 +1,4 @@
-﻿namespace Climbing.Guide.Api.Application.Routes.Common {
+﻿namespace Climbing.Guide.Api.Application.Routes.Entities {
    public enum SchemaSize {
       _2048 = 2048,
       _1024 = 1024,

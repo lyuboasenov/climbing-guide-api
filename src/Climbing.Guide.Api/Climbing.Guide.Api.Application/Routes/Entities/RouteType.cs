@@ -1,4 +1,4 @@
-﻿namespace Climbing.Guide.Api.Application.Routes.Common {
+﻿namespace Climbing.Guide.Api.Application.Routes.Entities {
    public enum RouteType {
       Boulder = Domain.Entities.RouteType.Boulder,
       Sport = Domain.Entities.RouteType.Sport,

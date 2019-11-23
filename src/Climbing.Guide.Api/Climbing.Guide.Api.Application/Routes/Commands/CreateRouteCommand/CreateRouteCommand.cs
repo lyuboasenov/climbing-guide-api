@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Climbing.Guide.Api.Application.Routes.Entities;
+using MediatR;
 using System.Collections.Generic;
 
 namespace Climbing.Guide.Api.Application.Routes.Commands.CreateRouteCommand {
@@ -15,7 +16,7 @@ namespace Climbing.Guide.Api.Application.Routes.Commands.CreateRouteCommand {
       public string History { get; set; }
       public byte[] Schema { get; set; }
 
-      public Common.RouteType Type { get; set; }
+      public RouteType Type { get; set; }
       public ICollection<Point> Topo { get; } = new HashSet<Point>();
 
       public class Point {
