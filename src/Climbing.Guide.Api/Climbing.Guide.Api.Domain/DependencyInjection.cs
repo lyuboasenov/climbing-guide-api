@@ -1,5 +1,4 @@
-﻿using Climbing.Guide.Api.Domain.Implementations;
-using Climbing.Guide.Api.Domain.Interfaces;
+﻿using Climbing.Guide.Api.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Climbing.Guide.Api.Application.Routes {

@@ -1,6 +1,6 @@
 ﻿using Climbing.Guide.Api.Application.Interfaces;
 using Climbing.Guide.Api.Domain.Entities;
-using Climbing.Guide.Api.Domain.Interfaces;
+using Climbing.Guide.Api.Domain.Services;
 using MediatR;
 using System;
 using System.Threading;

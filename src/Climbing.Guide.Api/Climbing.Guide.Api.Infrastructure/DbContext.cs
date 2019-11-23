@@ -2,7 +2,7 @@
 using Climbing.Guide.Api.Application.Interfaces;
 using Climbing.Guide.Api.Domain.Entities;
 using Climbing.Guide.Api.Domain.Entities.Interfaces;
-using Climbing.Guide.Api.Domain.Interfaces;
+using Climbing.Guide.Api.Domain.Services;
 using Climbing.Guide.Api.Infrastructure.DataSeed;
 using Microsoft.EntityFrameworkCore;
 using System;
