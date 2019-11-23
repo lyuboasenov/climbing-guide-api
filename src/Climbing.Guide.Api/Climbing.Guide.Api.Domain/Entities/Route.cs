@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Climbing.Guide.Api.Domain.Entities.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace Climbing.Guide.Api.Domain.Entities {

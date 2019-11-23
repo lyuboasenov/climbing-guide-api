@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Climbing.Guide.Api.Domain.Entities {
+namespace Climbing.Guide.Api.Domain.Entities.Interfaces {
    public interface IAuditable {
       User CreatedBy { get; set; }
       DateTime CreatedOn { get; set; }
