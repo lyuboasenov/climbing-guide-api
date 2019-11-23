@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 
 namespace Climbing.Guide.Api.Application.Routes.Queries.GetRouteListQuery {
-   public class RouteListResponse : IOffsetReply<RouteListDto> {
+   internal class GetRoutesReply : IOffsetReply<IRouteDto>, IGetRoutesReply {
       public int Offset { get; set; }
       public int Count { get; set; }
       public bool HasMore { get; set; }
       public string Filter { get; set; }
-      public IEnumerable<RouteListDto> Result { get; internal set; }
+      public IEnumerable<IRouteDto> Results { get; set; }
    }
 }

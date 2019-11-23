@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Climbing.Guide.Api.Application.Interfaces;
 using Climbing.Guide.Api.Application.Routes.Common;
+using Climbing.Guide.Api.Application.Routes.Queries.GetRouteListQuery;
 using Climbing.Guide.Api.Domain.Entities;
 using MediatR;
 using System;
@@ -9,17 +10,17 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Climbing.Guide.Api.Application.Routes.Queries.GetRouteListQuery {
-   public class GetRouteListQueryHandler : IRequestHandler<IGetRouteListQuery, RouteListResponse> {
+namespace Climbing.Guide.Api.Application.Routes.Queries.GetRoutesQuery {
+   public class GetRoutesQueryHandler : IRequestHandler<IGetRoutesQuery, IGetRoutesReply> {
       private readonly IDbContext _context;
       private readonly IMapper _mapper;
 
-      public GetRouteListQueryHandler(IDbContext context, IMapper mapper) {
+      public GetRoutesQueryHandler(IDbContext context, IMapper mapper) {
          _context = context ?? throw new ArgumentNullException(nameof(context));
          _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
       }
 
-      public Task<RouteListResponse> Handle(IGetRouteListQuery request, CancellationToken cancellationToken) {
+      public Task<IGetRoutesReply> Handle(IGetRoutesQuery request, CancellationToken cancellationToken) {
          var routes = _context
             .Routes
             .Where(r => r.Status == EntityStatus.Active &&
@@ -28,18 +29,20 @@ namespace Climbing.Guide.Api.Application.Routes.Queries.GetRouteListQuery {
             .ThenBy(r => r.CreatedOn)
             .Skip(request.Offset).Take(request.Count)
             .Take(request.Count)
-            .ProjectTo<RouteListDto>(_mapper.ConfigurationProvider);
+            .ProjectTo<RouteDto>(_mapper.ConfigurationProvider);
 
-         foreach(var route in routes) {
+         foreach (var route in routes) {
             route.Schema = string.Format(Const.SCHEMA_LOCATION_PATH_FORMAT, (int) request.SchemaSize, route.AreaId, route.Id);
          }
 
-         return Task.FromResult(new RouteListResponse() {
+         var count = routes.Count();
+
+         return Task.FromResult<IGetRoutesReply>(new GetRoutesReply() {
             Offset = request.Offset,
-            Count = request.Count,
+            Count = count,
             Filter = request.Filter,
-            HasMore = request.Count == routes.Count(),
-            Result = routes
+            HasMore = request.Count == count,
+            Results = routes
          });
       }
    }
