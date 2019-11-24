@@ -36,15 +36,25 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C957D5A0-181B-41AE-9B1D-678AD7FD0FAB}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
-		docker-compose.yml = docker-compose.yml
 		docker-compose.local.yml = docker-compose.local.yml
+		docker-compose.yml = docker-compose.yml
+		Dockerfile.api = Dockerfile.api
+		Dockerfile.identityserver = Dockerfile.identityserver
 		rebuild.ps1 = rebuild.ps1
 		start.local.ps1 = start.local.ps1
 		start.ps1 = start.ps1
 		stop.ps1 = stop.ps1
-		Dockerfile.api = Dockerfile.api
-		Dockerfile.identityserver = Dockerfile.identityserver
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{0D4D062F-CA5C-4A49-9208-964DAF42A575}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Climbing.Guide.Api.Common", "Climbing.Guide.Api.Common\Climbing.Guide.Api.Common.csproj", "{9822BB3C-D019-43ED-BCD3-E3DC0E33220F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Climbing.Guide.Api.ConsoleClient", "Climbing.Guide.Api.ConsoleClient\Climbing.Guide.Api.ConsoleClient.csproj", "{27B5428B-8130-4A39-AE9C-06E575A6FA4C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.Extensions.Microsoft.DependencyInjection", "..\..\..\MediatR.Extensions.Microsoft.DependencyInjection\src\MediatR.Extensions.Microsoft.DependencyInjection\MediatR.Extensions.Microsoft.DependencyInjection.csproj", "{6C3DE768-497F-4BC4-BC3F-CD0ACF69FAF7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR", "..\..\..\MediatR\src\MediatR\MediatR.csproj", "{2A0F6F84-6331-4A02-8F0E-BBA35E3343BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,6 +90,22 @@ Global
 		{B55CC894-A6DD-41FE-90FD-79EDD6A840DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B55CC894-A6DD-41FE-90FD-79EDD6A840DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B55CC894-A6DD-41FE-90FD-79EDD6A840DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9822BB3C-D019-43ED-BCD3-E3DC0E33220F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9822BB3C-D019-43ED-BCD3-E3DC0E33220F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9822BB3C-D019-43ED-BCD3-E3DC0E33220F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9822BB3C-D019-43ED-BCD3-E3DC0E33220F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27B5428B-8130-4A39-AE9C-06E575A6FA4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27B5428B-8130-4A39-AE9C-06E575A6FA4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27B5428B-8130-4A39-AE9C-06E575A6FA4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27B5428B-8130-4A39-AE9C-06E575A6FA4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C3DE768-497F-4BC4-BC3F-CD0ACF69FAF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C3DE768-497F-4BC4-BC3F-CD0ACF69FAF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C3DE768-497F-4BC4-BC3F-CD0ACF69FAF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C3DE768-497F-4BC4-BC3F-CD0ACF69FAF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A0F6F84-6331-4A02-8F0E-BBA35E3343BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A0F6F84-6331-4A02-8F0E-BBA35E3343BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A0F6F84-6331-4A02-8F0E-BBA35E3343BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A0F6F84-6331-4A02-8F0E-BBA35E3343BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +125,11 @@ Global
 		{9FE9EE18-9F5E-4D6D-8584-7C835EBBEBA0} = {3659B46A-47C3-448A-9AEA-D2A080EBCC57}
 		{CB42F60C-5B2C-4D22-A9E3-0814A4404E0A} = {00292A38-86AD-49B4-B4CF-67EC2DCCFC6B}
 		{B55CC894-A6DD-41FE-90FD-79EDD6A840DB} = {CB42F60C-5B2C-4D22-A9E3-0814A4404E0A}
+		{0D4D062F-CA5C-4A49-9208-964DAF42A575} = {00292A38-86AD-49B4-B4CF-67EC2DCCFC6B}
+		{9822BB3C-D019-43ED-BCD3-E3DC0E33220F} = {0D4D062F-CA5C-4A49-9208-964DAF42A575}
+		{27B5428B-8130-4A39-AE9C-06E575A6FA4C} = {64A124FD-ECAA-4FB5-BE8C-7754E5F5780A}
+		{6C3DE768-497F-4BC4-BC3F-CD0ACF69FAF7} = {0D4D062F-CA5C-4A49-9208-964DAF42A575}
+		{2A0F6F84-6331-4A02-8F0E-BBA35E3343BB} = {0D4D062F-CA5C-4A49-9208-964DAF42A575}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {06DDF59D-F69D-463E-A445-0DD5AABF2540}
