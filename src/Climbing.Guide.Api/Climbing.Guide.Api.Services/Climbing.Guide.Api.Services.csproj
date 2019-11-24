@@ -12,12 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\countries.proto" />
-    <Protobuf Include="Protos\grades.proto" />
+    <Protobuf Include="Protos\countries.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\grades.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore" Version="2.23.1" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.25.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Climbing.Guide.Api.Application\Climbing.Guide.Api.Application.csproj" />
+    <ProjectReference Include="..\Climbing.Guide.Api.Common\Climbing.Guide.Api.Common.csproj" />
     <ProjectReference Include="..\Climbing.Guide.Api.Infrastructure\Climbing.Guide.Api.Infrastructure.csproj" />
   </ItemGroup>
 

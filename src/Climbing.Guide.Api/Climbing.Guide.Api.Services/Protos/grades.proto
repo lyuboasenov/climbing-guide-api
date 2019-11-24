@@ -2,12 +2,10 @@ syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 
-option csharp_namespace = "Climbing.Guide.Api.Services";
-
-package Grades;
+option csharp_namespace = "Climbing.Guide.Api.Services.Grades";
 
 // The grades service definition.
-service Grades {
+service GradesService {
   // Gets grading systems
   rpc GetGradeSystems (google.protobuf.Empty) returns (GradeSystemsReply);
   // Get grades by grade type
@@ -30,14 +28,14 @@ enum RouteType {
 }
 
 message GradeSystem {
-    GradeSystemType type = 1;
+    GradeSystemType grade_type = 1;
     RouteType route_type = 2;
     string name = 3;
 }
 
 // The response message containing the grading systems.
 message GradeSystemsReply {
-    repeated GradeSystem grade_systems = 1;
+    repeated GradeSystem results = 1;
 }
 
 // The request message containing grade type.
