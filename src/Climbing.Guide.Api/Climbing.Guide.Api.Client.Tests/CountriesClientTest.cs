@@ -1,5 +1,4 @@
 using Climbing.Guide.Api.Client.Services;
-using Climbing.Guide.Api.Services;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
@@ -16,7 +15,7 @@ namespace Climbing.Guide.Api.Client.Tests {
       }
 
       [Test]
-      public async Task GetGradeSystemsAsync_ReturnsAllGradeSystems() {
+      public async Task GetCountriesAsync_ReturnsAllCountries() {
          // ARRANGE
 
 
@@ -25,7 +24,7 @@ namespace Climbing.Guide.Api.Client.Tests {
 
          // ASSERT
          Assert.IsNotNull(countries);
-         CollectionAssert.IsNotEmpty(countries.Countries);
+         CollectionAssert.IsNotEmpty(countries.Results);
       }
    }
 }

@@ -1,5 +1,5 @@
 using Climbing.Guide.Api.Client.Services;
-using Climbing.Guide.Api.Services;
+using Climbing.Guide.Api.Services.Grades;
 using NUnit.Framework;
 using System.Threading.Tasks;
 

@@ -1,4 +1,4 @@
-﻿using Climbing.Guide.Api.Services;
+﻿using Climbing.Guide.Api.Services.Grades;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

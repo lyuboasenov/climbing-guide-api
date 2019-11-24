@@ -1,12 +1,12 @@
 ﻿using Climbing.Guide.Api.Client.ErrorHandling;
-using Climbing.Guide.Api.Services;
+using Climbing.Guide.Api.Services.Grades;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using static Climbing.Guide.Api.Services.Grades;
+using static Climbing.Guide.Api.Services.Grades.GradesService;
 
 namespace Climbing.Guide.Api.Client.Services {
-   internal class GradesService : Service<GradesClient>, IGradesService {
+   internal class GradesService : Service<GradesServiceClient>, IGradesService {
       public GradesService(string baseAddress) : base(baseAddress) {
 
       }
@@ -14,7 +14,7 @@ namespace Climbing.Guide.Api.Client.Services {
       public async Task<IEnumerable<GradeSystem>> GetGradeSystemsAsync() {
          try {
             var reply = await Client.GetGradeSystemsAsync(new Google.Protobuf.WellKnownTypes.Empty());
-            return reply.GradeSystems;
+            return reply.Results;
          } catch (Exception ex) {
             throw ex.ToCommunicationException();
          }

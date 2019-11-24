@@ -52,16 +52,28 @@ namespace Climbing.Guide.Api.Client {
       }
 
       public TService GetService<TService>() where TService : IService {
-         return (TService) _services.GetOrAdd(typeof(TService), (type) => {
+         return (TService) GetService(typeof(TService));
+      }
 
-            if (!_serviceTypeMap.ContainsKey(typeof(TService))) {
+      public IService GetService(Type serviceType) {
+         if (!typeof(IService).IsAssignableFrom(serviceType)) {
+            throw new ArgumentOutOfRangeException(nameof(serviceType));
+         }
+
+         return _services.GetOrAdd(serviceType, (type) => {
+
+            if (!_serviceTypeMap.ContainsKey(type)) {
                throw new ArgumentOutOfRangeException(nameof(type));
             }
 
             Type serviceType = _serviceTypeMap[type];
 
-            return (TService) Activator.CreateInstance(serviceType, _serviceAddress);
+            return (IService) Activator.CreateInstance(serviceType, _serviceAddress);
          });
+      }
+
+      public IEnumerable<Type> GetAvailableServices() {
+         return _serviceTypeMap.Keys;
       }
    }
 }
