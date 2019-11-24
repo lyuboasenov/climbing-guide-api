@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Climbing.Guide.Api.Application.Mappings;
 using Climbing.Guide.Api.Application.Routes.Entities;
+using Climbing.Guide.Api.Common.Mappings;
 
 namespace Climbing.Guide.Api.Application.Routes.Queries.GetRouteListQuery {
    internal class RouteDto : IMapFrom<Domain.Entities.Route>, IRouteDto {

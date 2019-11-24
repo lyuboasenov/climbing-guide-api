@@ -1,4 +1,4 @@
-﻿using Climbing.Guide.Api.Application.Mappings;
+﻿using Climbing.Guide.Api.Common.Mappings;
 using Climbing.Guide.Api.Domain.Entities;
 
 namespace Climbing.Guide.Api.Application.Grades.Queries.GetGradesQuery {

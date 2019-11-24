@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Climbing.Guide.Api.Application.Mappings;
+using Climbing.Guide.Api.Common.Mappings;
 
 namespace Climbing.Guide.Api.Application.Countries.Queries.GetCountriesQuery {
    internal class CountryDto : IMapFrom<Domain.Entities.Country>, ICountryDto {

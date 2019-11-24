@@ -1,5 +1,5 @@
-﻿using Climbing.Guide.Api.Application.Mappings;
-using Climbing.Guide.Api.Application.Routes.Entities;
+﻿using Climbing.Guide.Api.Application.Routes.Entities;
+using Climbing.Guide.Api.Common.Mappings;
 using System;
 using System.Collections.Generic;
 
