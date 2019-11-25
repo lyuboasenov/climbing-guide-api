@@ -29,7 +29,7 @@ namespace Climbing.Guide.Api.Application {
             var service = provider.GetService(type);
             if (service is null && type.IsHandlerType()) {
                foreach (Type requestType in GetHandlerTypeWithCommandVariations(type)) {
-                  service = provider.GetService(type);
+                  service = provider.GetService(requestType);
                   if (service != null) {
                      break;
                   }

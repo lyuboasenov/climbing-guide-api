@@ -14,8 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\MediatR.Extensions.Microsoft.DependencyInjection\src\MediatR.Extensions.Microsoft.DependencyInjection\MediatR.Extensions.Microsoft.DependencyInjection.csproj" />
-    <ProjectReference Include="..\..\..\..\MediatR\src\MediatR\MediatR.csproj" />
     <ProjectReference Include="..\Climbing.Guide.Api.Common\Climbing.Guide.Api.Common.csproj" />
     <ProjectReference Include="..\Climbing.Guide.Api.Domain\Climbing.Guide.Api.Domain.csproj" />
   </ItemGroup>
