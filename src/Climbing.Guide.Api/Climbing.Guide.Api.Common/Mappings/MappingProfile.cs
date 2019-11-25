@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Climbing.Guide.Api.Common.Mappings {
    public abstract class MappingProfile : Profile {
       protected MappingProfile() {
-         ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
+         ApplyMappingsFromAssembly(this.GetType().Assembly);
       }
 
       private void ApplyMappingsFromAssembly(Assembly assembly) {
