@@ -1,21 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk" DefaultTargets="Publish">
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+  	<AssemblyName>Climbing.Guide.Api.PsClient</AssemblyName>
+  	<DefaultNamespace>Climbing.Guide.Api.PsClient</DefaultNamespace>
+
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+
+    <DeployOnBuild>true</DeployOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PowerShellStandard.Library" Version="5.1.0" />
+    <PackageReference Include="Microsoft.PowerShell.SDK" Version="6.0.0">
+        <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Climbing.Guide.Api.Client\Climbing.Guide.Api.Client.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Climbing.Guide.Api.PsClient.psd1">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

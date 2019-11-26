@@ -3,7 +3,7 @@
     "Climbing.Guide.Api.PsClient": {
       "commandName": "Executable",
       "executablePath": "C:\\Program Files\\PowerShell\\7-preview\\pwsh.exe",
-      "commandLineArgs": "-NoLogo -NoExit -Command \"Import-Module '.\\Climbing.Guide.Api.PsClient.dll';\" "
+      "commandLineArgs": "-NoLogo -NoExit -Command \"Import-Module '.\\publish\\Climbing.Guide.Api.PsClient.dll';\" "
     }
   }
 }
