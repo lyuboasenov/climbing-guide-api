@@ -19,9 +19,9 @@ namespace Climbing.Guide.Api.Domain.Entities {
       public EntityStatus Status { get; set; }
       public DateTime CreatedOn { get; set; }
       public User CreatedBy { get; set; }
-      public DateTime UpdatedOn { get; set; }
+      public DateTime? UpdatedOn { get; set; }
       public User UpdatedBy { get; set; }
-      public DateTime ApprovedOn { get; set; }
+      public DateTime? ApprovedOn { get; set; }
       public User ApprovedBy { get; set; }
       #region ILocatable
       public Location Location { get; set; }
