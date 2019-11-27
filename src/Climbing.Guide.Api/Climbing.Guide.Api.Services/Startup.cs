@@ -6,10 +6,10 @@ using Climbing.Guide.Api.Services.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MediatR;
 
 namespace Climbing.Guide.Api.Services {
    public class Startup {
@@ -29,7 +29,10 @@ namespace Climbing.Guide.Api.Services {
          services.AddAuthorization();
          services.AddAuthentication();
 
-         services.AddAutoMapper(typeof(Startup).Assembly);
+         // HACK: Workaround one time automapper registering issues.
+         services.AddAutoMapper(
+            typeof(Startup).Assembly,
+            typeof(Application.DependencyInjection).Assembly);
 
          services.AddScoped<ICurrentUserService, CurrentUserService>();
 
@@ -43,6 +46,17 @@ namespace Climbing.Guide.Api.Services {
       public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
          if (env.IsDevelopment()) {
             app.UseDeveloperExceptionPage();
+
+            var optionsBuilder = new DbContextOptionsBuilder<Infrastructure.DbContext>();
+            optionsBuilder
+               .UseSqlServer(Configuration.GetConnectionString("ClimbingGuideConnectionString"))
+               .EnableDetailedErrors()
+               .EnableSensitiveDataLogging();
+
+            using (var seedingContext = new Infrastructure.DataSeed.DataSeedingContext(optionsBuilder.Options)) {
+               seedingContext.Database.EnsureCreated();
+               seedingContext.SaveChanges();
+            }
          }
 
          app.UseRouting();

@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using AutoMapper;
-using Climbing.Guide.Api.Application.Grades.Queries.GetGradeSystemsQuery;
 using Climbing.Guide.Api.Services.Grades;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
@@ -23,15 +22,7 @@ namespace Climbing.Guide.Api.Services {
       public async override Task<GradeSystemsReply> GetGradeSystems(Empty request, ServerCallContext context) {
          _logger.LogDebug($"GradesService.GetGradeSystems()");
 
-         IGetGradeSystemsQuery casedRequest = new GetGradeSystemsQuery();
-
-         try {
-            var appReply1 = await _mediator.Send(casedRequest);
-         }catch {
-
-         }
-
-         var appReply = await _mediator.Send((IGetGradeSystemsQuery) new GetGradeSystemsQuery());
+         var appReply = await _mediator.Send(new GetGradeSystemsQuery());
          return _mapper.Map<GradeSystemsReply>(appReply);
       }
 

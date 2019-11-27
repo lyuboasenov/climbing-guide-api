@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Climbing.Guide.Api.Application.Countries.Queries.GetCountriesQuery;
+using Climbing.Guide.Api.Common.Mappings;
 using Climbing.Guide.Api.Services.Countries;
 using Grpc.Core;
 using MediatR;
@@ -22,8 +23,9 @@ namespace Climbing.Guide.Api.Services.Services {
       public async override Task<CountriesReply> GetCountries(CountriesRequest request, ServerCallContext context) {
          _logger.LogDebug($"CountriesService.GetCountries({request.Offset}, {request.Count})");
 
-         var result = await _mediator.Send<IGetCountriesQueryReply>(request);
-         return _mapper.Map<CountriesReply>(result);
+         var result = await _mediator.Send(request);
+         return _mapper.Map<IGetCountriesQueryReply, CountriesReply>(result);
+         //return _mapper.To<IGetCountriesQueryReply, CountriesReply>(result);
       }
    }
 }

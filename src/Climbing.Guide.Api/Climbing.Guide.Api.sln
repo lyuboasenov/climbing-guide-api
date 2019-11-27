@@ -52,7 +52,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Climbing.Guide.Api.Common",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Climbing.Guide.Api.ConsoleClient", "Climbing.Guide.Api.ConsoleClient\Climbing.Guide.Api.ConsoleClient.csproj", "{27B5428B-8130-4A39-AE9C-06E575A6FA4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Climbing.Guide.Api.PsClient", "Climbing.Guide.Api.PsClient\Climbing.Guide.Api.PsClient.csproj", "{658251AE-1CAA-4DC8-A014-1E988EE057A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Climbing.Guide.Api.PsClient", "Climbing.Guide.Api.PsClient\Climbing.Guide.Api.PsClient.csproj", "{658251AE-1CAA-4DC8-A014-1E988EE057A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoMapper", "..\..\..\AutoMapper\src\AutoMapper\AutoMapper.csproj", "{BE942EB5-AE53-447D-8E9B-DCD6CC481A97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -100,6 +102,10 @@ Global
 		{658251AE-1CAA-4DC8-A014-1E988EE057A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{658251AE-1CAA-4DC8-A014-1E988EE057A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{658251AE-1CAA-4DC8-A014-1E988EE057A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE942EB5-AE53-447D-8E9B-DCD6CC481A97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE942EB5-AE53-447D-8E9B-DCD6CC481A97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE942EB5-AE53-447D-8E9B-DCD6CC481A97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE942EB5-AE53-447D-8E9B-DCD6CC481A97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,6 +129,7 @@ Global
 		{9822BB3C-D019-43ED-BCD3-E3DC0E33220F} = {0D4D062F-CA5C-4A49-9208-964DAF42A575}
 		{27B5428B-8130-4A39-AE9C-06E575A6FA4C} = {64A124FD-ECAA-4FB5-BE8C-7754E5F5780A}
 		{658251AE-1CAA-4DC8-A014-1E988EE057A7} = {64A124FD-ECAA-4FB5-BE8C-7754E5F5780A}
+		{BE942EB5-AE53-447D-8E9B-DCD6CC481A97} = {0D4D062F-CA5C-4A49-9208-964DAF42A575}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {06DDF59D-F69D-463E-A445-0DD5AABF2540}
