@@ -1,34 +1,33 @@
 ﻿using Climbing.Guide.Api.Domain.Entities;
-using Climbing.Guide.Api.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace Climbing.Guide.Api.Infrastructure.DataSeed {
    public static class ModelBuilderExtensions {
       public static void EnsureSeedData(this ModelBuilder builder) {
-
          builder.EnsureUsersExist();
          builder.EnsureCountriesExist();
          builder.EnsureAreasExist();
       }
 
-      private static async Task EnsureAreasExist(this ModelBuilder builder) {
-         builder.Entity<Area>().HasData(
+      private static void EnsureAreasExist(this ModelBuilder builder) {
+         string nullStr = null;
+         builder.Entity<AreasContainer>().HasData(
             new {
                Id = "20144484-65bf-4c55-9f53-3e41cee9d923",
+               ParentId = nullStr,
                Name = "Prilep",
                Info = "Prilep info.",
                CountryId = "dfa4af2c-d01d-4a8a-825e-793d49a656ac",
-               Location = new Location(41.345351, 21.552799),
                CreatedById = "6401cf99-a0dc-4747-9232-d307b21a360c",
-               CreatedOn = DateTime.Now
+               CreatedOn = DateTime.Now,
+               Revision = 1,
+               Status = EntityStatus.Active,
+               Location_Latitude = 41.345351,
+               Location_Longitude = 21.552799
             });
-         builder.Entity<Area>().HasData(
+
+         builder.Entity<AreasContainer>().HasData(
             new {
                Id = "c2fccbf6-4363-4850-ad97-54954812457e",
                ParentId = "20144484-65bf-4c55-9f53-3e41cee9d923",
@@ -36,22 +35,30 @@ namespace Climbing.Guide.Api.Infrastructure.DataSeed {
                Name = "Treskavets",
                Info = "Treskavets Area info.",
                CountryId = "dfa4af2c-d01d-4a8a-825e-793d49a656ac",
-               Location = new Location(41.403831, 21.538183),
                CreatedById = "6401cf99-a0dc-4747-9232-d307b21a360c",
-               CreatedOn = DateTime.Now
+               CreatedOn = DateTime.Now,
+               Revision = 1,
+               Status = EntityStatus.Active,
+               Location_Latitude = 41.403831,
+               Location_Longitude = 21.538183
             });
-         builder.Entity<Area>().HasData(
+
+         builder.Entity<RoutesContainer>().HasData(
             new {
                Id = "8d7d8b36-489b-4d9a-bd73-a7caa9853356",
-               Parent = "c2fccbf6-4363-4850-ad97-54954812457e",
+               ParentId = "c2fccbf6-4363-4850-ad97-54954812457e",
                Name = "Paragliding",
                Info = "Paragliding info.",
                CountryId = "dfa4af2c-d01d-4a8a-825e-793d49a656ac",
-               Location = new Location(41.397296, 21.532008),
                CreatedById = "6401cf99-a0dc-4747-9232-d307b21a360c",
-               CreatedOn = DateTime.Now
+               CreatedOn = DateTime.Now,
+               Revision = 1,
+               Status = EntityStatus.Active,
+               Location_Latitude = 41.397296,
+               Location_Longitude = 21.532008
             });
-         builder.Entity<Area>().HasData(
+
+         builder.Entity<AreasContainer>().HasData(
             new {
                Id = "64875f09-3072-4dab-9d9f-d7286ce818a9",
                ParentId = "20144484-65bf-4c55-9f53-3e41cee9d923",
@@ -59,9 +66,12 @@ namespace Climbing.Guide.Api.Infrastructure.DataSeed {
                Name = "Kamena baba",
                Info = "Kamena baba info.",
                CountryId = "dfa4af2c-d01d-4a8a-825e-793d49a656ac",
-               Location = new Location(41.3816981439556, 21.5779556147754),
                CreatedById = "6401cf99-a0dc-4747-9232-d307b21a360c",
-               CreatedOn = DateTime.Now
+               CreatedOn = DateTime.Now,
+               Revision = 1,
+               Status = EntityStatus.Active,
+               Location_Latitude = 41.3816981439556,
+               Location_Longitude = 21.5779556147754
             });
       }
 
@@ -73,1867 +83,2398 @@ namespace Climbing.Guide.Api.Infrastructure.DataSeed {
       }
 
       private static void EnsureCountriesExist(this ModelBuilder builder) {
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "de33eec1-1411-47ce-b20a-d49f8c46d124",
+         builder.Entity<Country>().HasData(new {
+            Id = "9235cd70-220e-47d9-b76e-17a81d1db7f5",
             Name = "Afghanistan",
             Code2 = "AF",
             Code3 = "AFG",
-            Location = new Location(33.93911, 67.709953)
+            Location_Latitude = 33.93911,
+            Location_Longitude = 67.709953
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "82dee267-33e1-40bf-86db-93f427219f5f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "44b36fff-1d8a-42e8-aa06-5300db6f73a3",
             Name = "Afghanistan",
             Code2 = "AF",
             Code3 = "AFG",
-            Location = new Location(33.93911, 67.709953)
+            Location_Latitude = 33.93911,
+            Location_Longitude = 67.709953
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "08f3c3a3-d095-4388-be04-4390a94c487f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "21fcca7d-044e-43f1-a71f-f44a39b6db6d",
             Name = "Åland Islands",
             Code2 = "AX",
             Code3 = "ALA",
-            Location = new Location(0, 0)
+            Location_Latitude = 0,
+            Location_Longitude = 0
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "7ed6ca15-0855-45cd-91f4-faaefeecc04a",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "597ad1ff-4805-42f7-bfdf-d3fc1b6a2ddc",
             Name = "Albania",
             Code2 = "AL",
             Code3 = "ALB",
-            Location = new Location(41.153332, 20.168331)
+            Location_Latitude = 41.153332,
+            Location_Longitude = 20.168331
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "de828f97-10fe-41ee-8986-01b7cf20c00e",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "5ba0f206-408c-49a6-af79-b5bb4ba310ef",
             Name = "Algeria",
             Code2 = "DZ",
             Code3 = "DZA",
-            Location = new Location(28.033886, 1.659626)
+            Location_Latitude = 28.033886,
+            Location_Longitude = 1.659626
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "930c1da1-0df6-431b-81e1-7ded31a2fb67",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "5603b08a-579d-42fa-850c-f9e21435e2ec",
             Name = "American Samoa",
             Code2 = "AS",
             Code3 = "ASM",
-            Location = new Location(-14.270972, -170.132217)
+            Location_Latitude = -14.270972,
+            Location_Longitude = -170.132217
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "4cbf9fbe-febb-4ad8-b82b-5e8a6b230857",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "6351dd0a-aeee-4368-868c-8ae9c183a347",
             Name = "Andorra",
             Code2 = "AD",
             Code3 = "AND",
-            Location = new Location(42.546245, 1.601554)
+            Location_Latitude = 42.546245,
+            Location_Longitude = 1.601554
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "c8659368-4b85-4f08-b207-f0b1606224ed",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "53cb6e19-29a2-423c-a4a4-cb27f3a1ddd2",
             Name = "Angola",
             Code2 = "AO",
             Code3 = "AGO",
-            Location = new Location(-11.202692, 17.873887)
+            Location_Latitude = -11.202692,
+            Location_Longitude = 17.873887
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "eb92f123-ed9f-4450-9995-75274889e117",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "9d3a5b4e-9cf2-45f9-9b00-7b3ee7648da3",
             Name = "Anguilla",
             Code2 = "AI",
             Code3 = "AIA",
-            Location = new Location(18.220554, -63.068615)
+            Location_Latitude = 18.220554,
+            Location_Longitude = -63.068615
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "ea02e5d0-9e59-4522-b2dc-98765a9d6bdc",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "bc75ad02-314f-40cf-ba35-9df2e17d9a60",
             Name = "Antarctica",
             Code2 = "AQ",
             Code3 = "ATA",
-            Location = new Location(-75.250973, -0.071389)
+            Location_Latitude = -75.250973,
+            Location_Longitude = -0.071389
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "4d0ef635-6443-4557-b403-5790bc0cec13",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "69b4f6df-6ac9-49bb-9814-161f280d2397",
             Name = "Antigua and Barbuda",
             Code2 = "AG",
             Code3 = "ATG",
-            Location = new Location(17.060816, -61.796428)
+            Location_Latitude = 17.060816,
+            Location_Longitude = -61.796428
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "6d50746b-cea1-481f-93d0-d6bb0917ad6e",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "70ead369-9f79-4f46-b621-9283621abd2b",
             Name = "Argentina",
             Code2 = "AR",
             Code3 = "ARG",
-            Location = new Location(-38.416097, -63.616672)
+            Location_Latitude = -38.416097,
+            Location_Longitude = -63.616672
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "8966e710-9740-4c18-971f-cea4ccec679d",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "52add52d-ba30-41fa-bd7f-86c4a5147448",
             Name = "Armenia",
             Code2 = "AM",
             Code3 = "ARM",
-            Location = new Location(40.069099, 45.038189)
+            Location_Latitude = 40.069099,
+            Location_Longitude = 45.038189
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "0888e7a6-9d14-442f-8f05-e0a7b9a706c2",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "5b2fa68a-af76-44f2-bf1c-1adbd8df3d30",
             Name = "Aruba",
             Code2 = "AW",
             Code3 = "ABW",
-            Location = new Location(12.52111, -69.968338)
+            Location_Latitude = 12.52111,
+            Location_Longitude = -69.968338
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "16ba0fe8-67f5-419b-869a-a0df3653e1a1",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "e7845cde-5cd4-443d-bbc6-04248f406314",
             Name = "Australia",
             Code2 = "AU",
             Code3 = "AUS",
-            Location = new Location(-25.274398, 133.775136)
+            Location_Latitude = -25.274398,
+            Location_Longitude = 133.775136
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "fc13267f-8c89-4018-bb7f-54c0f507bcea",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "73100317-77ca-4289-a346-d55d6726a772",
             Name = "Austria",
             Code2 = "AT",
             Code3 = "AUT",
-            Location = new Location(47.516231, 14.550072)
+            Location_Latitude = 47.516231,
+            Location_Longitude = 14.550072
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "7c9a8e80-f4f6-403f-ab7d-fab7f25f4179",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "3de04735-d5b2-48ba-9440-e14b8682ce65",
             Name = "Azerbaijan",
             Code2 = "AZ",
             Code3 = "AZE",
-            Location = new Location(40.143105, 47.576927)
+            Location_Latitude = 40.143105,
+            Location_Longitude = 47.576927
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "ba85f92e-d2c9-47d5-bf5e-0175dedeb676",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "9f067454-e5eb-4721-96d0-9ab833414b5c",
             Name = "Bahamas",
             Code2 = "BS",
             Code3 = "BHS",
-            Location = new Location(25.03428, -77.39628)
+            Location_Latitude = 25.03428,
+            Location_Longitude = -77.39628
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "92a9bcf7-4140-48dc-8064-25de28c7cfaa",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "cd062feb-6656-4cf2-a3bc-1214db15f8ca",
             Name = "Bahrain",
             Code2 = "BH",
             Code3 = "BHR",
-            Location = new Location(25.930414, 50.637772)
+            Location_Latitude = 25.930414,
+            Location_Longitude = 50.637772
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e00f49fe-e9c2-4bbd-9d04-55f5768e6d82",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "d7bfe1d8-2b4a-4d29-9ae7-a7faa9ab955c",
             Name = "Bangladesh",
             Code2 = "BD",
             Code3 = "BGD",
-            Location = new Location(23.684994, 90.356331)
+            Location_Latitude = 23.684994,
+            Location_Longitude = 90.356331
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "cf041c61-844b-49dc-8dad-dfd9ea7b6cdc",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "5ffad66c-c7dc-405e-84f0-be9ea29204b9",
             Name = "Barbados",
             Code2 = "BB",
             Code3 = "BRB",
-            Location = new Location(13.193887, -59.543198)
+            Location_Latitude = 13.193887,
+            Location_Longitude = -59.543198
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "7e5a980a-c6d1-416b-ad42-24c7ed9b7bfe",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "7d33ab08-1cf9-44b4-bb70-af4f193c6fa5",
             Name = "Belarus",
             Code2 = "BY",
             Code3 = "BLR",
-            Location = new Location(53.709807, 27.953389)
+            Location_Latitude = 53.709807,
+            Location_Longitude = 27.953389
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "bd05cfff-96cb-43f4-a0b7-6e89568002e3",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "11bb4d8b-83ff-41f7-9279-a5c6d812c650",
             Name = "Belgium",
             Code2 = "BE",
             Code3 = "BEL",
-            Location = new Location(50.503887, 4.469936)
+            Location_Latitude = 50.503887,
+            Location_Longitude = 4.469936
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "333a74df-70bd-47ae-8fc0-89d6606d971f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "8d7e00ec-df66-4086-8113-f4b871a172c7",
             Name = "Belize",
             Code2 = "BZ",
             Code3 = "BLZ",
-            Location = new Location(17.189877, -88.49765)
+            Location_Latitude = 17.189877,
+            Location_Longitude = -88.49765
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "26a97c30-c0e2-4981-8f0c-9b42dc5c9388",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "55de473c-33f9-4e66-ba3a-39d29269b2db",
             Name = "Benin",
             Code2 = "BJ",
             Code3 = "BEN",
-            Location = new Location(9.30769, 2.315834)
+            Location_Latitude = 9.30769,
+            Location_Longitude = 2.315834
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "33ddd7c0-b927-4777-9b06-1772ebb26bd3",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "71d33801-de67-4dcb-b837-00a4021fb080",
             Name = "Bermuda",
             Code2 = "BM",
             Code3 = "BMU",
-            Location = new Location(32.321384, -64.75737)
+            Location_Latitude = 32.321384,
+            Location_Longitude = -64.75737
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "069b5e09-4629-491d-a384-6c9abfbc04ea",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "98219aae-943d-4ed8-8150-336f8b520866",
             Name = "Bhutan",
             Code2 = "BT",
             Code3 = "BTN",
-            Location = new Location(27.514162, 90.433601)
+            Location_Latitude = 27.514162,
+            Location_Longitude = 90.433601
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "6b9893ca-069d-4c07-bc12-d1865c4a3279",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "584acf24-730c-4671-98da-8bdfa8eb1759",
             Name = "Bolivia (Plurinational State of)",
             Code2 = "BO",
             Code3 = "BOL",
-            Location = new Location(-16.290154, -63.588653)
+            Location_Latitude = -16.290154,
+            Location_Longitude = -63.588653
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "70ecac8e-0760-44da-8600-a7e8e076a1f7",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "caf7951b-4399-4188-8948-0cd6331c57fa",
             Name = "Bonaire, Sint Eustatius and Saba",
             Code2 = "BQ",
             Code3 = "BES",
-            Location = new Location(0, 0)
+            Location_Latitude = 0,
+            Location_Longitude = 0
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "dbe227da-b773-4b72-b29b-7979428ee002",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "5cf2d0fc-7682-4566-b7f8-cd6203af6b38",
             Name = "Bosnia and Herzegovina",
             Code2 = "BA",
             Code3 = "BIH",
-            Location = new Location(43.915886, 17.679076)
+            Location_Latitude = 43.915886,
+            Location_Longitude = 17.679076
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "cc661b4c-d1ad-4465-8635-ccb6939f596e",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "4d6baf58-5226-4750-9e62-c834efc8a704",
             Name = "Bosnia & Herzegowina",
             Code2 = "BA",
             Code3 = "BIH",
-            Location = new Location(43.915886, 17.679076)
+            Location_Latitude = 43.915886,
+            Location_Longitude = 17.679076
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "171637a8-908d-4366-97cf-fd025cd88992",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c1d6ea0c-340b-47ec-b88a-12818d969ac3",
             Name = "Botswana",
             Code2 = "BW",
             Code3 = "BWA",
-            Location = new Location(-22.328474, 24.684866)
+            Location_Latitude = -22.328474,
+            Location_Longitude = 24.684866
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "6b98b20b-1560-4391-a2a5-74973a3f0987",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c1cb7af8-e166-4275-bb90-92cfbdacd716",
             Name = "Bouvet Island",
             Code2 = "BV",
             Code3 = "BVT",
-            Location = new Location(-54.423199, 3.413194)
+            Location_Latitude = -54.423199,
+            Location_Longitude = 3.413194
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "4e0166fe-93d8-4550-b546-044d0cce3274",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "43c02c42-2421-4f86-8295-f7f57f5b9a6d",
             Name = "Brazil",
             Code2 = "BR",
             Code3 = "BRA",
-            Location = new Location(-14.235004, -51.92528)
+            Location_Latitude = -14.235004,
+            Location_Longitude = -51.92528
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "6981ecf9-a720-4478-a1ee-64486089473f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "31ea47ad-8119-464f-976e-03dccc01f7f5",
             Name = "British Indian Ocean Territory",
             Code2 = "IO",
             Code3 = "IOT",
-            Location = new Location(-6.343194, 71.876519)
+            Location_Latitude = -6.343194,
+            Location_Longitude = 71.876519
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "3fe4cc89-09f7-47f6-a99c-ff3f0f4ea893",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "b7722feb-7b7f-4551-9a22-c204ae4507f8",
             Name = "Brunei Darussalam",
             Code2 = "BN",
             Code3 = "BRN",
-            Location = new Location(4.535277, 114.727669)
+            Location_Latitude = 4.535277,
+            Location_Longitude = 114.727669
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "7ebd0fef-d083-4cda-bf33-bb6a43dcbfb4",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "e4bcefdc-b81d-42fa-a948-f0461ce200e3",
             Name = "Bulgaria",
             Code2 = "BG",
             Code3 = "BGR",
-            Location = new Location(42.733883, 25.48583)
+            Location_Latitude = 42.733883,
+            Location_Longitude = 25.48583
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "41fcadf2-dd29-4631-a7b5-a32e72f69abb",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "ae2ba562-091a-49bf-b7fc-9163ba1cb456",
             Name = "Burkina Faso",
             Code2 = "BF",
             Code3 = "BFA",
-            Location = new Location(12.238333, -1.561593)
+            Location_Latitude = 12.238333,
+            Location_Longitude = -1.561593
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "b16e59d7-e2bd-45ec-9c98-8cb3d70c7322",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "588d61d1-762a-4d5b-9e4f-3808d821cfff",
             Name = "Burundi",
             Code2 = "BI",
             Code3 = "BDI",
-            Location = new Location(-3.373056, 29.918886)
+            Location_Latitude = -3.373056,
+            Location_Longitude = 29.918886
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "de3de723-792c-46b8-b204-08d45ebf1016",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "0d72ef57-3280-4964-9110-bcdd453c21c4",
             Name = "Cabo Verde",
             Code2 = "CV",
             Code3 = "CPV",
-            Location = new Location(16.002082, -24.013197)
+            Location_Latitude = 16.002082,
+            Location_Longitude = -24.013197
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "7e1cc181-2328-449b-adfb-bfeeff221796",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "48badab7-dea1-494a-b18e-e79a3dbc7f29",
             Name = "Cambodia",
             Code2 = "KH",
             Code3 = "KHM",
-            Location = new Location(12.565679, 104.990963)
+            Location_Latitude = 12.565679,
+            Location_Longitude = 104.990963
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "8a5a244d-8dce-462d-9f74-940bf61c2c07",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "aa4ddd39-b13f-4ad5-ae1b-dc3400a7eb5f",
             Name = "Cameroon",
             Code2 = "CM",
             Code3 = "CMR",
-            Location = new Location(7.369722, 12.354722)
+            Location_Latitude = 7.369722,
+            Location_Longitude = 12.354722
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "7df7a355-dc78-4694-a211-0d08b7f316bd",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "876815c3-5a3b-4218-98a5-0578eb4f69c9",
             Name = "Canada",
             Code2 = "CA",
             Code3 = "CAN",
-            Location = new Location(56.130366, -106.346771)
+            Location_Latitude = 56.130366,
+            Location_Longitude = -106.346771
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "1b4d5763-23fa-4400-b256-504527cbd401",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c28fb193-4250-4adc-a2da-0e6c12836482",
             Name = "Cayman Islands",
             Code2 = "KY",
             Code3 = "CYM",
-            Location = new Location(19.513469, -80.566956)
+            Location_Latitude = 19.513469,
+            Location_Longitude = -80.566956
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "4744737d-32df-41a1-9531-1fe376c60711",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "1852a666-c2e0-49c4-87a7-f32054e929ee",
             Name = "Central African Republic",
             Code2 = "CF",
             Code3 = "CAF",
-            Location = new Location(6.611111, 20.939444)
+            Location_Latitude = 6.611111,
+            Location_Longitude = 20.939444
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "a849e78c-9ee9-4bac-8aa8-bc7cf4faf28f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "ef8a34f8-cbd0-4a53-acc1-69b41fd25b81",
             Name = "Chad",
             Code2 = "TD",
             Code3 = "TCD",
-            Location = new Location(15.454166, 18.732207)
+            Location_Latitude = 15.454166,
+            Location_Longitude = 18.732207
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "785b66bb-ea3c-4c64-98ed-43fa2d9a721e",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "fff7597d-cba5-4c7d-9e8f-461b81a44e05",
             Name = "Chile",
             Code2 = "CL",
             Code3 = "CHL",
-            Location = new Location(-35.675147, -71.542969)
+            Location_Latitude = -35.675147,
+            Location_Longitude = -71.542969
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "b5d4756a-6ae4-4f19-aa26-54eaa67fdf69",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "b958c3e6-f270-43f3-a3e3-9b540fbeb14c",
             Name = "China",
             Code2 = "CN",
             Code3 = "CHN",
-            Location = new Location(35.86166, 104.195397)
+            Location_Latitude = 35.86166,
+            Location_Longitude = 104.195397
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "1b174072-549c-4493-b454-9dccf4a2def8",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "3a66afa0-cefa-4902-bdd5-1ce64488f754",
             Name = "Christmas Island",
             Code2 = "CX",
             Code3 = "CXR",
-            Location = new Location(-10.447525, 105.690449)
+            Location_Latitude = -10.447525,
+            Location_Longitude = 105.690449
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "2b0fe3f6-2396-4639-85ea-353b70ead6c6",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "b52fb38f-f387-45ff-be26-2d874b798ed1",
             Name = "Cocos (Keeling) Islands",
             Code2 = "CC",
             Code3 = "CCK",
-            Location = new Location(-12.164165, 96.870956)
+            Location_Latitude = -12.164165,
+            Location_Longitude = 96.870956
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "8423aa88-8617-44b3-95d5-67848142d4c0",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "90bedfdf-7760-42e3-b74a-36bae7311810",
             Name = "Colombia",
             Code2 = "CO",
             Code3 = "COL",
-            Location = new Location(4.570868, -74.297333)
+            Location_Latitude = 4.570868,
+            Location_Longitude = -74.297333
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "2e3c462c-950b-4095-9593-5b3226fe4351",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "591db77c-303d-4b91-bf20-4fdb71eaeb5b",
             Name = "Comoros",
             Code2 = "KM",
             Code3 = "COM",
-            Location = new Location(-11.875001, 43.872219)
+            Location_Latitude = -11.875001,
+            Location_Longitude = 43.872219
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "86050428-13a9-48e6-b7eb-38dd38aecc6f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "a7e7c7cb-6476-42de-8f64-902c6b9b3ade",
             Name = "Congo",
             Code2 = "CG",
             Code3 = "COG",
-            Location = new Location(-0.228021, 15.827659)
+            Location_Latitude = -0.228021,
+            Location_Longitude = 15.827659
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "4f26a7bb-41f3-4c68-851f-de2829a36992",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "3a258673-4522-4ce3-a015-a7488c4f9914",
             Name = "Congo (Democratic Republic of the)",
             Code2 = "CD",
             Code3 = "COD",
-            Location = new Location(-4.038333, 21.758664)
+            Location_Latitude = -4.038333,
+            Location_Longitude = 21.758664
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "a4ea04d5-6ae6-485a-b05d-cd4540983f7b",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "5996e482-56c9-40cd-a2b9-a16ff2b054c5",
             Name = "Cook Islands",
             Code2 = "CK",
             Code3 = "COK",
-            Location = new Location(-21.236736, -159.777671)
+            Location_Latitude = -21.236736,
+            Location_Longitude = -159.777671
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "553dc614-e822-4758-8d91-421e4877f002",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "8826c780-657c-4f3d-a884-cc1738ea71f1",
             Name = "Costa Rica",
             Code2 = "CR",
             Code3 = "CRI",
-            Location = new Location(9.748917, -83.753428)
+            Location_Latitude = 9.748917,
+            Location_Longitude = -83.753428
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "14cf4ef8-838b-4c47-b7d1-c0eeef30e8f8",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c013b669-802d-453b-80b9-0b158fbb8a21",
             Name = "Côte d'Ivoire",
             Code2 = "CI",
             Code3 = "CIV",
-            Location = new Location(7.539989, -5.54708)
+            Location_Latitude = 7.539989,
+            Location_Longitude = -5.54708
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "5d179411-56f1-44d9-b247-31c004b6423e",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "feefbafb-9029-4244-a388-4dd51f69f517",
             Name = "Croatia",
             Code2 = "HR",
             Code3 = "HRV",
-            Location = new Location(45.1, 15.2)
+            Location_Latitude = 45.1,
+            Location_Longitude = 15.2
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "0f262c79-4b51-43cd-b443-cde7de17c592",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "d5f8be31-b73e-4db1-a2e1-e645a14612c5",
             Name = "Cuba",
             Code2 = "CU",
             Code3 = "CUB",
-            Location = new Location(21.521757, -77.781167)
+            Location_Latitude = 21.521757,
+            Location_Longitude = -77.781167
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "4fd3f15e-066d-4241-8581-a6d57996ba9c",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "6cc28639-c3ed-4e95-8149-06b4cf4ed61b",
             Name = "Curaçao",
             Code2 = "CW",
             Code3 = "CUW",
-            Location = new Location(0, 0)
+            Location_Latitude = 0,
+            Location_Longitude = 0
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "1153378f-1987-42d2-af19-66b0cebf3ba8",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "57fc8305-67c9-4b75-aca3-1cb40bb6a5e1",
             Name = "Cyprus",
             Code2 = "CY",
             Code3 = "CYP",
-            Location = new Location(35.126413, 33.429859)
+            Location_Latitude = 35.126413,
+            Location_Longitude = 33.429859
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "b0842743-128c-4ba1-9311-7a540dae79c4",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "de939231-ee20-4a01-87b2-a9bc0169497c",
             Name = "Czechia",
             Code2 = "CZ",
             Code3 = "CZE",
-            Location = new Location(49.817492, 15.472962)
+            Location_Latitude = 49.817492,
+            Location_Longitude = 15.472962
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "0a2d8878-c25c-4a8d-8549-dc5c3846846f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "9ec999b6-9104-41c4-a3ed-707b54f3e60f",
             Name = "Czech Republic",
             Code2 = "CZ",
             Code3 = "CZE",
-            Location = new Location(49.817492, 15.472962)
+            Location_Latitude = 49.817492,
+            Location_Longitude = 15.472962
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "2846b4cd-c3fa-4d92-963e-011acd03cf90",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "f13dba85-167c-4757-9794-096c5014d032",
             Name = "Denmark",
             Code2 = "DK",
             Code3 = "DNK",
-            Location = new Location(56.26392, 9.501785)
+            Location_Latitude = 56.26392,
+            Location_Longitude = 9.501785
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e0f4f614-352a-441c-920c-b56f5094fd22",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "8364a2c7-c33d-42ba-a431-e510c5458ed3",
             Name = "Djibouti",
             Code2 = "DJ",
             Code3 = "DJI",
-            Location = new Location(11.825138, 42.590275)
+            Location_Latitude = 11.825138,
+            Location_Longitude = 42.590275
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "cb2a5362-d2b3-4fcd-9dc6-c449aae6102d",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "70c0dbf1-12a9-499e-aef5-ef3c92ad8e37",
             Name = "Dominica",
             Code2 = "DM",
             Code3 = "DMA",
-            Location = new Location(15.414999, -61.370976)
+            Location_Latitude = 15.414999,
+            Location_Longitude = -61.370976
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "1ab814d4-ca7c-4057-aa89-79815ceac161",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "faaf6f33-d8cd-4c4f-b0a5-19860a6f1290",
             Name = "Dominican Republic",
             Code2 = "DO",
             Code3 = "DOM",
-            Location = new Location(18.735693, -70.162651)
+            Location_Latitude = 18.735693,
+            Location_Longitude = -70.162651
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "09a8d8ec-8963-4f38-8a83-bb71c45f8a91",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "9b0bc9c1-bc01-4ee5-b46c-c1689076ec24",
             Name = "Ecuador",
             Code2 = "EC",
             Code3 = "ECU",
-            Location = new Location(-1.831239, -78.183406)
+            Location_Latitude = -1.831239,
+            Location_Longitude = -78.183406
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "d7ba78d6-20f4-4d78-997a-805864216d23",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "7ad18a2a-30a5-4407-9308-7e88adb706d9",
             Name = "Egypt",
             Code2 = "EG",
             Code3 = "EGY",
-            Location = new Location(26.820553, 30.802498)
+            Location_Latitude = 26.820553,
+            Location_Longitude = 30.802498
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "756f3762-12d5-478d-a20d-1471f8301641",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c80f3585-19e3-427c-abf4-042acdd257a3",
             Name = "El Salvador",
             Code2 = "SV",
             Code3 = "SLV",
-            Location = new Location(13.794185, -88.89653)
+            Location_Latitude = 13.794185,
+            Location_Longitude = -88.89653
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "c88e9be6-79fc-4109-bb94-3230ce66e131",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "52889d45-fd3e-4154-a44f-cc483bf822ab",
             Name = "Equatorial Guinea",
             Code2 = "GQ",
             Code3 = "GNQ",
-            Location = new Location(1.650801, 10.267895)
+            Location_Latitude = 1.650801,
+            Location_Longitude = 10.267895
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "bfbada67-1d09-41b1-91bf-949e575be864",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "3d4bde3f-9d6f-4882-9398-4e5df284dd19",
             Name = "Eritrea",
             Code2 = "ER",
             Code3 = "ERI",
-            Location = new Location(15.179384, 39.782334)
+            Location_Latitude = 15.179384,
+            Location_Longitude = 39.782334
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "515c3677-9879-4c68-92a0-fae579fdcca9",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "e9043d37-7aca-4d97-abd4-439afe4ff536",
             Name = "Estonia",
             Code2 = "EE",
             Code3 = "EST",
-            Location = new Location(58.595272, 25.013607)
+            Location_Latitude = 58.595272,
+            Location_Longitude = 25.013607
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "ae58d193-2c6d-4434-9a57-cdc882e93416",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "75cf2f58-8b9a-4553-8f68-3a7f2df45ee8",
             Name = "Eswatini",
             Code2 = "SZ",
             Code3 = "SWZ",
-            Location = new Location(-26.522503, 31.465866)
+            Location_Latitude = -26.522503,
+            Location_Longitude = 31.465866
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "3bc7e09a-c80f-41dd-b48b-11496b3ff7a4",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "72add91d-b063-4706-a1f5-d999ff751504",
             Name = "Ethiopia",
             Code2 = "ET",
             Code3 = "ETH",
-            Location = new Location(9.145, 40.489673)
+            Location_Latitude = 9.145,
+            Location_Longitude = 40.489673
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "c6f8699a-cfbf-4523-abb3-181c3192d090",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "9f550658-c521-474d-9aae-65c12effc11f",
             Name = "Falkland Islands (Malvinas)",
             Code2 = "FK",
             Code3 = "FLK",
-            Location = new Location(-51.796253, -59.523613)
+            Location_Latitude = -51.796253,
+            Location_Longitude = -59.523613
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "89ca895d-039d-44f3-aa5f-3d40d1e6aa60",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "e9a63c1a-6d15-435e-8705-3cfaeb443571",
             Name = "Faroe Islands",
             Code2 = "FO",
             Code3 = "FRO",
-            Location = new Location(61.892635, -6.911806)
+            Location_Latitude = 61.892635,
+            Location_Longitude = -6.911806
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "1cce73ac-4b1b-4ba6-8475-a8d2d202e3c4",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c54d79f7-b117-45a1-a09e-066542bf9e3d",
             Name = "Fiji",
             Code2 = "FJ",
             Code3 = "FJI",
-            Location = new Location(-16.578193, 179.414413)
+            Location_Latitude = -16.578193,
+            Location_Longitude = 179.414413
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "03397ef7-954f-47b0-b5d8-d68c1966f668",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "8057be7d-9e49-4721-9872-b3274dab1a50",
             Name = "Finland",
             Code2 = "FI",
             Code3 = "FIN",
-            Location = new Location(61.92411, 25.748151)
+            Location_Latitude = 61.92411,
+            Location_Longitude = 25.748151
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "8b5717bd-86a9-48ab-ba91-35966fa846c5",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c87f2f17-8557-48ee-ac18-f94e0ea13c81",
             Name = "France",
             Code2 = "FR",
             Code3 = "FRA",
-            Location = new Location(46.227638, 2.213749)
+            Location_Latitude = 46.227638,
+            Location_Longitude = 2.213749
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "0c329a3c-978c-4c10-8bb2-b1ac6a040333",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "835f5ef4-c339-471d-bac1-694af0323a9b",
             Name = "French Guiana",
             Code2 = "GF",
             Code3 = "GUF",
-            Location = new Location(3.933889, -53.125782)
+            Location_Latitude = 3.933889,
+            Location_Longitude = -53.125782
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "af8422b2-04ae-4256-a0e5-95e83598efd8",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c07e0f0c-158f-4ba6-b953-f9b7faa31516",
             Name = "French Polynesia",
             Code2 = "PF",
             Code3 = "PYF",
-            Location = new Location(-17.679742, -149.406843)
+            Location_Latitude = -17.679742,
+            Location_Longitude = -149.406843
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "3e2cab1a-292e-4572-b5cc-16f84d1bd8f5",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "e14e9227-0f97-473f-8008-095572d8de4c",
             Name = "French Southern Territories",
             Code2 = "TF",
             Code3 = "ATF",
-            Location = new Location(-49.280366, 69.348557)
+            Location_Latitude = -49.280366,
+            Location_Longitude = 69.348557
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "ecb53185-b48a-4783-9ba8-75bd434b3b96",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "6650ed21-db40-4554-a965-28f2e34ed808",
             Name = "Gabon",
             Code2 = "GA",
             Code3 = "GAB",
-            Location = new Location(-0.803689, 11.609444)
+            Location_Latitude = -0.803689,
+            Location_Longitude = 11.609444
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e1a99054-abac-4c5c-ade2-540ab7eec571",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "b7c25e29-2a59-4882-8a36-9aed9fe4de1c",
             Name = "Gambia",
             Code2 = "GM",
             Code3 = "GMB",
-            Location = new Location(13.443182, -15.310139)
+            Location_Latitude = 13.443182,
+            Location_Longitude = -15.310139
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "8a231184-53ea-491f-9ea3-fb821406c732",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "a1460ffe-64ad-408e-9b37-990f0d36c697",
             Name = "Georgia",
             Code2 = "GE",
             Code3 = "GEO",
-            Location = new Location(42.315407, 43.356892)
+            Location_Latitude = 42.315407,
+            Location_Longitude = 43.356892
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "afa95357-74da-4e58-9f7c-1b2147701ce9",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "b8ca640b-0a6b-4c29-bd4a-9a8c76d4ccb2",
             Name = "Germany",
             Code2 = "DE",
             Code3 = "DEU",
-            Location = new Location(51.165691, 10.451526)
+            Location_Latitude = 51.165691,
+            Location_Longitude = 10.451526
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "cc17996a-a90c-4dc5-9a81-efdf0e055884",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "4d22d98a-fcc1-4b4a-aa57-749ea8decf0d",
             Name = "Ghana",
             Code2 = "GH",
             Code3 = "GHA",
-            Location = new Location(7.946527, -1.023194)
+            Location_Latitude = 7.946527,
+            Location_Longitude = -1.023194
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "4705f573-4add-49dc-a621-b5665010df96",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "25df0670-d028-426c-994e-a5db33614fac",
             Name = "Gibraltar",
             Code2 = "GI",
             Code3 = "GIB",
-            Location = new Location(36.137741, -5.345374)
+            Location_Latitude = 36.137741,
+            Location_Longitude = -5.345374
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "a1e96706-9dce-4362-be37-bb93042b1848",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "9f79f61b-3821-42a5-88fc-687a52fca613",
             Name = "Greece",
             Code2 = "GR",
             Code3 = "GRC",
-            Location = new Location(39.074208, 21.824312)
+            Location_Latitude = 39.074208,
+            Location_Longitude = 21.824312
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "d2c0fc10-6381-4d50-a328-0d6320af3f6b",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "4bddbebc-5097-4d2a-9cd7-c2d654d6e7f2",
             Name = "Greenland",
             Code2 = "GL",
             Code3 = "GRL",
-            Location = new Location(71.706936, -42.604303)
+            Location_Latitude = 71.706936,
+            Location_Longitude = -42.604303
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "a96ec412-2ff5-489d-ae08-9ec7b283e17c",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "4520c6a8-c0fd-45f5-90a6-4fc78c6f0951",
             Name = "Grenada",
             Code2 = "GD",
             Code3 = "GRD",
-            Location = new Location(12.262776, -61.604171)
+            Location_Latitude = 12.262776,
+            Location_Longitude = -61.604171
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "ec54217b-72ae-4d36-9b47-faac2b0650bd",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c731f2b6-d69e-4c4a-839d-dc4db2a80369",
             Name = "Guadeloupe",
             Code2 = "GP",
             Code3 = "GLP",
-            Location = new Location(16.995971, -62.067641)
+            Location_Latitude = 16.995971,
+            Location_Longitude = -62.067641
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "10757450-3e84-40f0-8600-856d02cae8c4",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "3230ff87-4f7d-41e1-8be1-bb2d33d3b9a5",
             Name = "Guam",
             Code2 = "GU",
             Code3 = "GUM",
-            Location = new Location(13.444304, 144.793731)
+            Location_Latitude = 13.444304,
+            Location_Longitude = 144.793731
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e793e178-5c1c-4c6c-bf1f-204b6325f166",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "ffbcc443-d529-4427-ae47-024c6fd6ece8",
             Name = "Guatemala",
             Code2 = "GT",
             Code3 = "GTM",
-            Location = new Location(15.783471, -90.230759)
+            Location_Latitude = 15.783471,
+            Location_Longitude = -90.230759
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e802c8a1-a6f5-4787-b4ac-704f0b5fbe69",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "d4f95491-d7c2-4919-8d19-f87e22dca34f",
             Name = "Guernsey",
             Code2 = "GG",
             Code3 = "GGY",
-            Location = new Location(49.465691, -2.585278)
+            Location_Latitude = 49.465691,
+            Location_Longitude = -2.585278
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "b1f80812-12cb-4911-86fa-868ec64af1d6",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "9aa0c3eb-97ab-46c2-8909-9b6d7a3b34e5",
             Name = "Guinea",
             Code2 = "GN",
             Code3 = "GIN",
-            Location = new Location(9.945587, -9.696645)
+            Location_Latitude = 9.945587,
+            Location_Longitude = -9.696645
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e6fe5ddd-e6fb-4405-a04c-c2c45aa7681c",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "1e8bd3f1-a52d-4d75-bb58-a2146255a792",
             Name = "Guinea-Bissau",
             Code2 = "GW",
             Code3 = "GNB",
-            Location = new Location(11.803749, -15.180413)
+            Location_Latitude = 11.803749,
+            Location_Longitude = -15.180413
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "a4ecda16-e2a2-4f92-9a2f-0adafd249a87",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "0c82439e-e73f-43c9-8651-01f4f30a2521",
             Name = "Guyana",
             Code2 = "GY",
             Code3 = "GUY",
-            Location = new Location(4.860416, -58.93018)
+            Location_Latitude = 4.860416,
+            Location_Longitude = -58.93018
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "ba10f2f9-fd6a-4a52-838e-d86e9e6231bc",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "5de8d9d5-1be5-4d14-b391-8dfedfb4f23f",
             Name = "Haiti",
             Code2 = "HT",
             Code3 = "HTI",
-            Location = new Location(18.971187, -72.285215)
+            Location_Latitude = 18.971187,
+            Location_Longitude = -72.285215
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "fe827e3f-e140-40ad-a384-3268d401b3b3",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "4e4c0446-5fc0-4811-8536-9b3f23344616",
             Name = "Heard Island and McDonald Islands",
             Code2 = "HM",
             Code3 = "HMD",
-            Location = new Location(-53.08181, 73.504158)
+            Location_Latitude = -53.08181,
+            Location_Longitude = 73.504158
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "20c4a11a-8a42-4f26-9e12-c79909089f65",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "6aa16a10-71ad-4bf6-a4d0-80095a9d92b2",
             Name = "Holy See",
             Code2 = "VA",
             Code3 = "VAT",
-            Location = new Location(41.902916, 12.453389)
+            Location_Latitude = 41.902916,
+            Location_Longitude = 12.453389
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e5623ac1-faff-4395-abd7-ee749a32f1f2",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "e767804c-cb3f-4502-bc0f-b732208014ff",
             Name = "Honduras",
             Code2 = "HN",
             Code3 = "HND",
-            Location = new Location(15.199999, -86.241905)
+            Location_Latitude = 15.199999,
+            Location_Longitude = -86.241905
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "88da3df2-ab53-4c5b-a92a-f3ec7b69e837",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "b8818db5-8922-4f7a-82d9-0141ad4a45a5",
             Name = "Hong Kong",
             Code2 = "HK",
             Code3 = "HKG",
-            Location = new Location(22.396428, 114.109497)
+            Location_Latitude = 22.396428,
+            Location_Longitude = 114.109497
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "52bbc191-e333-4cf1-bf06-bfcd5c501b96",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "4725a19c-3abe-4609-b65a-01a9c47f2d89",
             Name = "Hungary",
             Code2 = "HU",
             Code3 = "HUN",
-            Location = new Location(47.162494, 19.503304)
+            Location_Latitude = 47.162494,
+            Location_Longitude = 19.503304
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "76130778-8596-4474-b57a-842d1deedf25",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "25efcfa1-b91a-4bcb-b153-406651565651",
             Name = "Iceland",
             Code2 = "IS",
             Code3 = "ISL",
-            Location = new Location(64.963051, -19.020835)
+            Location_Latitude = 64.963051,
+            Location_Longitude = -19.020835
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "b7bd5cca-bc0d-4976-bf36-43b9331e663b",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "54031f93-dfeb-43fe-b2d5-27b16e105d7b",
             Name = "India",
             Code2 = "IN",
             Code3 = "IND",
-            Location = new Location(20.593684, 78.96288)
+            Location_Latitude = 20.593684,
+            Location_Longitude = 78.96288
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "aa5f5431-a25b-4a9b-9e62-b8257602aa4d",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "e7039d66-7d6c-4f42-b5f1-6a79287c098d",
             Name = "Indonesia",
             Code2 = "ID",
             Code3 = "IDN",
-            Location = new Location(-0.789275, 113.921327)
+            Location_Latitude = -0.789275,
+            Location_Longitude = 113.921327
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "da2dfbff-aa9e-4e32-9dd9-a9ee6c2c15e7",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "e696352f-5a53-4b81-9109-0fab91ea1956",
             Name = "Iran (Islamic Republic of)",
             Code2 = "IR",
             Code3 = "IRN",
-            Location = new Location(32.427908, 53.688046)
+            Location_Latitude = 32.427908,
+            Location_Longitude = 53.688046
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "47f432bc-a53d-4fb0-9ece-c0ae5a46581f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "68c633b0-a50e-4b26-b787-addf353fa502",
             Name = "Iran",
             Code2 = "IR",
             Code3 = "IRN",
-            Location = new Location(32.427908, 53.688046)
+            Location_Latitude = 32.427908,
+            Location_Longitude = 53.688046
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "1c6a0760-f7b7-4a72-b537-935c14fab655",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "b320d017-bb3b-48c4-8871-fe2cf1d6f8ac",
             Name = "Iraq",
             Code2 = "IQ",
             Code3 = "IRQ",
-            Location = new Location(33.223191, 43.679291)
+            Location_Latitude = 33.223191,
+            Location_Longitude = 43.679291
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "aa2fa28e-b2b6-4944-828f-d5322ece526e",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "1c91fb93-cbc0-4194-9a52-5fa839853034",
             Name = "Ireland",
             Code2 = "IE",
             Code3 = "IRL",
-            Location = new Location(53.41291, -8.24389)
+            Location_Latitude = 53.41291,
+            Location_Longitude = -8.24389
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "153dd65e-0091-4f61-898f-cd9d5adbb7aa",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "0d9ab580-6175-468c-8318-9101445cd543",
             Name = "Isle of Man",
             Code2 = "IM",
             Code3 = "IMN",
-            Location = new Location(54.236107, -4.548056)
+            Location_Latitude = 54.236107,
+            Location_Longitude = -4.548056
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e71d7fec-7f8c-4bea-a269-f0da1f3d843a",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "d738d352-9e4e-4222-b252-0eb3634e0228",
             Name = "Israel",
             Code2 = "IL",
             Code3 = "ISR",
-            Location = new Location(31.046051, 34.851612)
+            Location_Latitude = 31.046051,
+            Location_Longitude = 34.851612
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "a73f294d-2e47-4e25-a451-73d98e96dc4b",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "e9e9e670-a51b-4743-a0f3-bed2451b564c",
             Name = "Italy",
             Code2 = "IT",
             Code3 = "ITA",
-            Location = new Location(41.87194, 12.56738)
+            Location_Latitude = 41.87194,
+            Location_Longitude = 12.56738
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e019f94b-5280-4a4a-9243-4068dafc96d8",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "05abe794-8f0c-43ae-8305-9ac04d3a0830",
             Name = "Jamaica",
             Code2 = "JM",
             Code3 = "JAM",
-            Location = new Location(18.109581, -77.297508)
+            Location_Latitude = 18.109581,
+            Location_Longitude = -77.297508
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "a4df9386-e9a9-4951-8c4c-587f3fe00b7f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "b7de5e6b-a00e-453a-992e-5d95680a0179",
             Name = "Japan",
             Code2 = "JP",
             Code3 = "JPN",
-            Location = new Location(36.204824, 138.252924)
+            Location_Latitude = 36.204824,
+            Location_Longitude = 138.252924
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "d21a65de-89b8-4704-ae49-e15aeeb19c6f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "8687d0b7-0890-4ab6-a57e-8361220707ee",
             Name = "Jersey",
             Code2 = "JE",
             Code3 = "JEY",
-            Location = new Location(49.214439, -2.13125)
+            Location_Latitude = 49.214439,
+            Location_Longitude = -2.13125
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "7ee6e5ea-aacd-47b5-85f7-c84ad7d89941",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "5f1a49be-f5da-42d7-b728-5e9fd068ec1a",
             Name = "Jordan",
             Code2 = "JO",
             Code3 = "JOR",
-            Location = new Location(30.585164, 36.238414)
+            Location_Latitude = 30.585164,
+            Location_Longitude = 36.238414
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "15a639d1-dfda-4a66-910d-eaf42d6d8287",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "0411bfb0-4b68-461a-a4d7-7f3997242a3c",
             Name = "Kazakhstan",
             Code2 = "KZ",
             Code3 = "KAZ",
-            Location = new Location(48.019573, 66.923684)
+            Location_Latitude = 48.019573,
+            Location_Longitude = 66.923684
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "219aeb9b-281d-4081-b654-8ec891aa9414",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "5dcee40a-98b3-46fe-9e94-4aeac8c9cb2f",
             Name = "Kenya",
             Code2 = "KE",
             Code3 = "KEN",
-            Location = new Location(-0.023559, 37.906193)
+            Location_Latitude = -0.023559,
+            Location_Longitude = 37.906193
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "0be5ae0a-4c73-4e52-880a-70fef2cbbb94",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "27f97629-1fa5-4fcd-8c58-8719f25080cb",
             Name = "Kiribati",
             Code2 = "KI",
             Code3 = "KIR",
-            Location = new Location(-3.370417, -168.734039)
+            Location_Latitude = -3.370417,
+            Location_Longitude = -168.734039
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e601f9f3-5095-41c4-ae56-35022239f519",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "1095ec61-6139-47ed-8d89-a814df34417d",
             Name = "Korea (Democratic People's Republic of)",
             Code2 = "KP",
             Code3 = "PRK",
-            Location = new Location(40.339852, 127.510093)
+            Location_Latitude = 40.339852,
+            Location_Longitude = 127.510093
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "5af9042a-ad8c-4a6b-a33e-407cf8d53450",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "2f59b79e-ebcc-4a19-9641-e020ebaee3cd",
             Name = "Korea (Republic of)",
             Code2 = "KR",
             Code3 = "KOR",
-            Location = new Location(35.907757, 127.766922)
+            Location_Latitude = 35.907757,
+            Location_Longitude = 127.766922
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "c1776118-4af0-4301-91a3-dc8de41a105e",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "8822f89f-9246-4289-a96a-d8a176f6cf74",
             Name = "Korea",
             Code2 = "KR",
             Code3 = "KOR",
-            Location = new Location(35.907757, 127.766922)
+            Location_Latitude = 35.907757,
+            Location_Longitude = 127.766922
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "74dd862d-3da1-44a3-b8e9-a605ed012b40",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "13fbff1b-6c8d-41ee-9a21-15a24a9ab733",
             Name = "Kuwait",
             Code2 = "KW",
             Code3 = "KWT",
-            Location = new Location(29.31166, 47.481766)
+            Location_Latitude = 29.31166,
+            Location_Longitude = 47.481766
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "9678fd97-738a-4269-9a7b-75a7cd8e7c5e",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "623ffb3b-4182-4462-9665-9e798960c885",
             Name = "Kyrgyzstan",
             Code2 = "KG",
             Code3 = "KGZ",
-            Location = new Location(41.20438, 74.766098)
+            Location_Latitude = 41.20438,
+            Location_Longitude = 74.766098
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "90d8916f-08c9-41d3-9a47-3ea339a5d446",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "d95a00c5-a2bd-4d1f-bce7-5f28a2261305",
             Name = "Lao People's Democratic Republic",
             Code2 = "LA",
             Code3 = "LAO",
-            Location = new Location(19.85627, 102.495496)
+            Location_Latitude = 19.85627,
+            Location_Longitude = 102.495496
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "aabd73da-df61-49a7-b933-e714f885041b",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "ee9fbb8c-76ce-4a0b-93cd-83eeafe15178",
             Name = "Laos",
             Code2 = "LA",
             Code3 = "LAO",
-            Location = new Location(19.85627, 102.495496)
+            Location_Latitude = 19.85627,
+            Location_Longitude = 102.495496
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "273f2436-af2d-4e4e-a62c-52e901dd1ece",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c39d6350-8857-433a-8c11-6c474c09ad7f",
             Name = "Latvia",
             Code2 = "LV",
             Code3 = "LVA",
-            Location = new Location(56.879635, 24.603189)
+            Location_Latitude = 56.879635,
+            Location_Longitude = 24.603189
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "a6ac7561-fa32-40c4-b15c-380a39ab2353",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "ab502518-caa8-4416-92f6-c22002ba19a0",
             Name = "Lebanon",
             Code2 = "LB",
             Code3 = "LBN",
-            Location = new Location(33.854721, 35.862285)
+            Location_Latitude = 33.854721,
+            Location_Longitude = 35.862285
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "f1fc4106-e5eb-4301-96cd-4b7527a6182e",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "eebde06a-be06-4c55-bdaf-c1f3256456d4",
             Name = "Lesotho",
             Code2 = "LS",
             Code3 = "LSO",
-            Location = new Location(-29.609988, 28.233608)
+            Location_Latitude = -29.609988,
+            Location_Longitude = 28.233608
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "106f921b-c0d5-4c04-a5b3-25c6b9136208",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "eeff84da-34b4-4509-b842-fb49031d7c91",
             Name = "Liberia",
             Code2 = "LR",
             Code3 = "LBR",
-            Location = new Location(6.428055, -9.429499)
+            Location_Latitude = 6.428055,
+            Location_Longitude = -9.429499
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "58079524-324a-436a-9f47-a5e6fc5e416b",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "ecd2807b-21b8-48ea-990a-0545740e50d7",
             Name = "Libya",
             Code2 = "LY",
             Code3 = "LBY",
-            Location = new Location(26.3351, 17.228331)
+            Location_Latitude = 26.3351,
+            Location_Longitude = 17.228331
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "15839de6-2d52-431d-bdac-e5643263e1c1",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "f162f8fa-ab82-43ef-9e98-f57d879d2ea2",
             Name = "Liechtenstein",
             Code2 = "LI",
             Code3 = "LIE",
-            Location = new Location(47.166, 9.555373)
+            Location_Latitude = 47.166,
+            Location_Longitude = 9.555373
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "3e49f1f0-a3e6-43d6-ab6a-24a73b58739c",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c5a72efb-9905-4de0-9ab7-b599aced788d",
             Name = "Lithuania",
             Code2 = "LT",
             Code3 = "LTU",
-            Location = new Location(55.169438, 23.881275)
+            Location_Latitude = 55.169438,
+            Location_Longitude = 23.881275
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "ea399840-15bf-4e89-ba02-80d8f942d892",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "1dedcb24-ffce-4294-93c5-514d66fba942",
             Name = "Luxembourg",
             Code2 = "LU",
             Code3 = "LUX",
-            Location = new Location(49.815273, 6.129583)
+            Location_Latitude = 49.815273,
+            Location_Longitude = 6.129583
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "1b78b82c-98ae-4e68-8d0d-67c54bec43fa",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "0015a40a-a493-41e2-aebe-cbccd867c68c",
             Name = "Macao",
             Code2 = "MO",
             Code3 = "MAC",
-            Location = new Location(22.198745, 113.543873)
+            Location_Latitude = 22.198745,
+            Location_Longitude = 113.543873
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "d5c636d1-7d42-4890-a54b-7df4fb34c8a7",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "67ef12fb-6c70-4763-bfc6-34575cfd6012",
             Name = "Macedonia (the former Yugoslav Republic of)",
             Code2 = "MK",
             Code3 = "MKD",
-            Location = new Location(41.608635, 21.745275)
+            Location_Latitude = 41.608635,
+            Location_Longitude = 21.745275
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "7475913e-c455-4a6e-a88a-4efbcacc3757",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c694b105-20f7-49ae-b621-86d06de1a29c",
             Name = "Macedonia",
             Code2 = "MK",
             Code3 = "MKD",
-            Location = new Location(41.608635, 21.745275)
+            Location_Latitude = 41.608635,
+            Location_Longitude = 21.745275
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "6d3ba0f6-4bf4-4617-834d-5c3ad640ae8f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "3ca9a491-009d-4432-9551-6a52e97c9b21",
             Name = "Madagascar",
             Code2 = "MG",
             Code3 = "MDG",
-            Location = new Location(-18.766947, 46.869107)
+            Location_Latitude = -18.766947,
+            Location_Longitude = 46.869107
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "71e6e58b-5708-4eaf-b457-7ac8850cd6bc",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "6cb29817-ac30-43af-a691-7e6220b3d415",
             Name = "Malawi",
             Code2 = "MW",
             Code3 = "MWI",
-            Location = new Location(-13.254308, 34.301525)
+            Location_Latitude = -13.254308,
+            Location_Longitude = 34.301525
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "976fb79f-c7ec-4fc3-9122-6d924a1bc6b6",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "5ca6b9d9-1c11-4b6c-b2b3-00a067ca3bb1",
             Name = "Malaysia",
             Code2 = "MY",
             Code3 = "MYS",
-            Location = new Location(4.210484, 101.975766)
+            Location_Latitude = 4.210484,
+            Location_Longitude = 101.975766
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "6e5889ea-ea3b-47fd-97ea-3c55217e13d8",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "bfafec54-ee78-4e3c-8fb0-d677c6420ed4",
             Name = "Maldives",
             Code2 = "MV",
             Code3 = "MDV",
-            Location = new Location(3.202778, 73.22068)
+            Location_Latitude = 3.202778,
+            Location_Longitude = 73.22068
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "b272323f-7d69-4c3f-80d9-13fe0ca77e9f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "ea98b43b-379b-4860-862e-b3876b23ee08",
             Name = "Mali",
             Code2 = "ML",
             Code3 = "MLI",
-            Location = new Location(17.570692, -3.996166)
+            Location_Latitude = 17.570692,
+            Location_Longitude = -3.996166
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "3fdb1c8e-e3d7-4162-a166-bf5bf376f965",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c54afedf-fe46-49cb-baca-53ec0892d4a5",
             Name = "Malta",
             Code2 = "MT",
             Code3 = "MLT",
-            Location = new Location(35.937496, 14.375416)
+            Location_Latitude = 35.937496,
+            Location_Longitude = 14.375416
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "a1d67e5e-2c9e-4d7e-9e29-456cc171f541",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "e3385e5e-b497-4121-8c58-5f974f47f598",
             Name = "Marshall Islands",
             Code2 = "MH",
             Code3 = "MHL",
-            Location = new Location(7.131474, 171.184478)
+            Location_Latitude = 7.131474,
+            Location_Longitude = 171.184478
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "d5563b04-bd6c-4753-a281-14eaf5764f55",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "f71999a7-0183-41b1-af60-28cae942e45e",
             Name = "Martinique",
             Code2 = "MQ",
             Code3 = "MTQ",
-            Location = new Location(14.641528, -61.024174)
+            Location_Latitude = 14.641528,
+            Location_Longitude = -61.024174
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "23fa4c96-810c-4c29-af3f-935d1ad1890d",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "32585d9f-0bfa-4b0d-b28a-6633fc9e2a57",
             Name = "Mauritania",
             Code2 = "MR",
             Code3 = "MRT",
-            Location = new Location(21.00789, -10.940835)
+            Location_Latitude = 21.00789,
+            Location_Longitude = -10.940835
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "89f91bbe-15b0-4165-bec6-757582fed112",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "8e750165-45d0-4608-9fe0-fffcd0b497ac",
             Name = "Mauritius",
             Code2 = "MU",
             Code3 = "MUS",
-            Location = new Location(-20.348404, 57.552152)
+            Location_Latitude = -20.348404,
+            Location_Longitude = 57.552152
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "02363cce-8e2b-4eef-829c-8ed901fe1ec5",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "deedbc18-ece9-49e7-b9c8-45721cc6c044",
             Name = "Mayotte",
             Code2 = "YT",
             Code3 = "MYT",
-            Location = new Location(-12.8275, 45.166244)
+            Location_Latitude = -12.8275,
+            Location_Longitude = 45.166244
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "f92b0510-a84c-4e95-a7ee-0b3ca1254542",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "ab87ae59-f9c7-4fce-bf2d-21895e0337d4",
             Name = "Mexico",
             Code2 = "MX",
             Code3 = "MEX",
-            Location = new Location(23.634501, -102.552784)
+            Location_Latitude = 23.634501,
+            Location_Longitude = -102.552784
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e51aad30-0271-447d-8fb4-608924ebaa46",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "59d96296-7a8c-41e2-9288-e38280542bd9",
             Name = "Micronesia (Federated States of)",
             Code2 = "FM",
             Code3 = "FSM",
-            Location = new Location(7.425554, 150.550812)
+            Location_Latitude = 7.425554,
+            Location_Longitude = 150.550812
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "573ccf92-b136-47cf-924c-9338babaea09",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "463b405f-7d27-4e31-88d0-f66c7e5a08c1",
             Name = "Moldova (Republic of)",
             Code2 = "MD",
             Code3 = "MDA",
-            Location = new Location(47.411631, 28.369885)
+            Location_Latitude = 47.411631,
+            Location_Longitude = 28.369885
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "1ab46d63-e881-41d9-8c3e-40df8969c2c6",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "6220e302-7f3e-4c65-921d-b570b0da87be",
             Name = "Monaco",
             Code2 = "MC",
             Code3 = "MCO",
-            Location = new Location(43.750298, 7.412841)
+            Location_Latitude = 43.750298,
+            Location_Longitude = 7.412841
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "48d403be-a39b-4172-9310-dc0a94dcb8b4",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "8f1fb492-938a-4e4b-80b1-00588acb1ba5",
             Name = "Mongolia",
             Code2 = "MN",
             Code3 = "MNG",
-            Location = new Location(46.862496, 103.846656)
+            Location_Latitude = 46.862496,
+            Location_Longitude = 103.846656
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "85955518-113c-49aa-9a12-5394adbc9cbf",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "d1e98f47-be26-491f-a345-ba094b0d09c7",
             Name = "Montenegro",
             Code2 = "ME",
             Code3 = "MNE",
-            Location = new Location(42.708678, 19.37439)
+            Location_Latitude = 42.708678,
+            Location_Longitude = 19.37439
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "8cfc6202-5ebf-4708-b45a-3566e224f3fb",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "7694799d-5d0a-4131-a84b-72b74ed6992f",
             Name = "Montserrat",
             Code2 = "MS",
             Code3 = "MSR",
-            Location = new Location(16.742498, -62.187366)
+            Location_Latitude = 16.742498,
+            Location_Longitude = -62.187366
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "0ac8777f-c7d7-4292-9b6c-b2b7fec6774f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "eedb87e3-450d-485b-b285-9b222bd2228c",
             Name = "Morocco",
             Code2 = "MA",
             Code3 = "MAR",
-            Location = new Location(31.791702, -7.09262)
+            Location_Latitude = 31.791702,
+            Location_Longitude = -7.09262
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "13dfb95f-f447-4193-ac7b-a5734f203687",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "66556adb-f36c-471b-917f-fce7cc573b24",
             Name = "Mozambique",
             Code2 = "MZ",
             Code3 = "MOZ",
-            Location = new Location(-18.665695, 35.529562)
+            Location_Latitude = -18.665695,
+            Location_Longitude = 35.529562
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "68a9771f-d0ab-40e1-8e38-97d7d3ec0fed",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "e366c7a4-1622-42b8-91ec-eb08e05c9e5d",
             Name = "Myanmar",
             Code2 = "MM",
             Code3 = "MMR",
-            Location = new Location(21.913965, 95.956223)
+            Location_Latitude = 21.913965,
+            Location_Longitude = 95.956223
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "b336bf68-4345-4d40-a63c-c55a6db61ea8",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "e4c7f11c-6e2c-426f-9a43-a7390788393f",
             Name = "Namibia",
             Code2 = "NA",
             Code3 = "NAM",
-            Location = new Location(-22.95764, 18.49041)
+            Location_Latitude = -22.95764,
+            Location_Longitude = 18.49041
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "67337722-ad53-4832-b932-f10ebf516580",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "ad87db55-a77a-4896-af59-15bf504c1af0",
             Name = "Nauru",
             Code2 = "NR",
             Code3 = "NRU",
-            Location = new Location(-0.522778, 166.931503)
+            Location_Latitude = -0.522778,
+            Location_Longitude = 166.931503
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "5f5557f5-f5a3-4a7e-8eb2-c35158328104",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "f00a13db-1aca-42d7-a10c-02a0a88cdf80",
             Name = "Nepal",
             Code2 = "NP",
             Code3 = "NPL",
-            Location = new Location(28.394857, 84.124008)
+            Location_Latitude = 28.394857,
+            Location_Longitude = 84.124008
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "edc4f5b9-ccdb-438f-a17a-6c16d0f5e7cb",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "d7b4a62a-e4bf-4ea7-ab68-87c8fadfa0d6",
             Name = "Netherlands",
             Code2 = "NL",
             Code3 = "NLD",
-            Location = new Location(52.132633, 5.291266)
+            Location_Latitude = 52.132633,
+            Location_Longitude = 5.291266
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "519d3bb9-4789-4a86-a515-9619b1909858",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c9333810-a097-4a75-b0c5-afd22f6863c4",
             Name = "New Caledonia",
             Code2 = "NC",
             Code3 = "NCL",
-            Location = new Location(-20.904305, 165.618042)
+            Location_Latitude = -20.904305,
+            Location_Longitude = 165.618042
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "898691f3-407c-4391-91f8-907fef4e5fb8",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "553af18b-f5a7-4d8d-aa77-573297891ad8",
             Name = "New Zealand",
             Code2 = "NZ",
             Code3 = "NZL",
-            Location = new Location(-40.900557, 174.885971)
+            Location_Latitude = -40.900557,
+            Location_Longitude = 174.885971
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "b8078a07-dba8-4f85-b1c0-825b7b4d53be",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "b515fcf8-601b-4464-89dd-1c1e5d7a1098",
             Name = "Nicaragua",
             Code2 = "NI",
             Code3 = "NIC",
-            Location = new Location(12.865416, -85.207229)
+            Location_Latitude = 12.865416,
+            Location_Longitude = -85.207229
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "2ff5cc22-d63d-45d4-9f5f-ee1a96fad688",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "6a80d61b-344f-4cd0-84b1-d8df1d447fde",
             Name = "Niger",
             Code2 = "NE",
             Code3 = "NER",
-            Location = new Location(17.607789, 8.081666)
+            Location_Latitude = 17.607789,
+            Location_Longitude = 8.081666
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "0de0c1bc-29e0-4706-a621-d2b033f944aa",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "9eb55e10-f386-4d0e-9d3f-6e763970dbec",
             Name = "Nigeria",
             Code2 = "NG",
             Code3 = "NGA",
-            Location = new Location(9.081999, 8.675277)
+            Location_Latitude = 9.081999,
+            Location_Longitude = 8.675277
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "cb5fcf91-b002-41e4-aa3e-6fd34e8892a2",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "52849ef9-6ad6-4f4c-bbca-98a841736311",
             Name = "Niue",
             Code2 = "NU",
             Code3 = "NIU",
-            Location = new Location(-19.054445, -169.867233)
+            Location_Latitude = -19.054445,
+            Location_Longitude = -169.867233
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "f8fff66d-848a-40a3-bce4-bcc38e509d75",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "2e6970b6-d5dd-4589-ba8b-393dae6aadc6",
             Name = "Norfolk Island",
             Code2 = "NF",
             Code3 = "NFK",
-            Location = new Location(-29.040835, 167.954712)
+            Location_Latitude = -29.040835,
+            Location_Longitude = 167.954712
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "838df85e-4289-431a-a771-c73d1e20f879",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "56998bee-caeb-4f2b-ae60-51de18e7d744",
             Name = "Northern Mariana Islands",
             Code2 = "MP",
             Code3 = "MNP",
-            Location = new Location(17.33083, 145.38469)
+            Location_Latitude = 17.33083,
+            Location_Longitude = 145.38469
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "67dbd234-311b-49cf-b958-81e33dd6a6b0",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "497497c7-c13d-40bf-bda6-8cfe8efc1068",
             Name = "Norway",
             Code2 = "NO",
             Code3 = "NOR",
-            Location = new Location(60.472024, 8.468946)
+            Location_Latitude = 60.472024,
+            Location_Longitude = 8.468946
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "da09ace0-116e-4ecb-a5de-ccf16bcdc55f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "1b8259c4-eef8-4ac2-bcea-6e0d46d5bc42",
             Name = "Oman",
             Code2 = "OM",
             Code3 = "OMN",
-            Location = new Location(21.512583, 55.923255)
+            Location_Latitude = 21.512583,
+            Location_Longitude = 55.923255
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "080f2236-f56a-4a79-8d3a-4fb47c1c5ae8",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "93605d6b-a2ba-4d7a-bb51-8acb08e5bd1a",
             Name = "Pakistan",
             Code2 = "PK",
             Code3 = "PAK",
-            Location = new Location(30.375321, 69.345116)
+            Location_Latitude = 30.375321,
+            Location_Longitude = 69.345116
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "37e81590-4fe2-439f-8ae7-722754c8ae36",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "9f6d3e75-cd21-409f-9173-aca90f9b93f3",
             Name = "Palau",
             Code2 = "PW",
             Code3 = "PLW",
-            Location = new Location(7.51498, 134.58252)
+            Location_Latitude = 7.51498,
+            Location_Longitude = 134.58252
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "02126894-7607-4f96-a7de-ef70fd803b32",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "9feb70b9-80a2-4b12-96ea-62d423af00f0",
             Name = "Palestine, State of",
             Code2 = "PS",
             Code3 = "PSE",
-            Location = new Location(31.952162, 35.233154)
+            Location_Latitude = 31.952162,
+            Location_Longitude = 35.233154
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "170c3185-56a4-45cf-9a02-155170f08d88",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "9ef3163e-a0b7-4967-ae61-a87b5b5c19bc",
             Name = "Panama",
             Code2 = "PA",
             Code3 = "PAN",
-            Location = new Location(8.537981, -80.782127)
+            Location_Latitude = 8.537981,
+            Location_Longitude = -80.782127
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "2569c7db-1643-4a7b-be71-58728a279f50",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "33084585-3273-46ca-8fc7-b169f03dd1b8",
             Name = "Papua New Guinea",
             Code2 = "PG",
             Code3 = "PNG",
-            Location = new Location(-6.314993, 143.95555)
+            Location_Latitude = -6.314993,
+            Location_Longitude = 143.95555
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "720976cf-eb1e-4154-95e6-8a65dc594d6b",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "33edd49d-df1c-40c0-a098-4a5c369e23a3",
             Name = "Paraguay",
             Code2 = "PY",
             Code3 = "PRY",
-            Location = new Location(-23.442503, -58.443832)
+            Location_Latitude = -23.442503,
+            Location_Longitude = -58.443832
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "a50a83ef-996d-40fc-bb42-f83bd803318f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "57eedc31-71b7-44bc-aca0-2b3ff9e64361",
             Name = "Peru",
             Code2 = "PE",
             Code3 = "PER",
-            Location = new Location(-9.189967, -75.015152)
+            Location_Latitude = -9.189967,
+            Location_Longitude = -75.015152
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "9439669c-4a25-4bdd-81f4-d8fab7550c59",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "ec195e19-a5f9-4ab3-a0d7-50174fb14dc8",
             Name = "Philippines",
             Code2 = "PH",
             Code3 = "PHL",
-            Location = new Location(12.879721, 121.774017)
+            Location_Latitude = 12.879721,
+            Location_Longitude = 121.774017
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "3dc9dcbf-feb3-4b35-a5cb-985eb95f2727",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "dd1095a3-0b66-41ae-a3ba-2f415b7839b2",
             Name = "Pitcairn",
             Code2 = "PN",
             Code3 = "PCN",
-            Location = new Location(-24.703615, -127.439308)
+            Location_Latitude = -24.703615,
+            Location_Longitude = -127.439308
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "6036195b-06c0-4be2-8c2d-06bb8b8490af",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "13e332cd-aa81-410d-b18c-ad95b6b13663",
             Name = "Poland",
             Code2 = "PL",
             Code3 = "POL",
-            Location = new Location(51.919438, 19.145136)
+            Location_Latitude = 51.919438,
+            Location_Longitude = 19.145136
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "22b62f65-e5ff-44a3-9ee9-5968a128968b",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "5e288331-46de-49f9-a1be-896fb4e5cffa",
             Name = "Portugal",
             Code2 = "PT",
             Code3 = "PRT",
-            Location = new Location(39.399872, -8.224454)
+            Location_Latitude = 39.399872,
+            Location_Longitude = -8.224454
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "b5a3ecdb-af19-4343-ae05-c2e75cd199d7",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "73a60e18-9dbe-4f74-8353-5c5568e572c8",
             Name = "Puerto Rico",
             Code2 = "PR",
             Code3 = "PRI",
-            Location = new Location(18.220833, -66.590149)
+            Location_Latitude = 18.220833,
+            Location_Longitude = -66.590149
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "1b948673-7b9f-4748-9a4e-84bc5ae37b05",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "bcd0422f-1de7-4e28-aa0f-08df50134a83",
             Name = "Qatar",
             Code2 = "QA",
             Code3 = "QAT",
-            Location = new Location(25.354826, 51.183884)
+            Location_Latitude = 25.354826,
+            Location_Longitude = 51.183884
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "95722eab-9002-4653-b906-19e610370edb",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "39ab367c-b9e6-46a3-be15-132677ab2ab3",
             Name = "Réunion",
             Code2 = "RE",
             Code3 = "REU",
-            Location = new Location(-21.115141, 55.536384)
+            Location_Latitude = -21.115141,
+            Location_Longitude = 55.536384
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "00525050-fea4-4fea-b163-f39b64abf66b",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "325b9be0-826c-432a-aacc-4a8db883567f",
             Name = "Reunion",
             Code2 = "RE",
             Code3 = "REU",
-            Location = new Location(-21.115141, 55.536384)
+            Location_Latitude = -21.115141,
+            Location_Longitude = 55.536384
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "efcc61d5-d644-4811-9e4b-66188dfbda9c",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "4b2947f4-4d12-47c3-9d57-a8ba8df11ccb",
             Name = "Romania",
             Code2 = "RO",
             Code3 = "ROU",
-            Location = new Location(45.943161, 24.96676)
+            Location_Latitude = 45.943161,
+            Location_Longitude = 24.96676
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "041a7f28-b4d1-4b50-b910-2f3718461d2d",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "f4830d35-f82d-4d0a-889c-7500e6e40973",
             Name = "Russian Federation",
             Code2 = "RU",
             Code3 = "RUS",
-            Location = new Location(61.52401, 105.318756)
+            Location_Latitude = 61.52401,
+            Location_Longitude = 105.318756
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e2afb616-81e2-4318-b75a-4d96a829410b",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "e8fe4d7a-f640-4c2f-8de2-dd64552074cb",
             Name = "Russia",
             Code2 = "RU",
             Code3 = "RUS",
-            Location = new Location(61.52401, 105.318756)
+            Location_Latitude = 61.52401,
+            Location_Longitude = 105.318756
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "d5aa861a-626f-4706-b348-c5993fe07096",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "5387a1a4-d6ae-43cd-b343-e5f2be6af1ea",
             Name = "Rwanda",
             Code2 = "RW",
             Code3 = "RWA",
-            Location = new Location(-1.940278, 29.873888)
+            Location_Latitude = -1.940278,
+            Location_Longitude = 29.873888
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "5fa95821-5fa2-4344-b40d-a82c5ee9d2fd",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "54478e1d-a6b7-4c1c-97c1-4d82ede303f6",
             Name = "Saint Barthélemy",
             Code2 = "BL",
             Code3 = "BLM",
-            Location = new Location(0, 0)
+            Location_Latitude = 0,
+            Location_Longitude = 0
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "8c31be1d-2319-40e9-b40d-a43ae7c69649",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "f370ac01-e25a-460a-b95e-fb4e97180f5c",
             Name = "Saint Helena, Ascension and Tristan da Cunha",
             Code2 = "SH",
             Code3 = "SHN",
-            Location = new Location(-24.143474, -10.030696)
+            Location_Latitude = -24.143474,
+            Location_Longitude = -10.030696
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "5376dc84-1dcd-4c4e-b989-d82124614492",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "906fd092-01ed-40a7-a01e-6f51dd72762d",
             Name = "Saint Kitts and Nevis",
             Code2 = "KN",
             Code3 = "KNA",
-            Location = new Location(17.357822, -62.782998)
+            Location_Latitude = 17.357822,
+            Location_Longitude = -62.782998
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "fa9aa6ba-9b0d-48f6-aa82-0418fb2380fd",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "3a70a768-03fc-4870-9509-9275ab7110b0",
             Name = "Saint Lucia",
             Code2 = "LC",
             Code3 = "LCA",
-            Location = new Location(13.909444, -60.978893)
+            Location_Latitude = 13.909444,
+            Location_Longitude = -60.978893
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "de5c872e-becd-4bf6-9a74-eed385ac8165",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "192f49dc-d414-4c45-9b3c-8d90b3f394ee",
             Name = "Saint Martin (French part)",
             Code2 = "MF",
             Code3 = "MAF",
-            Location = new Location(0, 0)
+            Location_Latitude = 0,
+            Location_Longitude = 0
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "325f24bf-e067-46ac-8af9-c4591621cbc2",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "2355a54e-a7f4-4318-871a-38d6edd75207",
             Name = "Saint Pierre and Miquelon",
             Code2 = "PM",
             Code3 = "SPM",
-            Location = new Location(46.941936, -56.27111)
+            Location_Latitude = 46.941936,
+            Location_Longitude = -56.27111
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "5e076736-2877-4b63-802e-5a8581b4fe23",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "b582ecd6-a1cf-427d-8bb8-042e0e0aed87",
             Name = "Saint Vincent and the Grenadines",
             Code2 = "VC",
             Code3 = "VCT",
-            Location = new Location(12.984305, -61.287228)
+            Location_Latitude = 12.984305,
+            Location_Longitude = -61.287228
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "a969d68d-d8f4-4948-a120-39824ccbd657",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "7f2d7293-2403-45d6-90c0-509842bc1692",
             Name = "Samoa",
             Code2 = "WS",
             Code3 = "WSM",
-            Location = new Location(-13.759029, -172.104629)
+            Location_Latitude = -13.759029,
+            Location_Longitude = -172.104629
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "a270de44-ae42-48ec-b955-c58737af7981",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "68b82b62-fbdc-4ba3-8077-db71f2c8a249",
             Name = "San Marino",
             Code2 = "SM",
             Code3 = "SMR",
-            Location = new Location(43.94236, 12.457777)
+            Location_Latitude = 43.94236,
+            Location_Longitude = 12.457777
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "222b8b6a-8848-4d89-b008-4b4eed74c6e5",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "b0d1a2c9-16b7-445d-8dc9-c1c1ec13d561",
             Name = "Sao Tome and Principe",
             Code2 = "ST",
             Code3 = "STP",
-            Location = new Location(0.18636, 6.613081)
+            Location_Latitude = 0.18636,
+            Location_Longitude = 6.613081
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "64e63e60-0bd7-4463-893e-f0c38d97691a",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "37e82658-5623-497e-aad4-9a62d8912f3b",
             Name = "Saudi Arabia",
             Code2 = "SA",
             Code3 = "SAU",
-            Location = new Location(23.885942, 45.079162)
+            Location_Latitude = 23.885942,
+            Location_Longitude = 45.079162
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "4268d70b-c383-49e0-94e5-8e7620ce5dd7",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "f3bbbf8f-b177-4a1a-94f3-c333a5c11391",
             Name = "Senegal",
             Code2 = "SN",
             Code3 = "SEN",
-            Location = new Location(14.497401, -14.452362)
+            Location_Latitude = 14.497401,
+            Location_Longitude = -14.452362
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "8094745f-565b-48b8-9b85-aea028634a30",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "0806405a-df0b-45a6-8613-788a1af3c621",
             Name = "Serbia",
             Code2 = "RS",
             Code3 = "SRB",
-            Location = new Location(44.016521, 21.005859)
+            Location_Latitude = 44.016521,
+            Location_Longitude = 21.005859
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "3e4536f4-8188-4ec4-a1bc-9f93dbd3f332",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "b5a0b813-c87a-48da-a4a6-8230e9e6bd52",
             Name = "Serbia (Yugoslavia)",
             Code2 = "RS",
             Code3 = "SRB",
-            Location = new Location(44.016521, 21.005859)
+            Location_Latitude = 44.016521,
+            Location_Longitude = 21.005859
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "758f8d77-0042-4217-b54d-64ed0d3f389b",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "7990469e-7444-4b2b-8b0c-e5370e088840",
             Name = "Seychelles",
             Code2 = "SC",
             Code3 = "SYC",
-            Location = new Location(-4.679574, 55.491977)
+            Location_Latitude = -4.679574,
+            Location_Longitude = 55.491977
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e2793017-8983-41e9-82d0-cc402ba67821",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "023fa312-2e64-448c-a3c3-2f819f15acba",
             Name = "Sierra Leone",
             Code2 = "SL",
             Code3 = "SLE",
-            Location = new Location(8.460555, -11.779889)
+            Location_Latitude = 8.460555,
+            Location_Longitude = -11.779889
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "cd6b5cee-52cd-4faa-8f79-517c496d1905",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "ed4e10a8-3a3d-4651-9f1a-3d51d07b9ab7",
             Name = "Singapore",
             Code2 = "SG",
             Code3 = "SGP",
-            Location = new Location(1.352083, 103.819836)
+            Location_Latitude = 1.352083,
+            Location_Longitude = 103.819836
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "f0d3caf3-5559-4ca4-a08c-48d597844cb5",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "e9924300-87ab-41ab-a182-7813e3875c4a",
             Name = "Sint Maarten (Dutch part)",
             Code2 = "SX",
             Code3 = "SXM",
-            Location = new Location(0, 0)
+            Location_Latitude = 0,
+            Location_Longitude = 0
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "cdb13add-f9dd-46f3-9eba-74b888e9bf5c",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "0ac58dff-6627-46b3-aea9-b80e90155804",
             Name = "Slovakia",
             Code2 = "SK",
             Code3 = "SVK",
-            Location = new Location(48.669026, 19.699024)
+            Location_Latitude = 48.669026,
+            Location_Longitude = 19.699024
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "f8036f60-ed43-4df3-882b-1f9ad62d15e9",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "48aaaf32-beb2-4923-9aaa-4c95370b9252",
             Name = "Slovenia",
             Code2 = "SI",
             Code3 = "SVN",
-            Location = new Location(46.151241, 14.995463)
+            Location_Latitude = 46.151241,
+            Location_Longitude = 14.995463
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "6b0ce29c-58e0-46a9-97e7-95eab0dc7042",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "0e51bcfc-47f4-4488-ac1e-06c6cf4e2b80",
             Name = "Solomon Islands",
             Code2 = "SB",
             Code3 = "SLB",
-            Location = new Location(-9.64571, 160.156194)
+            Location_Latitude = -9.64571,
+            Location_Longitude = 160.156194
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "dd31adfe-4585-470f-ac52-b76da3776759",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "d906ae67-c0fe-4f92-b876-a746aaa8bca0",
             Name = "Somalia",
             Code2 = "SO",
             Code3 = "SOM",
-            Location = new Location(5.152149, 46.199616)
+            Location_Latitude = 5.152149,
+            Location_Longitude = 46.199616
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "5da81b83-04bd-4191-90c1-638f29859223",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "8e4a3dd7-b653-4c95-b450-b8bddb9d6dad",
             Name = "South Africa",
             Code2 = "ZA",
             Code3 = "ZAF",
-            Location = new Location(-30.559482, 22.937506)
+            Location_Latitude = -30.559482,
+            Location_Longitude = 22.937506
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "c506e31f-e2a0-47fb-815e-2111a437e5d6",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "85f7d9d9-72a0-49eb-9209-0fba3cfbabc3",
             Name = "South Georgia and the South Sandwich Islands",
             Code2 = "GS",
             Code3 = "SGS",
-            Location = new Location(-54.429579, -36.587909)
+            Location_Latitude = -54.429579,
+            Location_Longitude = -36.587909
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e62f05e2-c7c8-43de-818b-6b3a4e9dcbdd",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "6ceb040a-7570-421d-b75f-152cdbe20a19",
             Name = "South Sudan",
             Code2 = "SS",
             Code3 = "SSD",
-            Location = new Location(0, 0)
+            Location_Latitude = 0,
+            Location_Longitude = 0
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "f6fe03b1-2a69-4890-8f13-ebcd64f88a0e",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "d1f3c06a-280a-4e36-a6d0-5d80a3c7ac2d",
             Name = "Spain",
             Code2 = "ES",
             Code3 = "ESP",
-            Location = new Location(40.463667, -3.74922)
+            Location_Latitude = 40.463667,
+            Location_Longitude = -3.74922
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "94f4735e-0ab6-457e-8b81-12036baf29bc",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "2e940e72-d23a-48ff-9c3c-811610b1556e",
             Name = "España",
             Code2 = "ES",
             Code3 = "ESP",
-            Location = new Location(40.463667, -3.74922)
+            Location_Latitude = 40.463667,
+            Location_Longitude = -3.74922
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "d8da4aa4-e560-41d1-9cf1-8b6041572682",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "92ea4afd-0bd6-4fb4-a984-3ea66497462c",
             Name = "Sri Lanka",
             Code2 = "LK",
             Code3 = "LKA",
-            Location = new Location(7.873054, 80.771797)
+            Location_Latitude = 7.873054,
+            Location_Longitude = 80.771797
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "50be91ea-65ad-407b-accf-f309e6d94e32",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "d56e076c-0143-41b0-868b-4a9dc7e5a062",
             Name = "Sudan",
             Code2 = "SD",
             Code3 = "SDN",
-            Location = new Location(12.862807, 30.217636)
+            Location_Latitude = 12.862807,
+            Location_Longitude = 30.217636
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "4c2cb14c-656c-4cfb-ab59-0ec87bb5064c",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "87a92f9a-3b31-45a9-8ff5-06f1b063d0a3",
             Name = "Suriname",
             Code2 = "SR",
             Code3 = "SUR",
-            Location = new Location(3.919305, -56.027783)
+            Location_Latitude = 3.919305,
+            Location_Longitude = -56.027783
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "4551232e-b24a-4d1a-a58b-880b7ac09745",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "29e60779-dd75-4484-b510-81a6ef1575c7",
             Name = "Svalbard and Jan Mayen",
             Code2 = "SJ",
             Code3 = "SJM",
-            Location = new Location(77.553604, 23.670272)
+            Location_Latitude = 77.553604,
+            Location_Longitude = 23.670272
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "2713b1f2-f7ad-4aae-b5eb-f45c161560c7",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c25570bd-0810-4872-9c04-86c0ef0ba2c7",
             Name = "Sweden",
             Code2 = "SE",
             Code3 = "SWE",
-            Location = new Location(60.128161, 18.643501)
+            Location_Latitude = 60.128161,
+            Location_Longitude = 18.643501
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e00139e2-044f-4d18-a5c9-7dbefea8b109",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "17779450-4593-4630-a455-0c0f84fb703b",
             Name = "Switzerland",
             Code2 = "CH",
             Code3 = "CHE",
-            Location = new Location(46.818188, 8.227512)
+            Location_Latitude = 46.818188,
+            Location_Longitude = 8.227512
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "2f82f73d-8717-4fd5-b998-e278cedc3b7f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "3b2540c5-cc80-48b9-aeb3-d53195ecba11",
             Name = "Syrian Arab Republic",
             Code2 = "SY",
             Code3 = "SYR",
-            Location = new Location(34.802075, 38.996815)
+            Location_Latitude = 34.802075,
+            Location_Longitude = 38.996815
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "d768a6be-50fa-4e86-a951-6561bab9e2b1",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "355fba98-4348-4988-aae6-e327fa3929ac",
             Name = "Syria",
             Code2 = "SY",
             Code3 = "SYR",
-            Location = new Location(34.802075, 38.996815)
+            Location_Latitude = 34.802075,
+            Location_Longitude = 38.996815
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "65046973-e723-4aa9-b426-850f80fd1662",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "57f0c3c3-673d-49e1-b883-93b08b514c8a",
             Name = "Taiwan, Province of China",
             Code2 = "TW",
             Code3 = "TWN",
-            Location = new Location(23.69781, 120.960515)
+            Location_Latitude = 23.69781,
+            Location_Longitude = 120.960515
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "49bfa895-493d-4b35-b5ad-a82459d98ed8",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "cc857da7-5f46-40d7-a3d2-5a0d5f8ae681",
             Name = "Taiwan",
             Code2 = "TW",
             Code3 = "TWN",
-            Location = new Location(23.69781, 120.960515)
+            Location_Latitude = 23.69781,
+            Location_Longitude = 120.960515
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "7d92f7b9-2110-4c44-ba1d-7a011cf9f2b5",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "249ce334-dcd5-44af-a83b-9113f5727a09",
             Name = "Tajikistan",
             Code2 = "TJ",
             Code3 = "TJK",
-            Location = new Location(38.861034, 71.276093)
+            Location_Latitude = 38.861034,
+            Location_Longitude = 71.276093
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "e61add25-8fa7-4f11-bcc9-a3341241e28f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "88fccb28-b38e-4093-b2e6-b2790ec01e95",
             Name = "Tanzania, United Republic of",
             Code2 = "TZ",
             Code3 = "TZA",
-            Location = new Location(-6.369028, 34.888822)
+            Location_Latitude = -6.369028,
+            Location_Longitude = 34.888822
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "2bf87233-8c8f-4a7b-886d-b52e2bd5822b",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "9cfd90ea-1001-441c-aa9a-6bfbfc3a1b63",
             Name = "Thailand",
             Code2 = "TH",
             Code3 = "THA",
-            Location = new Location(15.870032, 100.992541)
+            Location_Latitude = 15.870032,
+            Location_Longitude = 100.992541
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "ed5bbb43-47e8-4ee0-9df2-8925afe2f4b1",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "f78fb1e7-1322-4f77-a166-7d78776f35db",
             Name = "Timor-Leste",
             Code2 = "TL",
             Code3 = "TLS",
-            Location = new Location(-8.874217, 125.727539)
+            Location_Latitude = -8.874217,
+            Location_Longitude = 125.727539
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "8c254347-570e-45ce-868c-95d23e6a2693",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "7cb25e94-cbe0-46a4-8f46-b7ae5cd06312",
             Name = "Togo",
             Code2 = "TG",
             Code3 = "TGO",
-            Location = new Location(8.619543, 0.824782)
+            Location_Latitude = 8.619543,
+            Location_Longitude = 0.824782
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "c6ac811c-cd25-447a-b361-96b12062da11",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c82f03a5-bd89-44a3-87a8-41984e723e38",
             Name = "Tokelau",
             Code2 = "TK",
             Code3 = "TKL",
-            Location = new Location(-8.967363, -171.855881)
+            Location_Latitude = -8.967363,
+            Location_Longitude = -171.855881
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "3a302f49-64f1-43e7-9f04-c4c9a9b181bb",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "6bb35bfd-1af5-4d98-a308-0c4824241a47",
             Name = "Tonga",
             Code2 = "TO",
             Code3 = "TON",
-            Location = new Location(-21.178986, -175.198242)
+            Location_Latitude = -21.178986,
+            Location_Longitude = -175.198242
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "70d670f5-412f-4bb7-958f-5226e7c09cb5",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "9cba9cc9-9b55-4407-8158-86c3de455e3c",
             Name = "Trinidad and Tobago",
             Code2 = "TT",
             Code3 = "TTO",
-            Location = new Location(10.691803, -61.222503)
+            Location_Latitude = 10.691803,
+            Location_Longitude = -61.222503
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "7985231a-d6ea-43d7-ab16-aab75143aae1",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c805b9a0-9069-4142-a30f-314582da3b7b",
             Name = "Tunisia",
             Code2 = "TN",
             Code3 = "TUN",
-            Location = new Location(33.886917, 9.537499)
+            Location_Latitude = 33.886917,
+            Location_Longitude = 9.537499
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "066af74e-26f9-4e21-a6e9-6ada818ccaa4",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "a49e3fb1-f5dd-4ac3-bd2a-586fd3bca53c",
             Name = "Turkey",
             Code2 = "TR",
             Code3 = "TUR",
-            Location = new Location(38.963745, 35.243322)
+            Location_Latitude = 38.963745,
+            Location_Longitude = 35.243322
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "81ab5203-120c-4e32-8193-303664dedb49",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "847ce96d-7f00-4abb-95f5-8d89887deed8",
             Name = "Turkmenistan",
             Code2 = "TM",
             Code3 = "TKM",
-            Location = new Location(38.969719, 59.556278)
+            Location_Latitude = 38.969719,
+            Location_Longitude = 59.556278
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "11ddf45f-a653-423c-a454-7c34f1f38670",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "ca709869-c458-4688-b190-903d7bf65e69",
             Name = "Turks and Caicos Islands",
             Code2 = "TC",
             Code3 = "TCA",
-            Location = new Location(21.694025, -71.797928)
+            Location_Latitude = 21.694025,
+            Location_Longitude = -71.797928
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "a57d6d3c-9bb0-4abd-b4b9-7399278dc81f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "8b659753-4d5c-42d5-891c-5a52f5f85e64",
             Name = "Tuvalu",
             Code2 = "TV",
             Code3 = "TUV",
-            Location = new Location(-7.109535, 177.64933)
+            Location_Latitude = -7.109535,
+            Location_Longitude = 177.64933
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "f3c6a1fc-c117-43a4-84b2-c6ef69a028e4",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "d19bc0f6-bb76-4816-a27f-85258169e92b",
             Name = "Uganda",
             Code2 = "UG",
             Code3 = "UGA",
-            Location = new Location(1.373333, 32.290275)
+            Location_Latitude = 1.373333,
+            Location_Longitude = 32.290275
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "d430ac13-81b6-4265-a589-1a9a8c5678bc",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "b93dca51-d727-442d-ad20-f72e435998a8",
             Name = "Ukraine",
             Code2 = "UA",
             Code3 = "UKR",
-            Location = new Location(48.379433, 31.16558)
+            Location_Latitude = 48.379433,
+            Location_Longitude = 31.16558
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "d229597d-95f5-4a1b-98c0-019233369a07",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "ba49c51b-7e06-4539-ad8b-3f8be3bec319",
             Name = "United Arab Emirates",
             Code2 = "AE",
             Code3 = "ARE",
-            Location = new Location(23.424076, 53.847818)
+            Location_Latitude = 23.424076,
+            Location_Longitude = 53.847818
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "00086250-0b35-4988-89e4-4b00b8fbe6b8",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "92892d5c-732e-48eb-97fa-f0d95670b66b",
             Name = "United Kingdom of Great Britain and Northern Ireland",
             Code2 = "GB",
             Code3 = "GBR",
-            Location = new Location(55.378051, -3.435973)
+            Location_Latitude = 55.378051,
+            Location_Longitude = -3.435973
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "80859453-05bd-4a1c-8609-1e5be734dac3",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "ec91b935-16a3-46b9-8d8b-a35720331fd5",
             Name = "United Kingdom",
             Code2 = "GB",
             Code3 = "GBR",
-            Location = new Location(55.378051, -3.435973)
+            Location_Latitude = 55.378051,
+            Location_Longitude = -3.435973
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "1e7f8d3d-98b9-488e-b056-495e69c7a9a1",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "844cd310-c633-4077-a629-af5c23207319",
             Name = "United States of America",
             Code2 = "US",
             Code3 = "USA",
-            Location = new Location(37.09024, -95.712891)
+            Location_Latitude = 37.09024,
+            Location_Longitude = -95.712891
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "0fae96d3-1ede-43f9-a90c-cf3370c9f8f2",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "97dcd74c-1d3d-4833-bd22-55a67546d067",
             Name = "United States",
             Code2 = "US",
             Code3 = "USA",
-            Location = new Location(37.09024, -95.712891)
+            Location_Latitude = 37.09024,
+            Location_Longitude = -95.712891
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "9cad0ff2-8249-410c-b286-73510d406c1c",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "975e01db-ab12-442c-ba1f-3b424265958d",
             Name = "United States Minor Outlying Islands",
             Code2 = "UM",
             Code3 = "UMI",
-            Location = new Location(0, 0)
+            Location_Latitude = 0,
+            Location_Longitude = 0
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "20ebc9fe-4e83-4085-b681-d16876fbb402",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "0e66ebff-f321-4e8e-a9b7-0aa4e59a80c2",
             Name = "Uruguay",
             Code2 = "UY",
             Code3 = "URY",
-            Location = new Location(-32.522779, -55.765835)
+            Location_Latitude = -32.522779,
+            Location_Longitude = -55.765835
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "71befb57-c159-458f-bdd0-e11c68c9c4ac",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "dc17bfac-fc2d-4f3d-8036-111d9de681f5",
             Name = "Uzbekistan",
             Code2 = "UZ",
             Code3 = "UZB",
-            Location = new Location(41.377491, 64.585262)
+            Location_Latitude = 41.377491,
+            Location_Longitude = 64.585262
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "b2e13f6b-27db-40c3-8d2f-96b2f493b850",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "af4e5c94-b79a-431b-a9e8-23688bbeda03",
             Name = "Vanuatu",
             Code2 = "VU",
             Code3 = "VUT",
-            Location = new Location(-15.376706, 166.959158)
+            Location_Latitude = -15.376706,
+            Location_Longitude = 166.959158
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "5ef76278-12d3-438d-b36b-6d3d878de255",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "31f99f96-c345-4a13-8639-bf716ac9c104",
             Name = "Venezuela (Bolivarian Republic of)",
             Code2 = "VE",
             Code3 = "VEN",
-            Location = new Location(6.42375, -66.58973)
+            Location_Latitude = 6.42375,
+            Location_Longitude = -66.58973
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "63d9d7e1-c6b7-4d17-a53d-b9b1403f0402",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "32aa5036-4cbf-472e-97af-201f143b14bf",
             Name = "Venezuela",
             Code2 = "VE",
             Code3 = "VEN",
-            Location = new Location(6.42375, -66.58973)
+            Location_Latitude = 6.42375,
+            Location_Longitude = -66.58973
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "4b4b52b8-4af5-4296-a7d6-fa1437deb0bb",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "b95674d5-f7de-4238-aba9-5ba8d6b0a742",
             Name = "Viet Nam",
             Code2 = "VN",
             Code3 = "VNM",
-            Location = new Location(14.058324, 108.277199)
+            Location_Latitude = 14.058324,
+            Location_Longitude = 108.277199
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "3c5ed6d6-01e2-4912-a79c-3a3a1c35e27a",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "103da448-ca0a-46f9-8c47-aacc7777c552",
             Name = "Virgin Islands (British)",
             Code2 = "VG",
             Code3 = "VGB",
-            Location = new Location(18.420695, -64.639968)
+            Location_Latitude = 18.420695,
+            Location_Longitude = -64.639968
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "0097ae3d-3acb-42a9-91f2-9d163f9af781",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "c30b17c1-5289-49c8-84e2-d3fdd839be1c",
             Name = "Virgin Isles (British)",
             Code2 = "VG",
             Code3 = "VGB",
-            Location = new Location(18.420695, -64.639968)
+            Location_Latitude = 18.420695,
+            Location_Longitude = -64.639968
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "5efbb017-e6f2-478d-bacb-4a5b5fccd499",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "44bc7a2e-aeeb-45d3-b6da-b2620e75ac9f",
             Name = "Virgin Islands (U.S.)",
             Code2 = "VI",
             Code3 = "VIR",
-            Location = new Location(18.335765, -64.896335)
+            Location_Latitude = 18.335765,
+            Location_Longitude = -64.896335
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "4636fc72-14d7-4c75-a68a-0d321f7ecf9f",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "447b16f1-4894-420c-ba88-b8583ccec770",
             Name = "Wallis and Futuna",
             Code2 = "WF",
             Code3 = "WLF",
-            Location = new Location(-13.768752, -177.156097)
+            Location_Latitude = -13.768752,
+            Location_Longitude = -177.156097
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "a2a63d40-eb6f-464a-b87c-103adb838817",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "7adc80bf-e289-4f2f-88fe-f207d8f9feba",
             Name = "Western Sahara",
             Code2 = "EH",
             Code3 = "ESH",
-            Location = new Location(24.215527, -12.885834)
+            Location_Latitude = 24.215527,
+            Location_Longitude = -12.885834
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "db2d40f8-d7b6-466e-ac79-d1b0a6df40a1",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "2bfa8436-4ad3-4d2f-a4c1-85c990b2e57f",
             Name = "Yemen",
             Code2 = "YE",
             Code3 = "YEM",
-            Location = new Location(15.552727, 48.516388)
+            Location_Latitude = 15.552727,
+            Location_Longitude = 48.516388
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "5a70524e-1a39-4a90-a80f-90b09a20344e",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "bc262cbe-39da-455f-9249-e421e0038442",
             Name = "Zambia",
             Code2 = "ZM",
             Code3 = "ZMB",
-            Location = new Location(-13.133897, 27.849332)
+            Location_Latitude = -13.133897,
+            Location_Longitude = 27.849332
          });
-         builder.Entity<Country>().HasData(new Country() {
-            Id = "b66d53b6-ca6b-4324-834b-9bfc82cebbaa",
+
+         builder.Entity<Country>().HasData(new {
+            Id = "4fa476dd-5ec0-4169-9f74-a9bc1daf6f49",
             Name = "Zimbabwe",
             Code2 = "ZW",
             Code3 = "ZWE",
-            Location = new Location(-19.015438, 29.154857)
+            Location_Latitude = -19.015438,
+            Location_Longitude = 29.154857
          });
       }
    }
