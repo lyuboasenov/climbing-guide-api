@@ -51,5 +51,5 @@ message Grade {
 
 // The response message containing the grades.
 message GradesReply {
-    repeated Grade grades = 1;
+    repeated Grade results = 1;
 }

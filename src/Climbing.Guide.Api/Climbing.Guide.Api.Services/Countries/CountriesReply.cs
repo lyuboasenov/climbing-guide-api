@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace Climbing.Guide.Api.Services.Countries {
    public partial class CountriesReply : IMapFrom<IGetCountriesQueryReply> {
-
       public void Mapping(Profile profile) {
          profile.CreateMap<IGetCountriesQueryReply, CountriesReply>()
             .IncludeAllDerived()

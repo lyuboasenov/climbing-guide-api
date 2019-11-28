@@ -25,7 +25,7 @@ namespace Climbing.Guide.Api.Client.Services {
             var reply = await Client.GetGradesAsync(new GradesRequest() {
                Type = type
             });
-            return reply.Grades;
+            return reply.Results;
          } catch (Exception ex) {
             throw ex.ToCommunicationException();
          }

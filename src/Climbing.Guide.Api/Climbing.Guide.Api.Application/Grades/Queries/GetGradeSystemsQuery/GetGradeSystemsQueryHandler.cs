@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Climbing.Guide.Api.Application.Interfaces;
 using MediatR;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,11 +18,9 @@ namespace Climbing.Guide.Api.Application.Grades.Queries.GetGradeSystemsQuery {
       public Task<IGetGradeSystemsQueryReply> Handle(IGetGradeSystemsQuery request, CancellationToken cancellationToken) {
          return Task.FromResult<IGetGradeSystemsQueryReply>(
             new GetGradeSystemsQueryReply() {
-               Results = _context
-                  .GradeSystems
-                  .AsQueryable()
-                  .ProjectTo<GradeSystemDto>(_mapper.ConfigurationProvider)
+               Results = _mapper.Map<GradeSystemDto[]>(_context.GradeSystems)
             });
+         ;
       }
    }
 }
