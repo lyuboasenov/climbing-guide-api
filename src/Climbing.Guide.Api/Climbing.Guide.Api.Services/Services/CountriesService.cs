@@ -6,6 +6,7 @@ using Grpc.Core;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Climbing.Guide.Api.Services.Services {
@@ -25,7 +26,6 @@ namespace Climbing.Guide.Api.Services.Services {
 
          var result = await _mediator.Send(request);
          return _mapper.Map<IGetCountriesQueryReply, CountriesReply>(result);
-         //return _mapper.To<IGetCountriesQueryReply, CountriesReply>(result);
       }
    }
 }

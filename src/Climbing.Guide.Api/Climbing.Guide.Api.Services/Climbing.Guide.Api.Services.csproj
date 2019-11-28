@@ -26,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\AutoMapper\src\AutoMapper\AutoMapper.csproj" />
     <ProjectReference Include="..\Climbing.Guide.Api.Application\Climbing.Guide.Api.Application.csproj" />
     <ProjectReference Include="..\Climbing.Guide.Api.Common\Climbing.Guide.Api.Common.csproj" />
     <ProjectReference Include="..\Climbing.Guide.Api.Infrastructure\Climbing.Guide.Api.Infrastructure.csproj" />
