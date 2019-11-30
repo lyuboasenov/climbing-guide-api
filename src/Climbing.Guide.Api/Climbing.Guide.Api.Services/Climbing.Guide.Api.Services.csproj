@@ -7,17 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\areas.proto" />
     <None Remove="Protos\countries.proto" />
     <None Remove="Protos\grades.proto" />
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="Protos\areas.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\countries.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\grades.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.25.0" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

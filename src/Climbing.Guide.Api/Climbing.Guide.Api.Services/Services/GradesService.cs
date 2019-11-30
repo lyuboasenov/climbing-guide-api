@@ -19,17 +19,17 @@ namespace Climbing.Guide.Api.Services {
          _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
       }
 
-      public async override Task<GradeSystemsReply> GetGradeSystems(Empty request, ServerCallContext context) {
+      public async override Task<GetGradeSystemsReply> GetGradeSystems(Empty request, ServerCallContext context) {
          _logger.LogDebug($"GradesService.GetGradeSystems()");
 
          var appReply = await _mediator.Send(new GetGradeSystemsQuery());
-         return _mapper.Map<GradeSystemsReply>(appReply);
+         return _mapper.Map<GetGradeSystemsReply>(appReply);
       }
 
-      public async override Task<GradesReply> GetGrades(GradesRequest request, ServerCallContext context) {
+      public async override Task<GetGradesReply> GetGrades(GetGradesRequest request, ServerCallContext context) {
          _logger.LogDebug($"GradesService.GetGrades({request.Type})");
          var appReply = await _mediator.Send(request);
-         return _mapper.Map<GradesReply>(appReply);
+         return _mapper.Map<GetGradesReply>(appReply);
       }
    }
 }

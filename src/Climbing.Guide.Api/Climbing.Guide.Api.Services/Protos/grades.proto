@@ -7,9 +7,9 @@ option csharp_namespace = "Climbing.Guide.Api.Services.Grades";
 // The grades service definition.
 service GradesService {
   // Gets grading systems
-  rpc GetGradeSystems (google.protobuf.Empty) returns (GradeSystemsReply);
+  rpc GetGradeSystems (google.protobuf.Empty) returns (GetGradeSystemsReply);
   // Get grades by grade type
-  rpc GetGrades (GradesRequest) returns (GradesReply);
+  rpc GetGrades (GetGradesRequest) returns (GetGradesReply);
 }
 
 enum GradeSystemType {
@@ -34,12 +34,12 @@ message GradeSystem {
 }
 
 // The response message containing the grading systems.
-message GradeSystemsReply {
+message GetGradeSystemsReply {
     repeated GradeSystem results = 1;
 }
 
 // The request message containing grade type.
-message GradesRequest {
+message GetGradesRequest {
     GradeSystemType type = 1;
 }
 
@@ -50,6 +50,6 @@ message Grade {
 }
 
 // The response message containing the grades.
-message GradesReply {
+message GetGradesReply {
     repeated Grade results = 1;
 }

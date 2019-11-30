@@ -3,13 +3,15 @@ using Climbing.Guide.Api.Application.Interfaces;
 using Climbing.Guide.Api.Domain.Entities;
 using Climbing.Guide.Api.Domain.Entities.Interfaces;
 using Climbing.Guide.Api.Domain.Services;
+using Climbing.Guide.Api.Infrastructure.DataSeed;
+using Climbing.Guide.Api.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Climbing.Guide.Api.Infrastructure {
-   public class DbContext : Microsoft.EntityFrameworkCore.DbContext, IDbContext {
+   public class DbRepository : DbContext, IDbRepository {
       public DbSet<Route> Routes { get; set; }
       public DbSet<Area> Areas { get; set; }
       public DbSet<User> Users { get; set; }
@@ -18,13 +20,17 @@ namespace Climbing.Guide.Api.Infrastructure {
       private readonly ICurrentUserService _currentUser;
       private readonly IValueFactory _valueFactory;
 
-      public DbContext(DbContextOptions<DbContext> options) : base(options) {
+      public DbRepository(DbContextOptions<DbRepository> options) : base(options) {
+         //Routes = new DbSetAdapter<Route>(Set<Route>());
+         //Areas = new DbSetAdapter<Area>(Set<Area>());
+         //Users = new DbSetAdapter<User>(Set<User>());
+         //Countries = new DbSetAdapter<Country>(Set<Country>());
       }
 
-      public DbContext(DbContextOptions<DbContext> options,
+      public DbRepository(DbContextOptions<DbRepository> options,
          ICurrentUserService currentUser,
          IValueFactory valueFactory)
-            : base(options) {
+            : this(options) {
          _currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
          _valueFactory = valueFactory ?? throw new ArgumentNullException(nameof(valueFactory));
       }
@@ -60,7 +66,13 @@ namespace Climbing.Guide.Api.Infrastructure {
       }
 
       protected override void OnModelCreating(ModelBuilder modelBuilder) {
-         modelBuilder.ApplyConfigurationsFromAssembly(typeof(DbContext).Assembly);
+         modelBuilder.ApplyConfigurationsFromAssembly(typeof(DbRepository).Assembly);
+         modelBuilder.EnsureSeedData();
+      }
+
+      public void EnsureInitialized() {
+         Database.EnsureCreated();
+         //Database.Migrate();
       }
    }
 }

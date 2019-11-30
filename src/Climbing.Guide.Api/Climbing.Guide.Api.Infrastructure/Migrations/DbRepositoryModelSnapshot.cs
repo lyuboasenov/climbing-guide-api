@@ -4,16 +4,14 @@ using Climbing.Guide.Api.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Climbing.Guide.Api.Infrastructure.Migrations
 {
-    [DbContext(typeof(DbContext))]
-    [Migration("20191126110858_Initial")]
-    partial class Initial
+    [DbContext(typeof(DbRepository))]
+    partial class DbRepositoryModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,9 +37,6 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
                     b.Property<DateTime?>("ApprovedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("AreasContainerId")
-                        .HasColumnType("nvarchar(36)");
-
                     b.Property<byte[]>("ConcurrencyToken")
                         .IsConcurrencyToken()
                         .HasColumnType("varbinary(max)");
@@ -59,10 +54,6 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
 
                     b.Property<string>("Descent")
                         .HasColumnType("ntext");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ethics")
                         .HasColumnType("ntext");
@@ -100,8 +91,6 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
 
                     b.HasIndex("ApprovedById");
 
-                    b.HasIndex("AreasContainerId");
-
                     b.HasIndex("CountryId");
 
                     b.HasIndex("CreatedById");
@@ -112,7 +101,54 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
 
                     b.ToTable("Area");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Area");
+                    b.HasData(
+                        new
+                        {
+                            Id = "20144484-65bf-4c55-9f53-3e41cee9d923",
+                            CountryId = "67ef12fb-6c70-4763-bfc6-34575cfd6012",
+                            CreatedById = "6401cf99-a0dc-4747-9232-d307b21a360c",
+                            CreatedOn = new DateTime(2019, 11, 30, 20, 55, 59, 232, DateTimeKind.Local).AddTicks(1023),
+                            Info = "Prilep info.",
+                            Name = "Prilep",
+                            Revision = 1,
+                            Status = 2
+                        },
+                        new
+                        {
+                            Id = "c2fccbf6-4363-4850-ad97-54954812457e",
+                            CountryId = "67ef12fb-6c70-4763-bfc6-34575cfd6012",
+                            CreatedById = "6401cf99-a0dc-4747-9232-d307b21a360c",
+                            CreatedOn = new DateTime(2019, 11, 30, 20, 55, 59, 235, DateTimeKind.Local).AddTicks(5657),
+                            Info = "Treskavets Area info.",
+                            Name = "Treskavets",
+                            ParentId = "20144484-65bf-4c55-9f53-3e41cee9d923",
+                            Revision = 1,
+                            Status = 2
+                        },
+                        new
+                        {
+                            Id = "8d7d8b36-489b-4d9a-bd73-a7caa9853356",
+                            CountryId = "67ef12fb-6c70-4763-bfc6-34575cfd6012",
+                            CreatedById = "6401cf99-a0dc-4747-9232-d307b21a360c",
+                            CreatedOn = new DateTime(2019, 11, 30, 20, 55, 59, 235, DateTimeKind.Local).AddTicks(5763),
+                            Info = "Paragliding info.",
+                            Name = "Paragliding",
+                            ParentId = "c2fccbf6-4363-4850-ad97-54954812457e",
+                            Revision = 1,
+                            Status = 2
+                        },
+                        new
+                        {
+                            Id = "64875f09-3072-4dab-9d9f-d7286ce818a9",
+                            CountryId = "67ef12fb-6c70-4763-bfc6-34575cfd6012",
+                            CreatedById = "6401cf99-a0dc-4747-9232-d307b21a360c",
+                            CreatedOn = new DateTime(2019, 11, 30, 20, 55, 59, 235, DateTimeKind.Local).AddTicks(5797),
+                            Info = "Kamena baba info.",
+                            Name = "Kamena baba",
+                            ParentId = "20144484-65bf-4c55-9f53-3e41cee9d923",
+                            Revision = 1,
+                            Status = 2
+                        });
                 });
 
             modelBuilder.Entity("Climbing.Guide.Api.Domain.Entities.Country", b =>
@@ -2017,11 +2053,10 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
                     b.Property<string>("ApprovedById")
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<DateTime>("ApprovedOn")
+                    b.Property<DateTime?>("ApprovedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("AreaId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<byte[]>("ConcurrencyToken")
@@ -2035,8 +2070,8 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<float>("Difficulty")
-                        .HasColumnType("real");
+                    b.Property<double>("Difficulty")
+                        .HasColumnType("float");
 
                     b.Property<string>("History")
                         .HasColumnType("ntext");
@@ -2058,7 +2093,7 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
                     b.Property<int>("Revision")
                         .HasColumnType("int");
 
-                    b.Property<string>("RoutesContainerId")
+                    b.Property<string>("RouteId")
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("Status")
@@ -2070,7 +2105,7 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
                     b.Property<string>("UpdatedById")
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<DateTime>("UpdatedOn")
+                    b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -2081,11 +2116,28 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.HasIndex("RoutesContainerId");
+                    b.HasIndex("RouteId");
 
                     b.HasIndex("UpdatedById");
 
                     b.ToTable("Routes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "9dd6e524-6152-4cd0-8f81-7db94779b274",
+                            AreaId = "8d7d8b36-489b-4d9a-bd73-a7caa9853356",
+                            CreatedById = "6401cf99-a0dc-4747-9232-d307b21a360c",
+                            CreatedOn = new DateTime(2019, 11, 30, 20, 55, 59, 236, DateTimeKind.Local).AddTicks(940),
+                            Difficulty = 105.0,
+                            Info = "Shitstorm info.",
+                            Length = 4,
+                            Name = "Shitstorm",
+                            Rating = 4f,
+                            Revision = 1,
+                            Status = 2,
+                            Type = 1
+                        });
                 });
 
             modelBuilder.Entity("Climbing.Guide.Api.Domain.Entities.User", b =>
@@ -2111,81 +2163,11 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Climbing.Guide.Api.Domain.Entities.AreasContainer", b =>
-                {
-                    b.HasBaseType("Climbing.Guide.Api.Domain.Entities.Area");
-
-                    b.HasDiscriminator().HasValue("AreasContainer");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "20144484-65bf-4c55-9f53-3e41cee9d923",
-                            CountryId = "dfa4af2c-d01d-4a8a-825e-793d49a656ac",
-                            CreatedById = "6401cf99-a0dc-4747-9232-d307b21a360c",
-                            CreatedOn = new DateTime(2019, 11, 26, 13, 8, 57, 684, DateTimeKind.Local).AddTicks(7599),
-                            Info = "Prilep info.",
-                            Name = "Prilep",
-                            Revision = 1,
-                            Status = 2
-                        },
-                        new
-                        {
-                            Id = "c2fccbf6-4363-4850-ad97-54954812457e",
-                            CountryId = "dfa4af2c-d01d-4a8a-825e-793d49a656ac",
-                            CreatedById = "6401cf99-a0dc-4747-9232-d307b21a360c",
-                            CreatedOn = new DateTime(2019, 11, 26, 13, 8, 57, 688, DateTimeKind.Local).AddTicks(2586),
-                            Info = "Treskavets Area info.",
-                            Name = "Treskavets",
-                            ParentId = "20144484-65bf-4c55-9f53-3e41cee9d923",
-                            Revision = 1,
-                            Status = 2
-                        },
-                        new
-                        {
-                            Id = "64875f09-3072-4dab-9d9f-d7286ce818a9",
-                            CountryId = "dfa4af2c-d01d-4a8a-825e-793d49a656ac",
-                            CreatedById = "6401cf99-a0dc-4747-9232-d307b21a360c",
-                            CreatedOn = new DateTime(2019, 11, 26, 13, 8, 57, 688, DateTimeKind.Local).AddTicks(4308),
-                            Info = "Kamena baba info.",
-                            Name = "Kamena baba",
-                            ParentId = "20144484-65bf-4c55-9f53-3e41cee9d923",
-                            Revision = 1,
-                            Status = 2
-                        });
-                });
-
-            modelBuilder.Entity("Climbing.Guide.Api.Domain.Entities.RoutesContainer", b =>
-                {
-                    b.HasBaseType("Climbing.Guide.Api.Domain.Entities.Area");
-
-                    b.HasDiscriminator().HasValue("RoutesContainer");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "8d7d8b36-489b-4d9a-bd73-a7caa9853356",
-                            CountryId = "dfa4af2c-d01d-4a8a-825e-793d49a656ac",
-                            CreatedById = "6401cf99-a0dc-4747-9232-d307b21a360c",
-                            CreatedOn = new DateTime(2019, 11, 26, 13, 8, 57, 688, DateTimeKind.Local).AddTicks(4199),
-                            Info = "Paragliding info.",
-                            Name = "Paragliding",
-                            ParentId = "c2fccbf6-4363-4850-ad97-54954812457e",
-                            Revision = 1,
-                            Status = 2
-                        });
-                });
-
             modelBuilder.Entity("Climbing.Guide.Api.Domain.Entities.Area", b =>
                 {
                     b.HasOne("Climbing.Guide.Api.Domain.Entities.User", "ApprovedBy")
                         .WithMany()
                         .HasForeignKey("ApprovedById");
-
-                    b.HasOne("Climbing.Guide.Api.Domain.Entities.AreasContainer", null)
-                        .WithMany("Areas")
-                        .HasForeignKey("AreasContainerId")
-                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Climbing.Guide.Api.Domain.Entities.Country", "Country")
                         .WithMany()
@@ -2200,7 +2182,7 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Climbing.Guide.Api.Domain.Entities.Area", "Parent")
-                        .WithMany()
+                        .WithMany("Areas")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.NoAction);
 
@@ -2257,10 +2239,9 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
                         .HasForeignKey("ApprovedById");
 
                     b.HasOne("Climbing.Guide.Api.Domain.Entities.Area", "Area")
-                        .WithMany()
+                        .WithMany("Routes")
                         .HasForeignKey("AreaId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Climbing.Guide.Api.Domain.Entities.User", "CreatedBy")
                         .WithMany()
@@ -2268,10 +2249,9 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Climbing.Guide.Api.Domain.Entities.RoutesContainer", null)
-                        .WithMany("Routes")
-                        .HasForeignKey("RoutesContainerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("Climbing.Guide.Api.Domain.Entities.Route", null)
+                        .WithMany()
+                        .HasForeignKey("RouteId");
 
                     b.HasOne("Climbing.Guide.Api.Domain.Entities.User", "UpdatedBy")
                         .WithMany()
@@ -2318,6 +2298,36 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("RouteId");
+
+                            b1.HasData(
+                                new
+                                {
+                                    RouteId = "9dd6e524-6152-4cd0-8f81-7db94779b274",
+                                    Id = 1,
+                                    X = 0.5,
+                                    Y = 0.80000000000000004
+                                },
+                                new
+                                {
+                                    RouteId = "9dd6e524-6152-4cd0-8f81-7db94779b274",
+                                    Id = 2,
+                                    X = 0.29999999999999999,
+                                    Y = 0.55000000000000004
+                                },
+                                new
+                                {
+                                    RouteId = "9dd6e524-6152-4cd0-8f81-7db94779b274",
+                                    Id = 3,
+                                    X = 0.84999999999999998,
+                                    Y = 0.45000000000000001
+                                },
+                                new
+                                {
+                                    RouteId = "9dd6e524-6152-4cd0-8f81-7db94779b274",
+                                    Id = 4,
+                                    X = 0.5,
+                                    Y = 0.10000000000000001
+                                });
                         });
                 });
 #pragma warning restore 612, 618

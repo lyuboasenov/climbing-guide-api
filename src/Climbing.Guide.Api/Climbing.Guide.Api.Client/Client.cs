@@ -16,6 +16,7 @@ namespace Climbing.Guide.Api.Client {
       private readonly IDictionary<Type, Type> _serviceTypeMap = new Dictionary<Type, Type>() {
          { typeof(IGradesService), typeof(GradesService) },
          { typeof(ICountriesService), typeof(CountriesService) },
+         { typeof(IAreasService), typeof(AreasService) },
       };
 
 

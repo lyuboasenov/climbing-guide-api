@@ -22,7 +22,7 @@ namespace Climbing.Guide.Api.Client.Services {
 
       public async Task<IEnumerable<Grade>> GetGradesAsync(GradeSystemType type) {
          try {
-            var reply = await Client.GetGradesAsync(new GradesRequest() {
+            var reply = await Client.GetGradesAsync(new GetGradesRequest() {
                Type = type
             });
             return reply.Results;

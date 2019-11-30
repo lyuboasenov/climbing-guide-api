@@ -15,6 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="..\Climbing.Guide.Api.Services\Protos\areas.proto" GrpcServices="Client">
+      <Link>Protos\areas.proto</Link>
+    </Protobuf>
     <Protobuf Include="..\Climbing.Guide.Api.Services\Protos\countries.proto" GrpcServices="Client">
       <Link>Protos\countries.proto</Link>
     </Protobuf>

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 namespace Climbing.Guide.Api.Domain.Entities {
-   public abstract class Area : IIdentifiable, ILocatable, ITagable, IRevisionable {
+   public class Area : IIdentifiable, ILocatable, ITagable, IRevisionable, IAuditable {
       public string Id { get; set; }
       public Area Parent { get; set; }
       public Country Country { get; set; }
@@ -28,5 +28,8 @@ namespace Climbing.Guide.Api.Domain.Entities {
       #endregion ILocatable
       public int Revision { get; set; }
       public byte[] ConcurrencyToken { get; set; }
+
+      public ICollection<Area> Areas { get; } = new HashSet<Area>();
+      public ICollection<Route> Routes { get; } = new HashSet<Route>();
    }
 }

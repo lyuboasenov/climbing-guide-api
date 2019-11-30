@@ -4,9 +4,9 @@ using Climbing.Guide.Api.Common.Mappings;
 using System.Linq;
 
 namespace Climbing.Guide.Api.Services.Countries {
-   public partial class CountriesReply : IMapFrom<IGetCountriesQueryReply> {
+   public partial class GetCountriesReply : IMapFrom<IGetCountriesQueryReply> {
       public void Mapping(Profile profile) {
-         profile.CreateMap<IGetCountriesQueryReply, CountriesReply>()
+         profile.CreateMap<IGetCountriesQueryReply, GetCountriesReply>()
             .IncludeAllDerived()
             .AfterMap((source, destination, context) =>
                destination.Results.AddRange(

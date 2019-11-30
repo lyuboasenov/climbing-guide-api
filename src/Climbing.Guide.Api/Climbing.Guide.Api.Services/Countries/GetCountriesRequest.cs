@@ -2,6 +2,6 @@
 using Climbing.Guide.Api.Common.Mappings;
 
 namespace Climbing.Guide.Api.Services.Countries {
-   public partial class CountriesRequest : IGetCountriesQuery, IMapFrom<IGetCountriesQuery> {
+   public partial class GetCountriesRequest : IGetCountriesQueryRequest, IMapFrom<IGetCountriesQueryRequest> {
    }
 }

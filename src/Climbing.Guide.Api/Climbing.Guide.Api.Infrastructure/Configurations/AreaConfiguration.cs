@@ -14,8 +14,15 @@ namespace Climbing.Guide.Api.Infrastructure.Configurations {
             .HasMaxLength(36);
 
          builder
-            .HasOne(e => e.Parent)
-            .WithMany().OnDelete(DeleteBehavior.NoAction)
+            .HasMany(e => e.Areas)
+            .WithOne(a => a.Parent)
+            .OnDelete(DeleteBehavior.NoAction)
+            .IsRequired(false);
+
+         builder
+            .HasMany(e => e.Routes)
+            .WithOne(a => a.Area)
+            .OnDelete(DeleteBehavior.NoAction)
             .IsRequired(false);
 
          builder

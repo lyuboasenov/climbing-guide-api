@@ -1,6 +1,7 @@
 ﻿using Climbing.Guide.Api.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace Climbing.Guide.Api.Infrastructure.DataSeed {
    public static class ModelBuilderExtensions {
@@ -8,11 +9,58 @@ namespace Climbing.Guide.Api.Infrastructure.DataSeed {
          builder.EnsureUsersExist();
          builder.EnsureCountriesExist();
          builder.EnsureAreasExist();
+         builder.EnsureRoutesExist();
+      }
+
+      private static void EnsureRoutesExist(this ModelBuilder builder) {
+         builder.Entity<Route>().HasData(
+            new {
+               Id = "9dd6e524-6152-4cd0-8f81-7db94779b274",
+               AreaId = "8d7d8b36-489b-4d9a-bd73-a7caa9853356",
+               Status = EntityStatus.Active,
+               CreatedById = "6401cf99-a0dc-4747-9232-d307b21a360c",
+               CreatedOn = DateTime.Now,
+               Difficulty = 105d,
+               Length = (ushort) 4,
+               Location_Latitude = 41.397414,
+               Location_Longitude = 21.532483,
+               Name = "Shitstorm",
+               Info = "Shitstorm info.",
+               Rating = 4f,
+               Revision = 1,
+               Type = RouteType.Boulder
+            });
+
+         builder.Entity<Route>().OwnsMany<SchemaPoint>(r => r.Topo).HasData(
+            new {
+               Id = 1,
+               RouteId = "9dd6e524-6152-4cd0-8f81-7db94779b274",
+               X = 0.5,
+               Y = 0.8
+            },
+            new {
+               Id = 2,
+               RouteId = "9dd6e524-6152-4cd0-8f81-7db94779b274",
+               X = 0.3,
+               Y = 0.55
+            },
+            new {
+               Id = 3,
+               RouteId = "9dd6e524-6152-4cd0-8f81-7db94779b274",
+               X = 0.85,
+               Y = 0.45
+            },
+            new {
+               Id = 4,
+               RouteId = "9dd6e524-6152-4cd0-8f81-7db94779b274",
+               X = 0.5,
+               Y = 0.1
+            });
       }
 
       private static void EnsureAreasExist(this ModelBuilder builder) {
          string nullStr = null;
-         builder.Entity<AreasContainer>().HasData(
+         builder.Entity<Area>().HasData(
             new {
                Id = "20144484-65bf-4c55-9f53-3e41cee9d923",
                ParentId = nullStr,
@@ -27,11 +75,10 @@ namespace Climbing.Guide.Api.Infrastructure.DataSeed {
                Location_Longitude = 21.552799
             });
 
-         builder.Entity<AreasContainer>().HasData(
+         builder.Entity<Area>().HasData(
             new {
                Id = "c2fccbf6-4363-4850-ad97-54954812457e",
                ParentId = "20144484-65bf-4c55-9f53-3e41cee9d923",
-               AreaContainerId = "20144484-65bf-4c55-9f53-3e41cee9d923",
                Name = "Treskavets",
                Info = "Treskavets Area info.",
                CountryId = "67ef12fb-6c70-4763-bfc6-34575cfd6012",
@@ -43,7 +90,7 @@ namespace Climbing.Guide.Api.Infrastructure.DataSeed {
                Location_Longitude = 21.538183
             });
 
-         builder.Entity<RoutesContainer>().HasData(
+         builder.Entity<Area>().HasData(
             new {
                Id = "8d7d8b36-489b-4d9a-bd73-a7caa9853356",
                ParentId = "c2fccbf6-4363-4850-ad97-54954812457e",
@@ -58,11 +105,10 @@ namespace Climbing.Guide.Api.Infrastructure.DataSeed {
                Location_Longitude = 21.532008
             });
 
-         builder.Entity<AreasContainer>().HasData(
+         builder.Entity<Area>().HasData(
             new {
                Id = "64875f09-3072-4dab-9d9f-d7286ce818a9",
                ParentId = "20144484-65bf-4c55-9f53-3e41cee9d923",
-               AreaContainerId = "20144484-65bf-4c55-9f53-3e41cee9d923",
                Name = "Kamena baba",
                Info = "Kamena baba info.",
                CountryId = "67ef12fb-6c70-4763-bfc6-34575cfd6012",

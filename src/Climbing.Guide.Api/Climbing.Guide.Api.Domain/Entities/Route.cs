@@ -8,15 +8,15 @@ namespace Climbing.Guide.Api.Domain.Entities {
       public EntityStatus Status { get; set; }
       public DateTime CreatedOn { get; set; }
       public User CreatedBy { get; set; }
-      public DateTime UpdatedOn { get; set; }
+      public DateTime? UpdatedOn { get; set; }
       public User UpdatedBy { get; set; }
-      public DateTime ApprovedOn { get; set; }
+      public DateTime? ApprovedOn { get; set; }
       public User ApprovedBy { get; set; }
       #region ILocatable
       public Location Location { get; set; }
       #endregion ILocatable
       public Area Area { get; set; }
-      public float Difficulty { get; set; }
+      public double Difficulty { get; set; }
       public float Rating { get; set; }
       public ushort Length { get; set; }
       public string Name { get; set; }

@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
-using Climbing.Guide.Api.Application.Grades.Queries.GetGradesQuery;
+using Climbing.Guide.Api.Application.Grades.Queries.GetGradeSystemsQuery;
 using Climbing.Guide.Api.Common.Mappings;
 using System.Collections.Generic;
 
 namespace Climbing.Guide.Api.Services.Grades {
-   public partial class GradesReply : IMapFrom<IGetGradesQueryReply> {
+   public partial class GetGradeSystemsReply : IMapFrom<IGetGradeSystemsQueryReply> {
       public void Mapping(Profile profile) {
-         profile.CreateMap<IGetGradesQueryReply, GradesReply>()
+         profile.CreateMap<IGetGradeSystemsQueryReply, GetGradeSystemsReply>()
             .IncludeAllDerived()
             .AfterMap((source, destination, context) =>
                destination.Results.AddRange(
-                  context.Mapper.Map<IEnumerable<Grade>>(source.Results)));
+                  context.Mapper.Map<IEnumerable<GradeSystem>>(source.Results)));
       }
    }
 }

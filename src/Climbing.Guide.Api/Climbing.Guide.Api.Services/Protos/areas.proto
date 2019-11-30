@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "Climbing.Guide.Api.Services.Areas";
+
+// The countries service definition.
+service AreasService {
+  // Get grades by grade type
+  rpc GetAreas (GetAreasRequest) returns (GetAreasReply);
+}
+
+// The response message containing the grading systems.
+message GetAreasReply {
+    message Area {
+       string id = 1;
+       google.protobuf.StringValue parent_id = 2;
+       string name = 3;
+       google.protobuf.StringValue info = 4;
+       int32 areas_count = 5;
+       int32 routes_count = 6;
+       double latitude = 7;
+       double longitude = 8;
+    }
+
+    int32 offset = 1;
+    int32 count = 2;
+    bool has_more = 3;
+    repeated Area results = 4;
+}
+
+// The request message containing grade type.
+message GetAreasRequest {
+    int32 offset = 1;
+    int32 count = 2;
+}

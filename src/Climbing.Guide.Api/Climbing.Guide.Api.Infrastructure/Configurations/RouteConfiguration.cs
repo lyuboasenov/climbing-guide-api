@@ -15,11 +15,6 @@ namespace Climbing.Guide.Api.Infrastructure.Configurations {
             .IsRequired()
             .HasMaxLength(128);
 
-         builder.HasOne(e => e.Area)
-            .WithMany()
-            .OnDelete(DeleteBehavior.NoAction)
-            .IsRequired();
-
          builder.Property(e => e.Approach).HasColumnType("ntext");
          builder.Property(e => e.History).HasColumnType("ntext");
          builder.Property(e => e.Info).HasColumnType("ntext");
@@ -36,7 +31,8 @@ namespace Climbing.Guide.Api.Infrastructure.Configurations {
             .OwnsMany(e => e.Topo, cb => {
                cb.Property(c => c.X).IsRequired();
                cb.Property(c => c.Y).IsRequired();
-            });
+            })
+            .HasOne<Route>();
 
          builder
             .HasOne(e => e.CreatedBy)

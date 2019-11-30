@@ -21,11 +21,11 @@ namespace Climbing.Guide.Api.Services.Services {
          _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
       }
 
-      public async override Task<CountriesReply> GetCountries(CountriesRequest request, ServerCallContext context) {
+      public async override Task<GetCountriesReply> GetCountries(GetCountriesRequest request, ServerCallContext context) {
          _logger.LogDebug($"CountriesService.GetCountries({request.Offset}, {request.Count})");
 
          var result = await _mediator.Send(request);
-         return _mapper.Map<IGetCountriesQueryReply, CountriesReply>(result);
+         return _mapper.Map<IGetCountriesQueryReply, GetCountriesReply>(result);
       }
    }
 }

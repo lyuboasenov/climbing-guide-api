@@ -60,9 +60,7 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
                     Location_Latitude = table.Column<double>(nullable: true),
                     Location_Longitude = table.Column<double>(nullable: true),
                     Revision = table.Column<int>(nullable: false),
-                    ConcurrencyToken = table.Column<byte[]>(nullable: true),
-                    AreasContainerId = table.Column<string>(nullable: true),
-                    Discriminator = table.Column<string>(nullable: false)
+                    ConcurrencyToken = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -73,11 +71,6 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Area_Area_AreasContainerId",
-                        column: x => x.AreasContainerId,
-                        principalTable: "Area",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Area_Countries_CountryId",
                         column: x => x.CountryId,
@@ -109,14 +102,14 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
                     Status = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     CreatedById = table.Column<string>(nullable: false),
-                    UpdatedOn = table.Column<DateTime>(nullable: false),
+                    UpdatedOn = table.Column<DateTime>(nullable: true),
                     UpdatedById = table.Column<string>(nullable: true),
-                    ApprovedOn = table.Column<DateTime>(nullable: false),
+                    ApprovedOn = table.Column<DateTime>(nullable: true),
                     ApprovedById = table.Column<string>(nullable: true),
                     Location_Latitude = table.Column<double>(nullable: true),
                     Location_Longitude = table.Column<double>(nullable: true),
-                    AreaId = table.Column<string>(nullable: false),
-                    Difficulty = table.Column<float>(nullable: false),
+                    AreaId = table.Column<string>(nullable: true),
+                    Difficulty = table.Column<double>(nullable: false),
                     Rating = table.Column<float>(nullable: false),
                     Length = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 128, nullable: false),
@@ -126,7 +119,7 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
                     Type = table.Column<int>(nullable: false),
                     ConcurrencyToken = table.Column<byte[]>(nullable: true),
                     Revision = table.Column<int>(nullable: false),
-                    RoutesContainerId = table.Column<string>(nullable: true)
+                    RouteId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -148,11 +141,11 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
                         principalTable: "Users",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Routes_Area_RoutesContainerId",
-                        column: x => x.RoutesContainerId,
-                        principalTable: "Area",
+                        name: "FK_Routes_Routes_RouteId",
+                        column: x => x.RouteId,
+                        principalTable: "Routes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Routes_Users_UpdatedById",
                         column: x => x.UpdatedById,
@@ -462,33 +455,44 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Area",
-                columns: new[] { "Id", "Accomodations", "Approach", "ApprovedById", "ApprovedOn", "AreasContainerId", "ConcurrencyToken", "CountryId", "CreatedById", "CreatedOn", "Descent", "Discriminator", "Ethics", "History", "Info", "Name", "ParentId", "Restrictions", "Revision", "Status", "UpdatedById", "UpdatedOn" },
-                values: new object[] { "20144484-65bf-4c55-9f53-3e41cee9d923", null, null, null, null, null, null, "dfa4af2c-d01d-4a8a-825e-793d49a656ac", "6401cf99-a0dc-4747-9232-d307b21a360c", new DateTime(2019, 11, 26, 13, 8, 57, 684, DateTimeKind.Local).AddTicks(7599), null, "AreasContainer", null, null, "Prilep info.", "Prilep", null, null, 1, 2, null, null });
+                columns: new[] { "Id", "Accomodations", "Approach", "ApprovedById", "ApprovedOn", "ConcurrencyToken", "CountryId", "CreatedById", "CreatedOn", "Descent", "Ethics", "History", "Info", "Name", "ParentId", "Restrictions", "Revision", "Status", "UpdatedById", "UpdatedOn" },
+                values: new object[] { "20144484-65bf-4c55-9f53-3e41cee9d923", null, null, null, null, null, "67ef12fb-6c70-4763-bfc6-34575cfd6012", "6401cf99-a0dc-4747-9232-d307b21a360c", new DateTime(2019, 11, 30, 20, 55, 59, 232, DateTimeKind.Local).AddTicks(1023), null, null, null, "Prilep info.", "Prilep", null, null, 1, 2, null, null });
 
             migrationBuilder.InsertData(
                 table: "Area",
-                columns: new[] { "Id", "Accomodations", "Approach", "ApprovedById", "ApprovedOn", "AreasContainerId", "ConcurrencyToken", "CountryId", "CreatedById", "CreatedOn", "Descent", "Discriminator", "Ethics", "History", "Info", "Name", "ParentId", "Restrictions", "Revision", "Status", "UpdatedById", "UpdatedOn" },
-                values: new object[] { "c2fccbf6-4363-4850-ad97-54954812457e", null, null, null, null, null, null, "dfa4af2c-d01d-4a8a-825e-793d49a656ac", "6401cf99-a0dc-4747-9232-d307b21a360c", new DateTime(2019, 11, 26, 13, 8, 57, 688, DateTimeKind.Local).AddTicks(2586), null, "AreasContainer", null, null, "Treskavets Area info.", "Treskavets", "20144484-65bf-4c55-9f53-3e41cee9d923", null, 1, 2, null, null });
+                columns: new[] { "Id", "Accomodations", "Approach", "ApprovedById", "ApprovedOn", "ConcurrencyToken", "CountryId", "CreatedById", "CreatedOn", "Descent", "Ethics", "History", "Info", "Name", "ParentId", "Restrictions", "Revision", "Status", "UpdatedById", "UpdatedOn" },
+                values: new object[] { "c2fccbf6-4363-4850-ad97-54954812457e", null, null, null, null, null, "67ef12fb-6c70-4763-bfc6-34575cfd6012", "6401cf99-a0dc-4747-9232-d307b21a360c", new DateTime(2019, 11, 30, 20, 55, 59, 235, DateTimeKind.Local).AddTicks(5657), null, null, null, "Treskavets Area info.", "Treskavets", "20144484-65bf-4c55-9f53-3e41cee9d923", null, 1, 2, null, null });
 
             migrationBuilder.InsertData(
                 table: "Area",
-                columns: new[] { "Id", "Accomodations", "Approach", "ApprovedById", "ApprovedOn", "AreasContainerId", "ConcurrencyToken", "CountryId", "CreatedById", "CreatedOn", "Descent", "Discriminator", "Ethics", "History", "Info", "Name", "ParentId", "Restrictions", "Revision", "Status", "UpdatedById", "UpdatedOn" },
-                values: new object[] { "64875f09-3072-4dab-9d9f-d7286ce818a9", null, null, null, null, null, null, "dfa4af2c-d01d-4a8a-825e-793d49a656ac", "6401cf99-a0dc-4747-9232-d307b21a360c", new DateTime(2019, 11, 26, 13, 8, 57, 688, DateTimeKind.Local).AddTicks(4308), null, "AreasContainer", null, null, "Kamena baba info.", "Kamena baba", "20144484-65bf-4c55-9f53-3e41cee9d923", null, 1, 2, null, null });
+                columns: new[] { "Id", "Accomodations", "Approach", "ApprovedById", "ApprovedOn", "ConcurrencyToken", "CountryId", "CreatedById", "CreatedOn", "Descent", "Ethics", "History", "Info", "Name", "ParentId", "Restrictions", "Revision", "Status", "UpdatedById", "UpdatedOn" },
+                values: new object[] { "64875f09-3072-4dab-9d9f-d7286ce818a9", null, null, null, null, null, "67ef12fb-6c70-4763-bfc6-34575cfd6012", "6401cf99-a0dc-4747-9232-d307b21a360c", new DateTime(2019, 11, 30, 20, 55, 59, 235, DateTimeKind.Local).AddTicks(5797), null, null, null, "Kamena baba info.", "Kamena baba", "20144484-65bf-4c55-9f53-3e41cee9d923", null, 1, 2, null, null });
 
             migrationBuilder.InsertData(
                 table: "Area",
-                columns: new[] { "Id", "Accomodations", "Approach", "ApprovedById", "ApprovedOn", "AreasContainerId", "ConcurrencyToken", "CountryId", "CreatedById", "CreatedOn", "Descent", "Discriminator", "Ethics", "History", "Info", "Name", "ParentId", "Restrictions", "Revision", "Status", "UpdatedById", "UpdatedOn" },
-                values: new object[] { "8d7d8b36-489b-4d9a-bd73-a7caa9853356", null, null, null, null, null, null, "dfa4af2c-d01d-4a8a-825e-793d49a656ac", "6401cf99-a0dc-4747-9232-d307b21a360c", new DateTime(2019, 11, 26, 13, 8, 57, 688, DateTimeKind.Local).AddTicks(4199), null, "RoutesContainer", null, null, "Paragliding info.", "Paragliding", "c2fccbf6-4363-4850-ad97-54954812457e", null, 1, 2, null, null });
+                columns: new[] { "Id", "Accomodations", "Approach", "ApprovedById", "ApprovedOn", "ConcurrencyToken", "CountryId", "CreatedById", "CreatedOn", "Descent", "Ethics", "History", "Info", "Name", "ParentId", "Restrictions", "Revision", "Status", "UpdatedById", "UpdatedOn" },
+                values: new object[] { "8d7d8b36-489b-4d9a-bd73-a7caa9853356", null, null, null, null, null, "67ef12fb-6c70-4763-bfc6-34575cfd6012", "6401cf99-a0dc-4747-9232-d307b21a360c", new DateTime(2019, 11, 30, 20, 55, 59, 235, DateTimeKind.Local).AddTicks(5763), null, null, null, "Paragliding info.", "Paragliding", "c2fccbf6-4363-4850-ad97-54954812457e", null, 1, 2, null, null });
+
+            migrationBuilder.InsertData(
+                table: "Routes",
+                columns: new[] { "Id", "Approach", "ApprovedById", "ApprovedOn", "AreaId", "ConcurrencyToken", "CreatedById", "CreatedOn", "Difficulty", "History", "Info", "Length", "Name", "Rating", "Revision", "RouteId", "Status", "Type", "UpdatedById", "UpdatedOn" },
+                values: new object[] { "9dd6e524-6152-4cd0-8f81-7db94779b274", null, null, null, "8d7d8b36-489b-4d9a-bd73-a7caa9853356", null, "6401cf99-a0dc-4747-9232-d307b21a360c", new DateTime(2019, 11, 30, 20, 55, 59, 236, DateTimeKind.Local).AddTicks(940), 105.0, null, "Shitstorm info.", 4, "Shitstorm", 4f, 1, null, 2, 1, null, null });
+
+            migrationBuilder.InsertData(
+                table: "SchemaPoint",
+                columns: new[] { "RouteId", "Id", "X", "Y" },
+                values: new object[,]
+                {
+                    { "9dd6e524-6152-4cd0-8f81-7db94779b274", 1, 0.5, 0.80000000000000004 },
+                    { "9dd6e524-6152-4cd0-8f81-7db94779b274", 2, 0.29999999999999999, 0.55000000000000004 },
+                    { "9dd6e524-6152-4cd0-8f81-7db94779b274", 3, 0.84999999999999998, 0.45000000000000001 },
+                    { "9dd6e524-6152-4cd0-8f81-7db94779b274", 4, 0.5, 0.10000000000000001 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Area_ApprovedById",
                 table: "Area",
                 column: "ApprovedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Area_AreasContainerId",
-                table: "Area",
-                column: "AreasContainerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Area_CountryId",
@@ -526,9 +530,9 @@ namespace Climbing.Guide.Api.Infrastructure.Migrations
                 column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Routes_RoutesContainerId",
+                name: "IX_Routes_RouteId",
                 table: "Routes",
-                column: "RoutesContainerId");
+                column: "RouteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Routes_UpdatedById",
