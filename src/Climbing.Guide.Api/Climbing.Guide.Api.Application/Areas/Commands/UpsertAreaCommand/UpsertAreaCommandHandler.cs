@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Climbing.Guide.Api.Application.Areas.Commands.UpsertAreaCommand {
    public class UpsertAreaCommandHandler : IRequestHandler<UpsertAreaCommand, string> {
-      private readonly IDbContext _context;
+      private readonly IRepository _context;
       private readonly IValueFactory _valueFactory;
 
-      public UpsertAreaCommandHandler(IDbContext context, IValueFactory valueFactory) {
+      public UpsertAreaCommandHandler(IRepository context, IValueFactory valueFactory) {
          _context = context ?? throw new ArgumentNullException(nameof(context));
          _valueFactory = valueFactory;
       }
@@ -23,7 +23,7 @@ namespace Climbing.Guide.Api.Application.Areas.Commands.UpsertAreaCommand {
             area = await _context.Areas.FindAsync(id);
          }
 
-         area ??= new AreasContainer() {
+         area ??= new Area() {
             Id = _valueFactory.CreateId(),
             Name = request.Name
          };

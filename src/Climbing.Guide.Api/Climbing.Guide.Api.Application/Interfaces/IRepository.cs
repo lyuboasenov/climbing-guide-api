@@ -4,11 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace Climbing.Guide.Api.Application.Interfaces {
-   public interface IDbContext {
-      DbSet<Route> Routes { get; set; }
-      DbSet<Area> Areas { get; set; }
-      DbSet<User> Users { get; set; }
-      DbSet<Country> Countries { get; set; }
+   public interface IRepository {
+      DbSet<Route> Routes { get; }
+      DbSet<Area> Areas { get; }
+      DbSet<User> Users { get; }
+      DbSet<Country> Countries { get; }
 
       Task<int> SaveChangesAsync(CancellationToken cancellationToken);
    }

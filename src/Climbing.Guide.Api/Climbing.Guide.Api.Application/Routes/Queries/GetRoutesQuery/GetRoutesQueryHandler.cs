@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace Climbing.Guide.Api.Application.Routes.Queries.GetRoutesQuery {
    public class GetRoutesQueryHandler : IRequestHandler<IGetRoutesQuery, IGetRoutesReply> {
-      private readonly IDbContext _context;
+      private readonly IRepository _context;
       private readonly IMapper _mapper;
 
-      public GetRoutesQueryHandler(IDbContext context, IMapper mapper) {
+      public GetRoutesQueryHandler(IRepository context, IMapper mapper) {
          _context = context ?? throw new ArgumentNullException(nameof(context));
          _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
       }

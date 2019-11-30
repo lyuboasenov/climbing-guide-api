@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace Climbing.Guide.Api.Application.Routes.Commands.CreateRouteCommand {
    public class CreateRouteCommandHandler : IRequestHandler<ICreateRouteCommand, string> {
-      private readonly IDbContext _dbContext;
+      private readonly IRepository _dbContext;
       private readonly IValueFactory _valueFactory;
       private readonly IFsContext _fsContext;
       private readonly IImageUtil _imageUtil;
       private readonly ICurrentUserService _currentUser;
 
-      public CreateRouteCommandHandler(IDbContext dbContext,
+      public CreateRouteCommandHandler(IRepository dbContext,
          IFsContext fsContext,
          IImageUtil imageUtil,
          IValueFactory valueFactory,

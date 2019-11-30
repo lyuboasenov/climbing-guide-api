@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Climbing.Guide.Api.Application.Users.Commands.UpsertUserCommand {
    public class UpsertUserCommandHandler : IRequestHandler<UpsertUserCommand, string> {
-      private readonly IDbContext _context;
+      private readonly IRepository _context;
       private readonly IValueFactory _valueFactory;
 
-      public UpsertUserCommandHandler(IDbContext context, IValueFactory valueFactory) {
+      public UpsertUserCommandHandler(IRepository context, IValueFactory valueFactory) {
          _context = context ?? throw new ArgumentNullException(nameof(context));
          _valueFactory = valueFactory;
       }
